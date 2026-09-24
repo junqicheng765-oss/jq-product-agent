@@ -1,0 +1,4 @@
+interface:
+  display_name: "TC Product Agent"
+  short_description: "Turn business knowledge into complete product delivery."
+  default_prompt: "Use $tc-product-agent to turn this complex business need into a product baseline, operable prototype, design handoff, and engineering package."

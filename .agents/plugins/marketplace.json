@@ -1,0 +1,20 @@
+{
+  "name": "tc-product-agent",
+  "interface": {
+    "displayName": "TC Product Agent"
+  },
+  "plugins": [
+    {
+      "name": "tc-product-agent",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tc-product-agent"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
