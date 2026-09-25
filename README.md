@@ -1,6 +1,6 @@
 # JQ Product Agent
 
-面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。当前版本为 **v1.0.0 首个公开可安装版本**；版本号不代表真实项目的产出效果已经验证。
+面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。当前主分支为 **v1.0.1 候选更新**；`v1.0.0` 仍是首个公开基线。版本号不代表真实项目的产出效果已经验证。
 
 本仓库可作为独立 Codex Marketplace 使用。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
 
@@ -38,7 +38,7 @@ codex plugin add tc-product-agent@tc-product-agent
 
 ## 当前证据边界
 
-十项 Skill、Plugin 和 Marketplace 的结构校验，以及从本地 ZIP 解压后的隔离安装已通过；两个外部 Skill 完成了有限的本地脚本检查。尚未获得另一项目的真实试用结果，也未完成产品岗/非产品岗的效果验证或设计/研发接收测试。因此 **v1.0.0 是发布基线，不是质量已获验证的稳定版**。
+v1.0.1 在 F 阶段增加最小交付一致性核对：断开的引用、关键需求缺少直接验收关联、交付材料版本过期。它复用现有映射和版本证据；关联不明确时报告无法判定，不冒充全自动审计。该候选已用一份真实交付包只读回归，并通过十项 Skill 与 Plugin 的结构校验；尚未完成独立项目的端到端安装与行为试验，也未创建 v1.0.1 Release。v1.0.0 曾通过十项 Skill、Plugin、Marketplace 结构校验及隔离安装，两项外部 Skill 完成有限本地脚本检查。尚未获得产品岗/非产品岗效果验证或设计/研发接收测试。
 
 UI/UX Pro Max 的本地检索需要 Python 3，Impeccable 的本地脚本需要 Node.js。两者的固定上游版本、改动、许可证和通知文本见 [第三方说明](plugins/tc-product-agent/third_party/README.md)。安装 Plugin 本身不运行上游安装器或下载引擎。
 
