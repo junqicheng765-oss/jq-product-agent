@@ -1,7 +1,7 @@
 {
   "name": "tc-product-agent",
   "interface": {
-    "displayName": "TC Product Agent"
+    "displayName": "JQ Product Agent"
   },
   "plugins": [
     {

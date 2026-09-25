@@ -1,4 +1,4 @@
 interface:
-  display_name: "TC Product Agent"
-  short_description: "Turn business knowledge into complete product delivery."
-  default_prompt: "Use $tc-product-agent to turn this complex business need into a product baseline, operable prototype, design handoff, and engineering package."
+  display_name: "JQ Product Agent"
+  short_description: "Take business needs through staged demos to a product handoff."
+  default_prompt: "Use $tc-product-agent to take this business need through a reviewable demo, product definition, and engineering handoff."

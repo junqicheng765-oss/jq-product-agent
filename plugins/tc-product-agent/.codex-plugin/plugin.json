@@ -1,22 +1,22 @@
 {
   "name": "tc-product-agent",
-  "version": "0.4.0",
-  "description": "TC product workflow for complex-system definition, operable prototypes, design handoff, and engineering-ready acceptance.",
+  "version": "1.0.0",
+  "description": "JQ product workflow from problem framing and staged demos to PRD, design handoff, and engineering input.",
   "author": {
     "name": "Product Agent Team"
   },
   "skills": "./skills/",
   "interface": {
-    "displayName": "TC Product Agent",
-    "shortDescription": "Turn business knowledge into complete product delivery.",
-    "longDescription": "Turn a complex business request into an evidence-based product baseline, operable product prototype, design handoff, and development-ready package while keeping project work, Agent iteration, and evaluation isolated.",
+    "displayName": "JQ Product Agent",
+    "shortDescription": "Turn business knowledge into reviewable product delivery.",
+    "longDescription": "Guide product and non-product colleagues through problem framing, system structure, staged operable demos, AI-expanded PRD, design handoff, and engineering input while keeping project work, Agent iteration, and evaluation isolated.",
     "developerName": "Product Agent Team",
     "category": "Productivity",
     "capabilities": ["Write"],
     "defaultPrompt": [
-      "Turn this complex business need into a complete product delivery.",
-      "Audit this product definition and identify blocking gaps.",
-      "Prepare the product prototype, design handoff, and engineering package."
+      "Turn this business need into a product plan I can review visually.",
+      "Review this demo's task flow and visual quality.",
+      "Prepare the confirmed product for design and engineering handoff."
     ]
   }
 }

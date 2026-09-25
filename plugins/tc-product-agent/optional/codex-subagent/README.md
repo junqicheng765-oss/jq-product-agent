@@ -2,7 +2,7 @@
 
 This folder is not part of the Plugin installation contract. It is an optional configuration for a team that already delegates work through Codex subagents.
 
-After the `tc-product-agent` Plugin is installed, an administrator or project owner may copy `tc-product-designer.toml` to one of these Codex configuration locations:
+After the `tc-product-agent` Plugin is installed with both `$tc-product-agent` and `$jq-demo-quality`, an administrator or project owner may copy `tc-product-designer.toml` to one of these Codex configuration locations:
 
 - Personal scope: `~/.codex/agents/`
 - Project scope: `.codex/agents/`
