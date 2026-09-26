@@ -1,6 +1,6 @@
 # JQ Product Agent Plugin
 
-Version: `1.0.2`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
+Version: `1.0.3`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
 
 JQ Product Agent helps product and non-product colleagues who understand the business turn a new system, an existing-system iteration, or a small requirement into an evidence-based product baseline, an operable product prototype and design handoff, and a development-ready handoff package.
 
@@ -9,6 +9,8 @@ It includes an A-F user-facing decision flow, an S1-S7 internal production and a
 This candidate adds a focused F-stage handoff consistency check for broken references, key requirements without directly traceable acceptance, and stale delivery-version claims. It reuses the project's existing mapping and version evidence; ambiguous coverage remains unresolved rather than being reported as passed.
 
 The Demo contract now requires every user-visible screen, message, state, and seeded record to read like the product as used by its intended user, without reviewer-facing explanations or Demo labels in the interface.
+
+Version 1.0.3 adds explicit next-step guidance and stage transitions: explain what is complete, who acts next, what to review or provide, and what will be produced. Continue work within existing authorization when inputs are sufficient; do not add repeated approvals, expand scope, or promise background execution. Real-project behavior of this guidance remains to be verified.
 
 ## What Installs
 
