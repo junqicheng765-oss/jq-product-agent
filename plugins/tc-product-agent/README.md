@@ -1,6 +1,6 @@
 # JQ Product Agent Plugin
 
-Version: `1.0.3`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
+Version: `1.0.4`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
 
 JQ Product Agent helps product and non-product colleagues who understand the business turn a new system, an existing-system iteration, or a small requirement into an evidence-based product baseline, an operable product prototype and design handoff, and a development-ready handoff package.
 
@@ -11,6 +11,8 @@ This candidate adds a focused F-stage handoff consistency check for broken refer
 The Demo contract now requires every user-visible screen, message, state, and seeded record to read like the product as used by its intended user, without reviewer-facing explanations or Demo labels in the interface.
 
 Version 1.0.3 adds explicit next-step guidance and stage transitions: explain what is complete, who acts next, what to review or provide, and what will be produced. Continue work within existing authorization when inputs are sufficient; do not add repeated approvals, expand scope, or promise background execution. Real-project behavior of this guidance remains to be verified.
+
+Version 1.0.4 bundles the candidate `$jq-product-expert`: concise PM-DEFINE methods, canonical capability IDs, scoped diagnosis, tradeoffs and acceptance evidence. The main Skill retains workflow and fact ownership. Load relevant methods on demand and consult authoritative clauses for key risks, ambiguity and quality gates; frozen standards and quality criteria remain unchanged. No separate global expert Skill is required. Actual judgment quality and cost savings are not yet verified.
 
 ## What Installs
 
@@ -29,13 +31,16 @@ tc-product-agent/
 ├── skills/jq-stage-e-modules/SKILL.md
 ├── skills/jq-stage-f-handoff/SKILL.md
 ├── skills/jq-demo-quality/SKILL.md
+├── skills/jq-product-expert/
+├── scripts/validate-expert-kernel.mjs
+├── scripts/tests/expert-kernel.test.mjs
 ├── skills/ui-ux-pro-max/
 ├── skills/impeccable/
 ├── third_party/
 └── optional/codex-subagent/
 ```
 
-The Plugin contains ten discoverable Skills: the main `$tc-product-agent`, one execution contract for each A-F stage, `$jq-demo-quality`, and bundled `$ui-ux-pro-max` and `$impeccable`. All ten install together. The two external Skills are invoked only when D/E visual work needs them, not on every product step. The main Skill owns product decisions, facts and handoffs. A-F can share review windows for small requirements; ten Skills do not imply ten meetings. The optional subagent is a separate execution role that invokes these Skills; it is not required and is not installed automatically.
+The Plugin contains eleven discoverable Skills: the main `$tc-product-agent`, one execution contract for each A-F stage, `$jq-demo-quality`, candidate `$jq-product-expert`, and bundled `$ui-ux-pro-max` and `$impeccable`. All eleven install together. The two external Skills are invoked only when D/E visual work needs them, not on every product step. The main Skill owns product decisions, facts and handoffs. A-F can share review windows for small requirements; eleven Skills do not imply eleven meetings. The optional subagent is a separate execution role that invokes these Skills; it is not required and is not installed automatically.
 
 The A-F artifact skeletons are in `skills/tc-product-agent/references/23-AF阶段产物模板.md`. They are content templates, not six mandatory files or a fixed visual style. The fuller PRD, Use Case, design and engineering contracts remain in references `02`, `14`, `15`, and `16`.
 
@@ -61,4 +66,4 @@ The product prototype must validate core tasks, key branches, necessary states, 
 
 The Plugin contains reusable product capability and frozen standards only. It does not include internal history, sample-project requirements, validation archives, Figma nodes, implementation evidence, or local absolute paths.
 
-The ten Skills, Plugin, and Marketplace have passed structural checks and isolated installation from the packaged ZIP. The two bundled visual Skills passed limited local runtime checks. Product and non-product user trials, real-project Demo quality, and design/engineering handoff acceptance have not yet been verified; do not describe those outcomes as proven.
+The earlier ten-Skill baseline passed structural checks and isolated ZIP installation. For this candidate, run Skill/Plugin structural checks, `node scripts/validate-expert-kernel.mjs`, and `node --test scripts/tests/expert-kernel.test.mjs`; these do not test model reasoning or independent-project behavior. The two bundled visual Skills previously passed limited local runtime checks. Product and non-product user trials, real-project Demo quality, and design/engineering handoff acceptance have not yet been verified; do not describe those outcomes as proven.

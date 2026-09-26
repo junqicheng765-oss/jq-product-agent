@@ -1,0 +1,4 @@
+interface:
+  display_name: "JQ 产品专家内核（候选）"
+  short_description: "按当前产品问题诊断主因与能力归属，给出有依据的取舍、修正和验收要求"
+  default_prompt: "请使用 $jq-product-expert 判断这份产品方案，限定观察范围，说明事实证据、主责能力、风险取舍、验收与下一步。"

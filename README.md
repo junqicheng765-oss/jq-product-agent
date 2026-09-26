@@ -1,8 +1,8 @@
 # JQ Product Agent
 
-面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。当前主分支为 **v1.0.3 候选更新**；`v1.0.0` 仍是首个公开基线。版本号不代表真实项目的产出效果已经验证。
+面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。当前主分支为 **v1.0.4 候选更新**；`v1.0.0` 仍是首个公开基线。版本号不代表真实项目的产出效果已经验证。
 
-本仓库可作为独立 Codex Marketplace 使用。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
+本仓库可作为独立 Codex Marketplace 使用，首期可在 Codex 下运行。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill、候选专家内核，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十一项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
 
 ## 安装
 
@@ -42,7 +42,11 @@ v1.0.1 在 F 阶段增加最小交付一致性核对：断开的引用、关键�
 
 v1.0.3 增加阶段衔接与下一步引导：说明已完成范围、推荐下一步、责任方和具体产出；需要人行动时给出业务判断重点及自然回复方式。已有授权且输入足够时连续推进，不要求反复回复“继续”；仅交付方案时可推荐后续验证或承接，但不扩大授权、不增加审批门，也不承诺不存在的后台执行。
 
-当前候选尚未完成独立项目的端到端安装与行为试验，也未创建 v1.0.3 标签或 Release。下一步引导规则的实际效果仍待试用验证。v1.0.0 曾通过十项 Skill、Plugin、Marketplace 结构校验及隔离安装，两项外部 Skill 完成有限本地脚本检查。尚未获得产品岗/非产品岗效果验证或设计/研发接收测试。
+v1.0.4 默认集成 `$jq-product-expert` 候选专家内核：复用 PM-DEFINE 的精炼判断方法，对齐既有能力 ID 和质量标尺，按疑点定位主因、做取舍及给出验收依据。主 Agent 仍负责流程与事实，关键风险、定义疑义及正式质量门回查包内正式条款；不需要额外安装全局专家 Skill，原有正式标准未改。
+
+当前候选尚未完成独立项目的端到端行为试验，未创建 v1.0.4 标签或 Release。专家内核的实际判断质量、误报/漏报及成本收益，和下一步引导效果都仍待试用验证。v1.0.0 曾通过十项 Skill、Plugin、Marketplace 结构校验及隔离安装，两项外部 Skill 完成有限本地脚本检查。尚未获得产品岗/非产品岗效果验证或设计/研发接收测试。
+
+专家内核的打包完整性与负向测试可在 `plugins/tc-product-agent/` 内运行：`node scripts/validate-expert-kernel.mjs` 和 `node --test scripts/tests/expert-kernel.test.mjs`。这些只核对能力映射、引用和冻结标准，不证明大模型实际行为。
 
 UI/UX Pro Max 的本地检索需要 Python 3，Impeccable 的本地脚本需要 Node.js。两者的固定上游版本、改动、许可证和通知文本见 [第三方说明](plugins/tc-product-agent/third_party/README.md)。安装 Plugin 本身不运行上游安装器或下载引擎。
 
