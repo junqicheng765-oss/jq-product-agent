@@ -1,6 +1,6 @@
 # JQ Product Agent Plugin
 
-Version: `1.0.4`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
+Version: `1.0.5`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
 
 JQ Product Agent helps product and non-product colleagues who understand the business turn a new system, an existing-system iteration, or a small requirement into an evidence-based product baseline, an operable product prototype and design handoff, and a development-ready handoff package.
 
@@ -13,6 +13,8 @@ The Demo contract now requires every user-visible screen, message, state, and se
 Version 1.0.3 adds explicit next-step guidance and stage transitions: explain what is complete, who acts next, what to review or provide, and what will be produced. Continue work within existing authorization when inputs are sufficient; do not add repeated approvals, expand scope, or promise background execution. Real-project behavior of this guidance remains to be verified.
 
 Version 1.0.4 bundles the candidate `$jq-product-expert`: concise PM-DEFINE methods, canonical capability IDs, scoped diagnosis, tradeoffs and acceptance evidence. The main Skill retains workflow and fact ownership. Load relevant methods on demand and consult authoritative clauses for key risks, ambiguity and quality gates; frozen standards and quality criteria remain unchanged. No separate global expert Skill is required. Actual judgment quality and cost savings are not yet verified.
+
+Version 1.0.5 requires scoped Demo copy and interaction review before D/E presentation or delivery, followed by corrections and rechecks. Review all user-facing product copy in the delivered scope and actually exercise core and critical-risk interactions; layout checks, screenshots, or a happy-path walkthrough do not prove full coverage. Record copy and interaction conclusions separately, including versions, coverage, evidence and unverified states. Changes receive impact-based regression checks rather than a full capability audit every turn. Blocking/major defects or missing critical interaction evidence prevent the affected readiness claim. The protocol uses the existing Demo Skill and product expert without adding approval gates or changing business rules. Actual model execution of this protocol remains to be verified in another project; reviewed wording is not claimed to be universally optimal.
 
 ## What Installs
 

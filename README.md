@@ -1,6 +1,6 @@
 # JQ Product Agent
 
-面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。最新发布版本为 **[v1.0.4](https://github.com/junqicheng765-oss/jq-product-agent/releases/tag/v1.0.4)**，包含候选专家内核；`v1.0.0` 是首个公开基线。发布和版本号不代表真实项目的产出效果已经验证。
+面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。最新发布版本为 **[v1.0.5](https://github.com/junqicheng765-oss/jq-product-agent/releases/tag/v1.0.5)**，补齐 Demo 展示与交付前的文案及交互专项复核，并保留候选专家内核；`v1.0.0` 是首个公开基线。发布和版本号不代表真实项目的产出效果已经验证。
 
 本仓库可作为独立 Codex Marketplace 使用，首期可在 Codex 下运行。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill、候选专家内核，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十一项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
 
@@ -47,6 +47,8 @@ v1.0.4 默认集成 `$jq-product-expert` 候选专家内核：复用 PM-DEFINE �
 v1.0.4 以标签和 Release 固定分发版本，专家内核仍为候选。十一项 Skill 与 Plugin 结构校验、专家能力映射/引用/冻结标准检查，以及八项完整性测试通过；此前已从 GitHub 安装并核对本机 v1.0.4 插件内容一致。这些不是独立项目的端到端行为试验。专家内核的实际判断质量、误报/漏报及成本收益，和下一步引导效果都仍待试用验证。v1.0.0 曾通过十项 Skill、Plugin、Marketplace 结构校验及隔离安装，两项外部 Skill 完成有限本地脚本检查。尚未获得产品岗/非产品岗效果验证或设计/研发接收测试。
 
 专家内核的打包完整性与负向测试可在 `plugins/tc-product-agent/` 内运行：`node scripts/validate-expert-kernel.mjs` 和 `node --test scripts/tests/expert-kernel.test.mjs`。这些只核对能力映射、引用和冻结标准，不证明大模型实际行为。
+
+v1.0.5 将 Demo 复核固定为“制作完成 → 文案与交互复核 → 修正与复验 → 给人确认”，不要求使用者另行提醒。完整交付检查全部交付范围的用户可见产品文案及核心/关键风险交互；代表页面或链路只声明当前覆盖，后续变更回归受影响项。文案检查业务准确性、易懂性、术语一致性、操作结果和下一步提示；交互需实际核对输入、反馈、状态、异常、取消与返回。复用既有原型或评审记录，分别报告文案、交互状态及未覆盖项。只看布局、截图或主流程不能称整体通过；阻断/重大问题未关闭或关键交互缺动态证据时，不得称对应范围原型就绪。规则见 [Demo 文案与交互复核](plugins/tc-product-agent/skills/tc-product-agent/references/24-Demo文案与交互复核.md)。本次结构、引用及原有完整性测试通过，不代表真实 Demo 已专项审查或 Agent 行为已验证，也不承诺文案是唯一最优。未在本次发布中更新本机插件或执行独立项目试验。
 
 UI/UX Pro Max 的本地检索需要 Python 3，Impeccable 的本地脚本需要 Node.js。两者的固定上游版本、改动、许可证和通知文本见 [第三方说明](plugins/tc-product-agent/third_party/README.md)。安装 Plugin 本身不运行上游安装器或下载引擎。
 
