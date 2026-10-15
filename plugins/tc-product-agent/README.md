@@ -1,14 +1,16 @@
 # JQ Product Agent Plugin
 
-Version: `1.0.5`, a candidate update to the `1.0.0` public baseline. The install identifier remains `tc-product-agent` for compatibility.
+Package version: `1.1.0`. The install identifier remains `tc-product-agent` for compatibility.
 
-JQ Product Agent helps product and non-product colleagues who understand the business turn a new system, an existing-system iteration, or a small requirement into an evidence-based product baseline, an operable product prototype and design handoff, and a development-ready handoff package.
+JQ Product Agent helps product and non-product colleagues who understand the business turn a new system, an existing-system iteration, or a small requirement into an evidence-based product baseline, a confirmed flow prototype, a styled operable Demo, and a development handoff package.
 
 It includes an A-F user-facing decision flow, an S1-S7 internal production and audit flow, seven first-level and 48 second-level product capabilities, scoped current-state reconciliation, meeting-minutes intake, staged demos, Figma preflight, engineering handoff, H/P/E mode isolation, and Agent quality scoring. Detailed PRD follows confirmation of visible product behavior; new business decisions and major conflicts still return to a human.
 
-This candidate adds a focused F-stage handoff consistency check for broken references, key requirements without directly traceable acceptance, and stale delivery-version claims. It reuses the project's existing mapping and version evidence; ambiguous coverage remains unresolved rather than being reported as passed.
+The F-stage handoff consistency check covers broken references, key requirements without directly traceable acceptance, and stale delivery-version claims. It reuses the project's existing mapping and version evidence; ambiguous coverage remains unresolved rather than being reported as passed.
 
 The Demo contract now requires every user-visible screen, message, state, and seeded record to read like the product as used by its intended user, without reviewer-facing explanations or Demo labels in the interface.
+
+Version 1.1.0 adds design-route discovery at startup. After flow and module behavior are confirmed, the full Figma route compares three visual directions on one representative page, expands the selected direction to the delivery scope, refines it with Computer Use, and uses Figma design context and screenshots to implement a styled operable Demo. Existing design systems are preserved unless redesign is authorized. Partial Figma and Codex-only routes report the outputs each route actually produces. A readable design link, a confirmed design, and verified code fidelity are separate states; none proves production readiness.
 
 Version 1.0.3 adds explicit next-step guidance and stage transitions: explain what is complete, who acts next, what to review or provide, and what will be produced. Continue work within existing authorization when inputs are sufficient; do not add repeated approvals, expand scope, or promise background execution. Real-project behavior of this guidance remains to be verified.
 
@@ -53,10 +55,10 @@ The A-F artifact skeletons are in `skills/tc-product-agent/references/23-AFé˜¶æ®
 Unless a user explicitly narrows the endpoint, project mode produces three version-aligned deliverables:
 
 1. Product baseline and PRD.
-2. An operable product prototype plus the product-to-design package.
-3. The product-to-engineering handoff package.
+2. An operable flow prototype, visual-design evidence or an explicit Codex route, and a styled operable Demo.
+3. The product-to-engineering handoff package with PRD, design references where available, the styled Demo, and traceable acceptance criteria.
 
-The product prototype must validate core tasks, key branches, necessary states, and return paths. It is not final visual design or production code. Actual external delivery, Figma writes, final visual production, engineering implementation, and deployment require separate authorization and evidence.
+The flow prototype must validate core tasks, key branches, necessary states, and return paths. The styled Demo must additionally be checked for user-facing copy, interactions, and design fidelity. Neither is production code or proof of deployment. Actual external delivery, Figma writes, engineering implementation, and deployment require separate authorization and evidence.
 
 ## Runtime Modes
 
@@ -68,4 +70,4 @@ The product prototype must validate core tasks, key branches, necessary states, 
 
 The Plugin contains reusable product capability and frozen standards only. It does not include internal history, sample-project requirements, validation archives, Figma nodes, implementation evidence, or local absolute paths.
 
-The earlier ten-Skill baseline passed structural checks and isolated ZIP installation. For this candidate, run Skill/Plugin structural checks, `node scripts/validate-expert-kernel.mjs`, and `node --test scripts/tests/expert-kernel.test.mjs`; these do not test model reasoning or independent-project behavior. The two bundled visual Skills previously passed limited local runtime checks. Product and non-product user trials, real-project Demo quality, and design/engineering handoff acceptance have not yet been verified; do not describe those outcomes as proven.
+The earlier ten-Skill baseline passed structural checks and isolated ZIP installation. Before distribution, run Skill/Plugin structural checks, `node scripts/validate-expert-kernel.mjs`, and `node --test scripts/tests/expert-kernel.test.mjs`; these do not test model reasoning or independent-project behavior. The two bundled visual Skills previously passed limited local runtime checks. Product and non-product user trials, real-project Demo quality, and design/engineering handoff acceptance require their own evidence; do not describe those outcomes as proven.
