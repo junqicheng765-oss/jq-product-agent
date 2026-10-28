@@ -1,6 +1,8 @@
 # JQ Product Agent Plugin
 
-Package version: `1.1.0`. The install identifier remains `tc-product-agent` for compatibility.
+Package version: `1.1.1`. The install identifier remains `tc-product-agent` for compatibility.
+
+Version 1.1.1 adds intent-based routing that distinguishes baseline maintenance, consultation/review, scoped changes and full product design before intake or tool discovery. A/C reuse evidence-labelled scenario cards and business-lifecycle or functional use cases without fixed counts or extra approval gates. C/D/E share a task-based product-type design baseline (reference `25`), preserving existing design systems and treating AI as an additional interaction constraint. The A-F artifact and design-task templates carry these decisions. These are instruction changes; structural checks do not establish model behavior or product-quality gains.
 
 JQ Product Agent helps product and non-product colleagues who understand the business turn a new system, an existing-system iteration, or a small requirement into an evidence-based product baseline, a confirmed flow prototype, a styled operable Demo, and a development handoff package.
 
@@ -52,7 +54,7 @@ The A-F artifact skeletons are in `skills/tc-product-agent/references/23-AFé˜¶æ®
 
 ## Default Delivery
 
-Unless a user explicitly narrows the endpoint, project mode produces three version-aligned deliverables:
+Unless a user explicitly narrows the endpoint, full product-design requests (including small requirements and existing-system iterations) produce three version-aligned deliverables. Maintenance, consultation/review and explicitly scoped changes deliver the agreed task without automatically starting all A-F stages:
 
 1. Product baseline and PRD.
 2. An operable flow prototype, visual-design evidence or an explicit Codex route, and a styled operable Demo.
