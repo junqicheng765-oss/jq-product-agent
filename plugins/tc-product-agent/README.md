@@ -1,6 +1,8 @@
 # JQ Product Agent Plugin
 
-Package version: `1.1.3`. The install identifier remains `tc-product-agent` for compatibility.
+Package version: `1.1.4`. The install identifier remains `tc-product-agent` for compatibility.
+
+Version 1.1.4 requires native Question prompts whenever user input, a choice, or review is needed, including an explicit accept-recommendation option when applicable. Existing decisions are reused without extra approval gates. Before the first page or prototype is made, establish the design route and show its preparation status; an unanswered Figma question is not a Codex choice. Reuse supplied links, distinguish references from edit targets, and isolate task-specific bindings. These are instruction changes; fresh-session behavior still requires observation.
 
 Version 1.1.3 requires every product-stage deliverable, revision, and review reply to start with a visible main-stage position, current action, and actual status. A-F retain stable numbering; substep counts require a maintained plan. Scoped work and Agent iteration use their own task positions. Progress display does not add approval gates and stays outside end-user Demo interfaces. These are instruction changes; consistent model behavior still requires fresh-project observation.
 
