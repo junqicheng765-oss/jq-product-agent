@@ -1,6 +1,8 @@
 # JQ Product Agent Plugin
 
-Package version: `1.1.4`. The install identifier remains `tc-product-agent` for compatibility.
+Package version: `1.1.5`. The install identifier remains `tc-product-agent` for compatibility.
+
+Version 1.1.5 bundles `$jq-figma-workflow` for capability setup, Figma generation/direct refinement, result evidence, and Dev Mode/MCP-based Demo reconstruction. Existing product Figma designs remain the design source: complete the scoped design in Figma before reconstructing the Demo. The package contains twelve Skills; external tools, account entitlements and file permissions are configured in the user environment. Packaging and installation checks do not establish end-to-end model behavior or Figma execution quality.
 
 Version 1.1.4 requires native Question prompts whenever user input, a choice, or review is needed, including an explicit accept-recommendation option when applicable. Existing decisions are reused without extra approval gates. Before the first page or prototype is made, establish the design route and show its preparation status; an unanswered Figma question is not a Codex choice. Reuse supplied links, distinguish references from edit targets, and isolate task-specific bindings. These are instruction changes; fresh-session behavior still requires observation.
 
@@ -43,6 +45,7 @@ tc-product-agent/
 ├── skills/jq-stage-e-modules/SKILL.md
 ├── skills/jq-stage-f-handoff/SKILL.md
 ├── skills/jq-demo-quality/SKILL.md
+├── skills/jq-figma-workflow/SKILL.md
 ├── skills/jq-product-expert/
 ├── scripts/validate-expert-kernel.mjs
 ├── scripts/tests/expert-kernel.test.mjs
@@ -52,11 +55,17 @@ tc-product-agent/
 └── optional/codex-subagent/
 ```
 
-The Plugin contains eleven discoverable Skills: the main `$tc-product-agent`, one execution contract for each A-F stage, `$jq-demo-quality`, candidate `$jq-product-expert`, and bundled `$ui-ux-pro-max` and `$impeccable`. All eleven install together. The two external Skills are invoked only when D/E visual work needs them, not on every product step. The main Skill owns product decisions, facts and handoffs. A-F can share review windows for small requirements; eleven Skills do not imply eleven meetings. The optional subagent is a separate execution role that invokes these Skills; it is not required and is not installed automatically.
+The Plugin contains twelve discoverable Skills: the main `$tc-product-agent`, one execution contract for each A-F stage, `$jq-demo-quality`, `$jq-figma-workflow`, candidate `$jq-product-expert`, and bundled `$ui-ux-pro-max` and `$impeccable`. All twelve are included in this distribution. The two external Skills are invoked only when D/E visual work needs them, not on every product step. The main Skill owns product decisions, facts and handoffs. A-F can share review windows for small requirements; twelve Skills do not imply twelve meetings. The optional subagent is a separate execution role that invokes these Skills; it is not required and is not installed automatically.
 
 The A-F artifact skeletons are in `skills/tc-product-agent/references/23-AF阶段产物模板.md`. They are content templates, not six mandatory files or a fixed visual style. The fuller PRD, Use Case, design and engineering contracts remain in references `02`, `14`, `15`, and `16`.
 
 `$ui-ux-pro-max` requires Python 3 (standard library only); `$impeccable` v4.0.2 requires Node.js for its local scripts. Both Skills and their data/scripts ship inside the Plugin, so installation does not run their upstream installers or fetch code. The bundled Impeccable context check does not contact its update service by default and cannot override host authorization. See [third-party provenance](third_party/README.md) for pinned sources, licenses and local adaptations. The version number does not imply real-project output quality has been validated.
+
+## Figma Execution Requirements
+
+The bundled `jq-figma-workflow` contains configuration guidance, a design-execution runbook, and a Dev Mode-to-Demo runbook. It uses the same design task package, preflight and review records as the product workflow. No separate global workflow Skill, fixed local application path, desktop runtime library or author account is required by the instructions.
+
+Actual execution still requires the tools needed for the selected action: a user-bound Figma file and account permissions, a callable Figma MCP connection for design context/assets, Computer Use for direct editing, and an available Figma Agent or plugin when generation is needed. These services and entitlements do not ship as Skill files. The workflow detects actual capabilities and uses native Question prompts to guide only missing setup; do not interpret Plugin installation as complete external configuration. No credentials or permanent file-write authorization are installed. Missing tools can be configured, or an explicitly chosen collaborator can execute in the same Figma file and return evidence; local-only design requires an explicit route exception when a product Figma source exists.
 
 ## Default Delivery
 

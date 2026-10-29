@@ -1,8 +1,8 @@
 # JQ Product Agent
 
-面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。最新发布版本为 **[v1.1.4](https://github.com/junqicheng765-oss/jq-product-agent/releases/tag/v1.1.4)**，统一使用原生 Question 收集必要回答，并在首次原型制作前明确 Figma/本地路线与设计准备结果；沿用产品领域能力校验与阶段产物核对。`v1.0.0` 是首个公开基线。版本号不代表真实项目的产出效果已经验证。
+面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。最新发布版本为 **[v1.1.5](https://github.com/junqicheng765-oss/jq-product-agent/releases/tag/v1.1.5)**，随包提供 Figma 设计执行与 Demo 还原工作流：已有本产品设计稿先在 Figma 完成设计，再通过 Dev Mode/MCP 还原 Demo；沿用原生 Question、产品领域能力校验与阶段产物核对。`v1.0.0` 是首个公开基线。版本号不代表真实项目的产出效果已经验证。
 
-本仓库可作为独立 Codex Marketplace 使用，首期可在 Codex 下运行。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill、候选专家内核，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十一项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
+本仓库可作为独立 Codex Marketplace 使用，首期可在 Codex 下运行。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill、Figma 工作流 Skill、候选专家内核，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十二项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
 
 ## 安装
 
@@ -31,7 +31,7 @@ codex plugin marketplace upgrade tc-product-agent
 codex plugin add tc-product-agent@tc-product-agent
 ```
 
-安装后核对版本为 `1.1.4`，再新建会话加载。若桌面端“＋”菜单仍未刷新，完全退出并重新打开 Codex。已经打开的会话不能据安装成功推定为已加载新规则。原先注册本地克隆来源的用户，应先在自己的克隆目录执行 `git pull --ff-only`，再运行插件安装命令；本地来源不会因 GitHub 更新而自动拉取。
+安装后核对版本为 `1.1.5`，再新建会话加载。若桌面端“＋”菜单仍未刷新，完全退出并重新打开 Codex。已经打开的会话不能据安装成功推定为已加载新规则。原先注册本地克隆来源的用户，应先在自己的克隆目录执行 `git pull --ff-only`，再运行插件安装命令；本地来源不会因 GitHub 更新而自动拉取。
 
 ## 包内关系
 
@@ -49,7 +49,17 @@ codex plugin add tc-product-agent@tc-product-agent
 
 简单需求可以合并阶段审阅，复杂系统则按风险和依赖展开；模板不是六份必须创建的文件。最终视觉稿、生产代码、部署和实际外发均为条件动作，需要相应授权、工具和回传证据。
 
+## Figma 设计工作流
+
+安装插件时一并提供 [`jq-figma-workflow`](plugins/tc-product-agent/skills/jq-figma-workflow/SKILL.md)，无需另装作者本机的全局工作流。首次按任务检查并引导配置目标链接、Figma MCP、Computer Use、Figma Agent 及相应账号和文件权限，后续复用有效配置；不自行创建设计项目。
+
+已有本产品设计稿默认作为主稿。已有页面直接精修，新增整页按需生成后精修；D 阶段先完成代表链路的设计，E 阶段再扩展。先在 Figma 完成本次范围，再依据准确 Frame/Dev Mode 定位、同版设计上下文、截图和原始素材还原 Demo，并复核文案、交互与设计差异。
+
+Skill 文件不包含账号权益、MCP 服务或 Computer Use 底层工具。缺项时通过 Question 引导处理，仅暂停受影响动作；已有主稿改走本地独立设计须有明确决定。准确的已有节点链接可直接复用，不要求为 Dev Mode 再复制同一链接。
+
 ## 当前证据边界
+
+v1.1.5 增加同包 Figma 执行层，并修正已有设计稿仅作视觉参考、随后另造 HTML 的路线歧义。十二项 Skill、包结构、引用、专家内核与冻结资料及八项完整性测试通过；发布与安装回读核对实际版本和文件。上述检查不代表本次已经执行完整 Figma 链路或通过新会话的独立行为回归。
 
 v1.1.4 将必要补充、选择、方案确认及“按建议继续”接到原生 Question；未提交与未回答不算确认，已有效确认的事项不重复询问。首次实际页面/原型制作前须明确设计路线并展示准备结果，已有 Figma 链接先复用且区分现状参考与编辑目标，各任务独立保存文件绑定。只读连接成功不等于生成/编辑能力或写入授权已具备。工具条件按实际验证，原生提问工具不可用时如实说明并降级。此次完成打包、引用及既有完整性检查，未开展新会话的独立行为回归。
 
