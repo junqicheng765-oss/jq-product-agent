@@ -8,6 +8,8 @@ description: 在 JQ Product Agent 的 F 阶段依据已确认方案和 Demo 展�
 按主包 `references/02-产出物与交接规范.md`、`references/06-48项能力评估标尺.md`、`references/15-设计交付与Figma回传规范.md` 和 `references/16-研发交付与实现验收规范.md` 工作；不另造 PRD 模板或技术事实。
 模块 PRD 与交接索引按主包 `references/23-AF阶段产物模板.md` 的 F 节展开，具体字段仍以 `02/15/16` 为准。
 
+
+阶段切换与收口按主包 [流程导航与按需确认](../tc-product-agent/references/27-流程导航与按需确认.md)：由 Agent 核对必要产物和证据，交代当前位置、下一动作及负责人；只为尚未解决的关键决定请人判断，已有有效依据不重审。
 ## 输入与展开
 
 - 输入：已确认的 A–E 范围、对象规则、Use Case、流程 Demo 与有样式 Demo 页面/状态、设计回传或 Codex 视觉证据、迭代现状及未决项。

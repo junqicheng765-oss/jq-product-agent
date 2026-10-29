@@ -1,6 +1,8 @@
 # JQ Product Agent Plugin
 
-Package version: `1.1.1`. The install identifier remains `tc-product-agent` for compatibility.
+Package version: `1.1.2`. The install identifier remains `tc-product-agent` for compatibility.
+
+Version 1.1.2 adds continuous A-F navigation, evidence-based stage exit checks, and human review triggered by unresolved product decisions rather than every step. It also includes reusable Figma initialization, user-bound target files, existing-interface input requirements, explicit visual-choice evidence across routes, and per-page direct-edit/generation routing. No new design subagent or Figma account/tool entitlement is installed. Structural checks do not establish behavior gains; evaluate in a fresh project.
 
 Version 1.1.1 adds intent-based routing that distinguishes baseline maintenance, consultation/review, scoped changes and full product design before intake or tool discovery. A/C reuse evidence-labelled scenario cards and business-lifecycle or functional use cases without fixed counts or extra approval gates. C/D/E share a task-based product-type design baseline (reference `25`), preserving existing design systems and treating AI as an additional interaction constraint. The A-F artifact and design-task templates carry these decisions. These are instruction changes; structural checks do not establish model behavior or product-quality gains.
 
