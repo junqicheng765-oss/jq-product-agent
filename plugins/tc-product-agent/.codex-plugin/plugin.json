@@ -1,6 +1,6 @@
 {
   "name": "tc-product-agent",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "JQ product workflow from problem framing and staged demos through visual design, PRD, and engineering input.",
   "author": {
     "name": "Product Agent Team"

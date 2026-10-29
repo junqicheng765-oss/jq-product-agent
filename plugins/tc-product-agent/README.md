@@ -1,6 +1,8 @@
 # JQ Product Agent Plugin
 
-Package version: `1.1.2`. The install identifier remains `tc-product-agent` for compatibility.
+Package version: `1.1.3`. The install identifier remains `tc-product-agent` for compatibility.
+
+Version 1.1.3 requires every product-stage deliverable, revision, and review reply to start with a visible main-stage position, current action, and actual status. A-F retain stable numbering; substep counts require a maintained plan. Scoped work and Agent iteration use their own task positions. Progress display does not add approval gates and stays outside end-user Demo interfaces. These are instruction changes; consistent model behavior still requires fresh-project observation.
 
 Version 1.1.2 adds continuous A-F navigation, evidence-based stage exit checks, and human review triggered by unresolved product decisions rather than every step. It also includes reusable Figma initialization, user-bound target files, existing-interface input requirements, explicit visual-choice evidence across routes, and per-page direct-edit/generation routing. No new design subagent or Figma account/tool entitlement is installed. Structural checks do not establish behavior gains; evaluate in a fresh project.
 

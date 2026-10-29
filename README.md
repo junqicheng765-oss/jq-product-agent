@@ -1,6 +1,6 @@
 # JQ Product Agent
 
-面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。最新发布版本为 **[v1.1.2](https://github.com/junqicheng765-oss/jq-product-agent/releases/tag/v1.1.2)**，增强连续流程引导、关键决定确认、阶段产物核对与设计能力初始化；`v1.0.0` 是首个公开基线。发布和版本号不代表真实项目的产出效果已经验证。
+面向掌握业务、但不一定有产品经理经验的使用者，帮助其将新系统、存量迭代或小需求逐步形成可审阅的产品定义、可操作 Demo、PRD 与设计/研发交接。最新发布版本为 **[v1.1.3](https://github.com/junqicheng765-oss/jq-product-agent/releases/tag/v1.1.3)**，将每次产出的当前步骤展示固定到回复首行，沿用关键决定确认、阶段产物核对与设计能力初始化；`v1.0.0` 是首个公开基线。发布和版本号不代表真实项目的产出效果已经验证。
 
 本仓库可作为独立 Codex Marketplace 使用，首期可在 Codex 下运行。它包含一个 `tc-product-agent` Plugin，安装后提供产品主 Skill、A–F 六个阶段 Skill、Demo 质量 Skill、候选专家内核，以及默认集成的 UI/UX Pro Max 和 Impeccable，共十一项 Skill。内部安装标识仍为 `tc-product-agent`，以保持旧版兼容；可选 Subagent 配置不自动启用。
 
@@ -31,7 +31,7 @@ codex plugin marketplace upgrade tc-product-agent
 codex plugin add tc-product-agent@tc-product-agent
 ```
 
-安装后核对版本为 `1.1.2`，再新建会话加载。若桌面端“＋”菜单仍未刷新，完全退出并重新打开 Codex。已经打开的会话不能据安装成功推定为已加载新规则。原先注册本地克隆来源的用户，应先在自己的克隆目录执行 `git pull --ff-only`，再运行插件安装命令；本地来源不会因 GitHub 更新而自动拉取。
+安装后核对版本为 `1.1.3`，再新建会话加载。若桌面端“＋”菜单仍未刷新，完全退出并重新打开 Codex。已经打开的会话不能据安装成功推定为已加载新规则。原先注册本地克隆来源的用户，应先在自己的克隆目录执行 `git pull --ff-only`，再运行插件安装命令；本地来源不会因 GitHub 更新而自动拉取。
 
 ## 包内关系
 
@@ -50,6 +50,8 @@ codex plugin add tc-product-agent@tc-product-agent
 简单需求可以合并阶段审阅，复杂系统则按风险和依赖展开；模板不是六份必须创建的文件。最终视觉稿、生产代码、部署和实际外发均为条件动作，需要相应授权、工具和回传证据。
 
 ## 当前证据边界
+
+v1.1.3 要求完整产品设计的每次成果、修订与审阅回复在首行展示稳定的 A–F 主线位置、当前具体步骤与真实状态。阶段内编号来自已维护清单，局部任务按实际终点定位；显示进度不自动触发确认，也不进入最终用户 Demo 界面。详见[流程导航与按需确认](plugins/tc-product-agent/skills/tc-product-agent/references/27-流程导航与按需确认.md)。本次检查验证打包和引用，持续执行效果仍需新会话观察。
 
 v1.1.2 将连续导航和按需确认贯穿 A–F：阶段出口核对产物、覆盖、质量证据、决定依据和版本，复用有效决定，授权内常规工作连续执行。设计阶段先初始化并复用工具配置，绑定用户指定目标；存量迭代先取得有效现状参考，再按页面选择直接编辑或生成后精修。各路线保留视觉选择或有效沿用依据。规则见[流程导航与按需确认](plugins/tc-product-agent/skills/tc-product-agent/references/27-流程导航与按需确认.md)及[设计能力初始化与复用](plugins/tc-product-agent/skills/tc-product-agent/references/26-设计能力初始化与复用.md)。阶段检查是执行合同，不是自动审计器；本次完成结构、引用及既有完整性检查，实际执行效果需在新项目中验证。
 
