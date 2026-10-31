@@ -330,14 +330,15 @@
                         Step 5：Agent 自动从「风格可执行参数字典」加载所选风格的底色、卡片表面色、边框/阴影/模糊参数、圆角阶梯、字族与专用 Prompt 片段，写入当前任务包并直接注入 Figma、组件库或生图指令，不凭空猜测。
 ```
 
-### 2. 人物头像 / 图标 / 3D / 插画 / Lottie「MCP + API 双通道」调取与海报/图片生成链路
+### 2. 图标 / 3D 道具 / 插画 / Lottie「MCP + API 双通道」调取与高颜值头像/海报生成链路
 
-> **核心选型铁律（能用现成透明底高品质素材快拼，就不盲目跑整图 AI 生图）**：
-> - **凡是配置人物头像（User Avatar）、工具/装饰图标、3D 立体物、插画、Lottie 微动效**：**第一优先级一律从 IconScout 拉取成套透明底素材**，严禁手画畸形 SVG 人脸，也不必动辄调大模型整图生成。
-> - **快捷生成海报 / 主视觉（KV） / 运营 Banner**：先看能不能用 **「干净版式底板 + 清晰矢量排版字 + IconScout 透明底 3D/插画/头像素材直接拼装」** 完成。能快拼的直接拼装出稿（文字 100% 锐利、元素可独立微调、零 AI 乱码假字）；只有需要全画幅写实摄影或复杂场景光影一体融合时，才走整图 AI 生图。
+> **核心选型铁律（道具/图标调 IconScout，人物头像严禁欧美 3D 橡皮泥人）**：
+> - **工具/装饰图标、3D 立体道具（金币/皇冠/礼盒/奖杯）、标准插画、Lottie 微动效**：**第一优先级从 IconScout 拉取成套透明底素材**。
+> - **人物头像（User Avatar）防丑铁律**：**严禁从 IconScout `3d` 拉取欧美 B 端豆豆眼橡皮泥小人（呆滞、带黑底、与国风/游戏严重违和）**！游戏与 C 端头像必须采用同母体高颜值方案（统一画风前缀的泡泡玛特潮玩手办风 / 国风二次元厚涂立绘 / 自然光写真，或精致高定矢量纹章），且入稿前必须调 `Read` 看图一票否决。
+> - **快捷生成海报 / 主视觉（KV） / 运营 Banner**：先看能不能用 **「干净版式底板 + 清晰矢量排版字 + IconScout 透明底 3D 道具/插画素材直接拼装」** 完成。能快拼的直接拼装出稿（文字 100% 锐利、元素可独立微调、零 AI 乱码假字）；只有需要全画幅写实摄影或复杂场景光影一体融合时，才走整图 AI 生图。
 
 ```text
-需要人物头像 / 图标 / 3D 图标 / 插画 / Lottie 动画（优先调取真实专业资产库，严禁手画劣质 SVG）
+需要图标 / 3D 道具 / 插画 / Lottie 动画（优先调取真实专业资产库，严禁手画劣质 SVG）
   ├─ 通道 A（优先）：【检测并调用 IconScout 官方 MCP（https://mcp.iconscout.com/mcp）】
   │   - 先检查当前宿主是否已连接 iconscout MCP；已连接时直接用自然语言按风格、色板、同系列 Pack 检索，并直接下载 SVG、PNG、Lottie JSON、GIF 或 MP4。
   │   - 若使用者未安装，可给出 1 步安装引导（参考 https://iconscout.com/mcp，无需 API Key，浏览器 OAuth 登录即用）：
@@ -347,9 +348,8 @@
   │
   └─ 通道 B（免配置自动兜底）：【内置 IconScout v3 API 脚本（`scripts/iconscout.py`，已预置 Client-ID: 232598791050530）】
       - 若使用者当前未装 MCP 或选择暂不安装，绝不卡死流程，自动调用内置脚本按 V0 选定风格拉取素材：
-          • 人物头像（Avatar）：`-q "user avatar" -a 3d` 或 `-q "avatar profile" -a illustration`
           • 2D 工具图标：`--asset icon --styles <line|glyph|dualtone|flat|colored-outline|gradient|rounded> --icon-grid 24`
-          • 3D 质感图标与主视觉立体物：`--asset 3d`（直接获取透明底高清 PNG 或配齐 Secret 后下载 GLB/GLTF）
+          • 3D 质感道具与主视觉立体物（金币/皇冠/礼盒等，禁拉 3D 泥人头像）：`--asset 3d`
           • 矢量/肌理插画：`--asset illustration --styles <flat|dualtone|isometric|doodle>`
           • Lottie 微动效：`--asset lottie`（获取预览 MP4/PNG 或配齐 Secret 后下载 .json/.lottie 及调用 /v3/convert/ 转 GIF/WebP/MP4）
 

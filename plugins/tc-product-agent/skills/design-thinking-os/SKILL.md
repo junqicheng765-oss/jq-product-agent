@@ -90,7 +90,7 @@ D1 问题与价值
 - [methods-visual.md](methods-visual.md)：Figma UI 内的全部界面视觉依据、26+6 风格参数字典（国际化 8 + 国内 8 + 游戏 10 + 通用质感 6）、色字图与候选；融合 IconScout 官方 MCP（`https://mcp.iconscout.com/mcp`）与内置 v3 API 兜底脚本 [scripts/iconscout.py](scripts/iconscout.py)（`Client-ID: 232598791050530`）用于拉取统一风格的 `icon / 3d / lottie / illustration`；只有非界面视觉成品或明确独立资产委托才另走视觉工具。
 - [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；视频/动态图形和格式特定动画按工具路由执行。
 - [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
-- [methods-close.md](methods-close.md)：按工作模式验收。
+- [methods-close.md](methods-close.md)：按工作模式验收，内置 `QA0`（用户可用性 × 审美与品位 × 设计标准）三大维度审查与 [scripts/ui_geometry_audit.py](scripts/ui_geometry_audit.py) 自动 DOM 几何/对齐/碰撞/头像质检门。
 - [templates.md](templates.md)：诊断、工作包和产出模板。
 - [walkthrough.md](walkthrough.md)：典型路由回验。
 
