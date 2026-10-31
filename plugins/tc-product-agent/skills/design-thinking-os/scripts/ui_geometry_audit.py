@@ -4,13 +4,13 @@ UI Geometry, Alignment & Asset Audit Script for design-thinking-os (QA0 Automate
 Executes real DOM getBoundingClientRect() & computed-style checks via headless Chrome (--dump-dom)
 with zero third-party Python dependencies.
 
-Detects the 5 most common AI UI generation failures:
-  1. ICON_GLYPH_OR_OFF_CENTER: Text characters (<, >, ‹, ›, ←, ×) used instead of centered SVG inside circular/square icon buttons,
-     or child SVG center deviating > 2px from button center.
-  2. HEADER_ROW_MISALIGNED: Horizontal bar/header direct children not vertically centered (centerY diff > 3px).
-  3. STAGE_ACTION_OFF_CENTER: Primary stage action bar or top dashboard drifting off horizontal center axis.
-  4. ZONE_COLLISION: Unintended bounding-box overlap between distinct functional zones (e.g. hand cards colliding with action buttons or player seats).
-  5. BANNED_GENERIC_3D_AVATAR: Usage of generic Western 3D clay avatar assets (e.g. 3d-*avatar*, 3d-man*, 3d-old-man*) in C-end/game UI.
+Checks, for any page:
+  1. ICON_RAW_TEXT_GLYPH / ICON_INLINE_HAND_DRAWN / ICON_CHILD_OFF_CENTER: icon buttons must hold a downloaded
+     icon file (not a text glyph, not a hand-written <path>) and be optically centered.
+  2. HEADER_VERTICAL_MISALIGNMENT: children of horizontal bars not vertically centered (centerY diff > 3px).
+  3. ZONE_MARKUP_MISSING / ZONE_BOUNDING_BOX_COLLISION: top-level functional areas marked with data-zone must not overlap.
+  4. AVATAR_CULTURAL_FIT_CHECK (WARN) / BANNED_HAND_DRAWN_SVG_AVATAR: stock 3D character avatars need a style review;
+     hand-coded SVG faces fail.
 """
 
 import argparse
@@ -101,22 +101,6 @@ AUDIT_JS = r"""
     }
   });
 
-  // 1b. Jokers and court cards must be artwork. A corner index may be type; the face may not be the card's name.
-  document.querySelectorAll('[class~="card"], [class*="joker"], [class*="poker"]').forEach(el => {
-    if (el.querySelector('img, canvas')) return;
-    const bg = window.getComputedStyle(el).backgroundImage || '';
-    if (/url\(/i.test(bg)) return;
-    const text = (el.textContent || '').replace(/\s+/g, '');
-    if (/大王|小王|JOKER|Joker/.test(text) || /^(大|小)?王+$/.test(text)) {
-      issues.push({
-        code: 'CARD_FACE_IS_TEXT',
-        severity: 'FAIL',
-        element: selectorOf(el),
-        message: `Card face is the words "${text.slice(0, 12)}" with no artwork. Jokers and court cards need an illustrated face; rank and suit stay in the corner index only.`
-      });
-    }
-  });
-
   // 2. Check horizontal flex bars/headers for vertical center alignment (centerY consistency)
   document.querySelectorAll('header, nav, [class*="hud"], [class*="header"], [class*="top-bar"], [class*="toolbar"], [class*="action-bar"]').forEach(group => {
     const style = window.getComputedStyle(group);
@@ -178,22 +162,24 @@ AUDIT_JS = r"""
     }
   });
 
-  // 4. Check major functional zones for unintended overlap (collision)
-  const zoneSelectors = [
-    '.top-hud', '.trump-dashboard',
-    '.seat-north', '.seat-west', '.seat-east', '.seat-south',
-    '.action-bar', '.selected-combo-hint', '.my-hand-area', '.sort-toolbar',
-    '.played-west', '.played-east', '.played-north'
-  ];
+  // 4. Functional zones (declared with data-zone, per methods-ui U3) must not overlap.
+  //    Pages that declare no zones cannot be collision-checked, which is itself a failure for multi-region layouts.
   const zones = [];
-  zoneSelectors.forEach(sel => {
-    document.querySelectorAll(sel).forEach(el => {
-      const r = rect(el);
-      if (r.width > 0 && r.height > 0) {
-        zones.push({ sel: selectorOf(el), r, el });
-      }
-    });
+  document.querySelectorAll('[data-zone]').forEach(el => {
+    const r = rect(el);
+    if (r.width > 0 && r.height > 0) {
+      zones.push({ sel: `${selectorOf(el)}[data-zone="${el.getAttribute('data-zone')}"]`, r, el });
+    }
   });
+  const regionCount = document.querySelectorAll('header, nav, main, aside, footer, section').length;
+  if (zones.length < 2 && regionCount >= 3) {
+    issues.push({
+      code: 'ZONE_MARKUP_MISSING',
+      severity: 'FAIL',
+      element: 'document',
+      message: `Multi-region page declares ${zones.length} data-zone area(s). Mark every top-level functional area with data-zone="<name>" so zone collisions can be checked.`
+    });
+  }
 
   for (let i = 0; i < zones.length; i++) {
     for (let j = i + 1; j < zones.length; j++) {
