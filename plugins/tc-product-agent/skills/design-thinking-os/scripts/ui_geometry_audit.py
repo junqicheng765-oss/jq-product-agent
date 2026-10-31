@@ -128,15 +128,16 @@ AUDIT_JS = r"""
     });
   });
 
-  // 3. Check banned generic 3D clay avatars AND hand-drawn SVG faces
+  // 3. Flag stock 3D character avatars for a cultural-fit review, and fail hand-drawn SVG faces.
+  //    3D icons/props/badges are not flagged; only human avatars need the style-match check.
   document.querySelectorAll('img').forEach(img => {
     const src = (img.getAttribute('src') || '').toLowerCase();
     if (/3d-.*avatar|3d-man-|3d-woman-|3d-old-man|cdn3d\.iconscout\.com.*avatar/.test(src)) {
       issues.push({
-        code: 'BANNED_GENERIC_3D_AVATAR',
-        severity: 'FAIL',
+        code: 'AVATAR_CULTURAL_FIT_CHECK',
+        severity: 'WARN',
         element: selectorOf(img),
-        message: `Generic Western 3D clay avatar detected (${src}). Use unified high-aesthetic AI portraits instead.`
+        message: `Stock 3D character avatar detected (${src}). Confirm it matches the product's cultural style and that all on-screen avatars share one pack; otherwise switch to style-locked AI portraits.`
       });
     }
   });
@@ -190,7 +191,7 @@ AUDIT_JS = r"""
   out.type = 'application/json';
   out.textContent = JSON.stringify({
     viewport: { width: W, height: H },
-    passed: issues.length === 0,
+    passed: issues.every(i => i.severity !== 'FAIL'),
     issue_count: issues.length,
     issues: issues
   });

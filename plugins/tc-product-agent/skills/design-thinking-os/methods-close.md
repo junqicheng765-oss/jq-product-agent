@@ -69,7 +69,7 @@ Agent 必须同时从 **「一、用户可用性审查（好不好用）」**、
 - [ ] **1. 平面四要素、栅格精度与自动化几何体检（强制运行 `scripts/ui_geometry_audit.py`）**：
   - 对齐轴线严整、亲密性（组内间距 < 组外间距）严格成立、同类元素重复规则一致（如牌桌上家/对家/下家三个席位的头像框、姓名、剩余牌数容器样式必须 100% 统一，严禁一个红框、一个黑框、一个裸字）；
   - 所有横排顶栏/导航条强制 `align-items: center`，圆形/方形图标按钮强制内嵌光学居中的 `<svg>`（严禁直接写 `<` `>` 文本字符导致基线偏移）；
-  - **凡产出 HTML/Web 界面或原型，交付前必须运行 `python3 scripts/ui_geometry_audit.py <html文件>`**：脚本自动实测 DOM `getBoundingClientRect()`，若报出 `ICON_RAW_TEXT_GLYPH`（字符冒充图标）、`ICON_CHILD_OFF_CENTER`（图标未居中）、`HEADER_VERTICAL_MISALIGNMENT`（顶栏未垂直居中）、`ZONE_BOUNDING_BOX_COLLISION`（功能区重叠打架）或 `BANNED_GENERIC_3D_AVATAR`（欧美 3D 泥人头像），一律判定为 `FAIL` 并立即回炉修正代码，直到脚本返回 `"passed": true` 才允许截图交付！
+  - **凡产出 HTML/Web 界面或原型，交付前必须运行 `python3 scripts/ui_geometry_audit.py <html文件>`**：脚本自动实测 DOM `getBoundingClientRect()`，若报出 `ICON_RAW_TEXT_GLYPH`（字符冒充图标）、`ICON_CHILD_OFF_CENTER`（图标未居中）、`HEADER_VERTICAL_MISALIGNMENT`（顶栏未垂直居中）、`ZONE_BOUNDING_BOX_COLLISION`（功能区重叠打架）或 `BANNED_HAND_DRAWN_SVG_AVATAR`（代码手画人脸），一律判定为 `FAIL` 并立即回炉修正代码，直到脚本返回 `"passed": true` 才允许截图交付！若报 `AVATAR_CULTURAL_FIT_CHECK`（`WARN`），说明用了素材库 3D 人物头像：读图确认画风与产品文化一致、同屏同一套系即可保留，否则转 AI 同母体成套生图。3D 图标、道具、徽章不在此检查范围内。
 - [ ] **2. 风格参数字典与排版规范**：实际 Hex 色值、圆角/切角阶梯、阴影/毛玻璃/金属石材边框参数、字族与字阶严格匹配 `V0` 所选风格编号（`INT-01..08` / `CN-01..08` / `GAME-01..10` / 公开组件库）的参数包；使用字体原生字重（无描边假加粗）、多行行高只增不减、金额与核心数据使用等宽数字（`DIN` / `tabular-nums`）。
 - [ ] **3. 图标与资产标准**：全套工具图标的描边粗细、圆角/尖角、透视视角三统一且像素对齐无毛边；所有图片、Logo、字体授权与版本清晰，零占位符、零乱码假文字。
 - [ ] **4. 生图与动效技术边界合规**：独立海报严格还原了 `layout_sketch` 图文占比与 `style_ref` 画风；UI 交互动效具备真实代码；轻量矢量动画为真 `SVG / Lottie (.json)`（未拿视频位图序列帧伪装）；生视频转出的 `MP4/GIF/WebP` 循环自然且文字层清晰无扭曲。
