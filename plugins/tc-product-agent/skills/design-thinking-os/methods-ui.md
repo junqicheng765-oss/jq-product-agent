@@ -1,7 +1,7 @@
 # UI 方法库
 
 UI 方法只解决已知职责内的信息表达与操作表现，不能替代未解决的流程或交互决定。
-正式 UI 方案按 [methods-tool-routing.md](methods-tool-routing.md) `TR3` 在 Figma 主稿中完成，并与 D7 界面视觉方法组成同一 UI 分支；不要求 UI 完成后再固定进入一个独立视觉阶段。
+正式 UI 方案按 [methods-tool-routing.md](methods-tool-routing.md) `TR3` 在 Figma 主稿中完成（Figma 未连接或要快速看效果时，直接用 HTML/代码按同一风格参数完成），并与 D7 界面视觉方法组成同一 UI 分支；不要求 UI 完成后再固定进入一个独立视觉阶段。
 
 ## U0 UI 落地前置分流（存量延展 / 纯 B 端公开库快搭 / C 端 0→1 视觉决策）
 
