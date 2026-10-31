@@ -7,7 +7,7 @@
 ### 动效的三条实现链路（按 [methods-tool-routing.md](methods-tool-routing.md) `TR5` 分流）
 
 1. **路线 1｜UI 交互动效与组件状态过渡（`TR5-A`）**：按钮反馈、弹窗/抽屉展开、页面层级转场、列表增删与手势滑动等，按本文件产出 M1–M3 规格，**最终直接通过写代码实现**（CSS / JS / GSAP / Framer Motion / SwiftUI / 客户端原生代码），确保与真实组件、实时输入和打断恢复绑定。
-2. **路线 2｜轻量矢量图标 / 真 Lottie (.json) / 动态 SVG（`TR5-C`）**：导航图标切换、完成打勾、点赞爆花、加载指示器等，**走可编辑矢量源 + 代码/矢量动画工具生成，或通过 IconScout 双通道（优先调用官方 MCP `https://mcp.iconscout.com/mcp` 直接下载 `Lottie JSON`，未安装时回退调用内置 `scripts/iconscout.py search -a lottie` API 脚本，`Client-ID: 232598791050530`）检索现成 Lottie 动画及调用 `/v3/convert/`（`svg-to-lottie`、`lottie-to-gif`、`lottie-to-webp`）**，不调用像素级生视频模型；仅当其运动表达 UI 反馈、状态转换或空间关系时才调用本文件的 M1–M3。
+2. **路线 2｜轻量矢量图标 / 真 Lottie (.json) / 动态 SVG（`TR5-C`）**：导航图标切换、完成打勾、点赞爆花、加载指示器等，**先通过 IconScout 双通道（优先调用官方 MCP `https://mcp.iconscout.com/mcp` 直接下载 `Lottie JSON`，未安装时回退调用内置 `scripts/iconscout.py search -a lottie` API 脚本，`Client-ID: 232598791050530`）检索现成 Lottie 动画及调用 `/v3/convert/`（`svg-to-lottie`、`lottie-to-gif`、`lottie-to-webp`）；库里没有合适的，再基于专业矢量图标用代码/矢量动画工具加动画，不临时手画简陋图形**，不调用像素级生视频模型；仅当其运动表达 UI 反馈、状态转换或空间关系时才调用本文件的 M1–M3。
 3. **路线 3｜复杂 3D / 光影 / 流体动态图与宣传视频（`TR5-B`）**：代码写不出的 3D 礼盒旋转开箱、AI 能量球流体变形、液态玻璃折射流动、运营动态海报或 TVC 短片，**走「首帧（及必要尾帧）静帧垫图 → 调生视频模型 → 转码导出 `MP4` / `WebM` / `GIF` / `动态 WebP`」**。生视频模型产出的是像素视频流，可转 GIF/WebP/MP4，但**不能直接生成真正的矢量 `Lottie (.json)`**（严禁将视频拆成序列帧位图塞进 Lottie 冒充矢量动画）。该路线不套用本文件，除非其中某段运动表达 UI 反馈、状态转换或空间关系。
 
 每个候选动效都先回答：
