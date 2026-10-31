@@ -31,19 +31,40 @@ description: >-
 
 ## 开工前必读（硬性，任何工作模式都适用，包括“直接制作”）
 
-只要本轮要产出下表中的东西，**动手制作前必须用 Read 打开对应文件的对应小节**；没读完不得产出设计，不得凭印象或本文件摘要代替细则。
+本文件只是入口和索引。**只读本文件就开始做，视为没有开工。** 只要本轮要出界面、海报、图标、动效或任何视觉成品，动手前必须用 Read **逐个打开下面每一个文件的全文**，不是只打开某个小节，也不按「这个任务用不到」跳过。没读完不得写设计、不得出图。
 
-| 本轮要产出 | 必须先读 |
-| :--- | :--- |
-| 任何界面 / 页面 / 可操作 Demo（Figma 或 HTML） | [methods-ui.md](methods-ui.md) 的 `U0`（三路分流）和 `U3`（对齐与网格）；[methods-visual.md](methods-visual.md) 的 `V0` Step 2 与 Step 5，以及参数字典里选定风格的那一行；[methods-close.md](methods-close.md) 的 `QA0` |
-| 界面里有图标、3D 图标、插画、人物头像、配图 | [methods-visual.md](methods-visual.md) 的 `V5` 第 6–7 条（IconScout 与头像判断门）和 `V7` 路径 A |
-| 海报 / 运营图 / 主视觉 KV / 单图 | [methods-visual.md](methods-visual.md) 的 `V7` 路径 B（含 KV 风格表与动效版提议）；[methods-tool-routing.md](methods-tool-routing.md) 的 `TR4` |
-| 动效 / 动图 / Lottie / 视频 | [methods-motion.md](methods-motion.md) 的「动效入口门」；[methods-tool-routing.md](methods-tool-routing.md) 的 `TR5` |
-| 交付前验收（所有出图、出界面的任务，最后一步，不可跳过） | [methods-close.md](methods-close.md) 的 `QA0` 第 0.3 节「交付前强制终审」；HTML 界面必须运行 `python3 scripts/ui_geometry_audit.py <html文件>` 并修到通过 |
+1. [framework.md](framework.md)
+2. [methods-intake.md](methods-intake.md)
+3. [methods-context.md](methods-context.md)
+4. [methods-routing.md](methods-routing.md)
+5. [methods-dispatch.md](methods-dispatch.md)
+6. [methods-execution.md](methods-execution.md)
+7. [methods-flow.md](methods-flow.md)
+8. [methods-interaction.md](methods-interaction.md)
+9. [methods-ui.md](methods-ui.md)
+10. [methods-visual.md](methods-visual.md)
+11. [methods-motion.md](methods-motion.md)
+12. [methods-prototype.md](methods-prototype.md)
+13. [methods-research.md](methods-research.md)
+14. [methods-competitive.md](methods-competitive.md)
+15. [methods-tool-routing.md](methods-tool-routing.md)
+16. [methods-close.md](methods-close.md)
+17. [templates.md](templates.md)
 
-交付时在「任务诊断」里写一行 **已读细则**：列出实际打开过的文件和小节。写不出来就说明没读，必须先补读再交付。
+交付的「已读细则」必须按这个顺序列出全部 17 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
+
+## 审查不通过必须改完再交
+
+出图、出界面之后，按 [methods-close.md](methods-close.md) 的 `QA0` 第 0.3 节终审。下面任一情况都**先改产出，再重审**，禁止把没过的稿交给用户，也禁止附一句「后续可优化」交差：
+
+- HTML 跑 `python3 scripts/ui_geometry_audit.py <html文件>` 的结果不是 `"passed": true`（含手写 SVG 图标、文字充当大小王牌面）。
+- 好不好用、好不好看、准不准里任何一项不达标。
+
+改完必须重新截图、重新跑脚本、重新写终审四行。终审四行里「准不准」不是通过时，这份交付无效。
 
 ## 运行顺序
+
+上面 17 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
 
 1. **读取总框架**：Read [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
 2. **任务分诊与语境翻译**：Read [methods-intake.md](methods-intake.md)；需要设计判断时再 Read [methods-context.md](methods-context.md)，形成上游任务卡、设计语境卡、设计任务定义、任务诊断卡和设计决定链。
@@ -139,7 +160,7 @@ D1 问题与价值
 
 ```markdown
 # 任务诊断
-- 已读细则（文件 + 小节）：
+- 已读细则（必须是上面 17 个文件的全名，少一个即未读完）：
 - 工作模式：
 - 本轮目标：
 - 主终点与产出合同：
