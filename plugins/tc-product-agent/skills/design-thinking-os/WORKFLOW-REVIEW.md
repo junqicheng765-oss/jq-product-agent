@@ -347,7 +347,8 @@
   │   - 若使用者未安装，不打断，直接走通道 B；仅在交付总结里附一句可选安装方式（参考 https://iconscout.com/mcp，无需 API Key，浏览器 OAuth 登录即用）：
   │       • Cursor / Claude Desktop (`mcp.json`)：`{"mcpServers": {"iconscout": {"url": "https://mcp.iconscout.com/mcp"}}}`
   │       • Claude Code：`claude mcp add --transport http iconscout https://mcp.iconscout.com/mcp`
-  │       • Codex / ChatGPT：`Settings -> Connectors -> Add custom connector` 填入 `https://mcp.iconscout.com/mcp`
+  │       • Codex：通过 tc-product-agent 插件安装已自带（插件根目录 `.mcp.json`），首次运行 `codex mcp login iconscout` 浏览器登录一次即可；单独装本 Skill 时先 `codex mcp add iconscout --url https://mcp.iconscout.com/mcp`
+  │       • ChatGPT：`Settings -> Connectors -> Add custom connector` 填入 `https://mcp.iconscout.com/mcp`
   │
   └─ 通道 B（免配置自动兜底）：【内置 IconScout v3 API 脚本（`scripts/iconscout.py`，已预置 Client-ID: 232598791050530）】
       - 若使用者当前未装 MCP 或选择暂不安装，绝不卡死流程，自动调用内置脚本按 V0 选定风格拉取素材：

@@ -6,6 +6,7 @@
     "name": "Product Agent Team"
   },
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "JQ Product Agent",
     "shortDescription": "Turn business knowledge into reviewable product delivery.",
