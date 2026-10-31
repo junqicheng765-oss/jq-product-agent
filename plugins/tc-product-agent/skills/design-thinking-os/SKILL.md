@@ -29,6 +29,20 @@ description: >-
 
 禁止把所有任务强制跑成「用研→流程→交互→UI」；也禁止因用户说了“页面/UI/提升”就直接进入该方法。
 
+## 开工前必读（硬性，任何工作模式都适用，包括“直接制作”）
+
+只要本轮要产出下表中的东西，**动手制作前必须用 Read 打开对应文件的对应小节**；没读完不得产出设计，不得凭印象或本文件摘要代替细则。
+
+| 本轮要产出 | 必须先读 |
+| :--- | :--- |
+| 任何界面 / 页面 / 可操作 Demo（Figma 或 HTML） | [methods-ui.md](methods-ui.md) 的 `U0`（三路分流）和 `U3`（对齐与网格）；[methods-visual.md](methods-visual.md) 的 `V0` Step 2 与 Step 5，以及参数字典里选定风格的那一行；[methods-close.md](methods-close.md) 的 `QA0` |
+| 界面里有图标、3D 图标、插画、人物头像、配图 | [methods-visual.md](methods-visual.md) 的 `V5` 第 6–7 条（IconScout 与头像判断门）和 `V7` 路径 A |
+| 海报 / 运营图 / 主视觉 KV / 单图 | [methods-visual.md](methods-visual.md) 的 `V7` 路径 B（含 KV 风格表与动效版提议）；[methods-tool-routing.md](methods-tool-routing.md) 的 `TR4` |
+| 动效 / 动图 / Lottie / 视频 | [methods-motion.md](methods-motion.md) 的「动效入口门」；[methods-tool-routing.md](methods-tool-routing.md) 的 `TR5` |
+| 交付前验收（所有出图、出界面的任务） | [methods-close.md](methods-close.md) 的 `QA0`；HTML 界面必须运行 `python3 scripts/ui_geometry_audit.py <html文件>` 并修到通过 |
+
+交付时在「任务诊断」里写一行 **已读细则**：列出实际打开过的文件和小节。写不出来就说明没读，必须先补读再交付。
+
 ## 运行顺序
 
 1. **读取总框架**：Read [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
@@ -120,6 +134,7 @@ D1 问题与价值
 
 ```markdown
 # 任务诊断
+- 已读细则（文件 + 小节）：
 - 工作模式：
 - 本轮目标：
 - 主终点与产出合同：
