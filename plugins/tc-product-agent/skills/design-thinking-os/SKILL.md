@@ -39,7 +39,7 @@ description: >-
 | 界面里有图标、3D 图标、插画、人物头像、配图 | [methods-visual.md](methods-visual.md) 的 `V5` 第 6–7 条（IconScout 与头像判断门）和 `V7` 路径 A |
 | 海报 / 运营图 / 主视觉 KV / 单图 | [methods-visual.md](methods-visual.md) 的 `V7` 路径 B（含 KV 风格表与动效版提议）；[methods-tool-routing.md](methods-tool-routing.md) 的 `TR4` |
 | 动效 / 动图 / Lottie / 视频 | [methods-motion.md](methods-motion.md) 的「动效入口门」；[methods-tool-routing.md](methods-tool-routing.md) 的 `TR5` |
-| 交付前验收（所有出图、出界面的任务） | [methods-close.md](methods-close.md) 的 `QA0`；HTML 界面必须运行 `python3 scripts/ui_geometry_audit.py <html文件>` 并修到通过 |
+| 交付前验收（所有出图、出界面的任务，最后一步，不可跳过） | [methods-close.md](methods-close.md) 的 `QA0` 第 0.3 节「交付前强制终审」；HTML 界面必须运行 `python3 scripts/ui_geometry_audit.py <html文件>` 并修到通过 |
 
 交付时在「任务诊断」里写一行 **已读细则**：列出实际打开过的文件和小节。写不出来就说明没读，必须先补读再交付。
 
@@ -153,6 +153,11 @@ D1 问题与价值
 - 明确跳过及理由：
 - 产出物：
 - 完成证据：
+- 交付前终审（出图、出界面时必填，见 methods-close.md `QA0` 第 0.3 节）：
+  - 好不好用：
+  - 好不好看：
+  - 准不准（含几何体检脚本结果）：
+  - 发现并改掉的问题：
 - 未知 / 假设 / 风险：
 
 # 设计结果
