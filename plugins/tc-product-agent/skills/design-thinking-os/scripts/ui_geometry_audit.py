@@ -88,6 +88,32 @@ AUDIT_JS = r"""
           message: `SVG inside ${selectorOf(btn)} is off-center by (dx=${dx.toFixed(1)}px, dy=${dy.toFixed(1)}px).`
         });
       }
+      const usesAssetFile = btn.querySelector('img') || svg.querySelector('use[href*=".svg"], use[*|href*=".svg"]');
+      const drawn = svg.querySelector('path, circle, line, polyline, polygon, rect');
+      if (!usesAssetFile && drawn) {
+        issues.push({
+          code: 'ICON_INLINE_HAND_DRAWN',
+          severity: 'FAIL',
+          element: selectorOf(btn),
+          message: `Icon button ${selectorOf(btn)} draws its own SVG path. Use an IconScout or icon-library file via <img> or <use href="assets/….svg">.`
+        });
+      }
+    }
+  });
+
+  // 1b. Jokers and court cards must be artwork. A corner index may be type; the face may not be the card's name.
+  document.querySelectorAll('[class~="card"], [class*="joker"], [class*="poker"]').forEach(el => {
+    if (el.querySelector('img, canvas')) return;
+    const bg = window.getComputedStyle(el).backgroundImage || '';
+    if (/url\(/i.test(bg)) return;
+    const text = (el.textContent || '').replace(/\s+/g, '');
+    if (/大王|小王|JOKER|Joker/.test(text) || /^(大|小)?王+$/.test(text)) {
+      issues.push({
+        code: 'CARD_FACE_IS_TEXT',
+        severity: 'FAIL',
+        element: selectorOf(el),
+        message: `Card face is the words "${text.slice(0, 12)}" with no artwork. Jokers and court cards need an illustrated face; rank and suit stay in the corner index only.`
+      });
     }
   });
 
