@@ -46,6 +46,7 @@ tc-product-agent/
 ├── skills/jq-stage-f-handoff/SKILL.md
 ├── skills/jq-demo-quality/SKILL.md
 ├── skills/jq-figma-workflow/SKILL.md
+├── skills/design-thinking-os/
 ├── skills/jq-product-expert/
 ├── scripts/validate-expert-kernel.mjs
 ├── scripts/tests/expert-kernel.test.mjs

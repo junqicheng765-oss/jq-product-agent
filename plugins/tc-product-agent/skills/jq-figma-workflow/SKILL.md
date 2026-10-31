@@ -41,7 +41,7 @@ description: 在 JQ Product Agent 中执行 Figma 设计工作流，检查并引
 
 写入前按 [执行前核对卡](../tc-product-agent/references/18-Figma执行前核对卡.md) 引用任务包、有效授权、唯一目标和保护范围。无目标时请使用者指定归属并提供文件，不自行建团队、项目或文件；已有授权范围直接沿用。
 
-执行前读取 [生成与直接精修手册](references/figma-execution.md)。旧页直接编辑；新整页按已有组件/风格生成后精修；同一区域生成与精修串行。无既定基线且需要选风格时，在授权 Figma 目标生成同一代表页的三套候选，由主 Agent 通过 Question 获取选择或复用明确委托，再展开。
+执行前读取 [生成与直接精修手册](references/figma-execution.md)，并结合同包 [design-thinking-os](../design-thinking-os/SKILL.md) 的 [V0 26+6 风格参数字典与 V7 生图协议](../design-thinking-os/methods-visual.md)：旧页直接编辑；新整页按已有组件/风格或任务包锁定的 `V0` 风格预设参数包（底色/卡片 Hex、圆角、阴影/毛玻璃、字阶与专用 Prompt 片段）生成后精修；同一区域生成与精修串行。UI 界面内需要人物头像、2D/3D 图标或插画时，优先通过 IconScout 双通道（`https://mcp.iconscout.com/mcp` 或 `../design-thinking-os/scripts/iconscout.py`）拉取真实透明底资产导入；需要定制界面内配图时调用 Figma 原位生图（如 `generate_image` 指定 `nodeId` 或 Weave 模型）。无既定基线且需要选风格时，按 `V0` 剪枝并由主 Agent 通过原生 Question 获取风格与 6 维确认后再展开。回传前执行 [QA0 三大维度验收](../design-thinking-os/methods-close.md)（用户可用性 × 审美与品位 × 设计标准）。
 
 D 可先用低/中保真流程原型验证链路；进入正式视觉与有样式交付前，形成代表链路所需的 Figma 页面/状态再还原。E 扩展时先更新主稿，再同步 Demo。不为检验工具擅自生成页面；不以本地 HTML 冒充 Figma 设计完成。
 
