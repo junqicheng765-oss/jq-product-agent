@@ -342,10 +342,14 @@ Typography Token ID：
 6. **IconScout 双通道真实资产调取（优先官方 MCP `https://mcp.iconscout.com/mcp` + 内置 v3 API 脚本自动兜底，用于 `icon` 图标、`3d` 图标、`lottie` 动画、`illustration` 插画）**：
    - 当项目中需要工具图标、金刚区 3D 图标、空状态/引导页插画或 Lottie 微动效且无现成内部资产时，按 **「通道 A（MCP 优先）→ 通道 B（内置 API 脚本零配置兜底）」** 执行：
    - **通道 A｜优先检测并调用 IconScout 官方 MCP Server（支持自然语言搜同系列 Pack、改色与直下 `.svg / .json` 源文件）**：
-     1. 先检查当前宿主环境是否已连接 `iconscout` MCP（Cursor 用 `GetDynamicTools`，Codex 看可用工具列表）。通过 `tc-product-agent` 插件安装时，插件已自带 IconScout MCP 声明（插件根目录 `.mcp.json`），无需用户手动添加；若工具返回未登录或授权错误，在交付总结里提示一句“首次使用需在浏览器登录一次 IconScout”（Codex 可运行 `codex mcp login iconscout`），本轮先走通道 B 不中断。
+     1. 先检查当前宿主环境是否已连接 `iconscout` MCP（Cursor 用 `GetDynamicTools`，Codex 看可用工具列表）。通过 `tc-product-agent` 插件安装时，插件已自带 IconScout MCP 声明（插件根目录 `.mcp.json`），无需用户手动添加。
      2. **已连接**：直接调用 IconScout MCP 工具，支持用自然语言描述风格与色板、拉取同一视觉系列的配套资产（Consistent Pack），并直接按用户账号权限下载 `SVG`、`PNG`、`Lottie JSON`、`GIF` 或 `MP4`。
-     3. **未连接**：不打断用户，直接走下方通道 B 内置脚本继续；仅在交付总结里附一句可选提示：可一键接入官方 MCP（地址：`https://mcp.iconscout.com/mcp`，参考 `https://iconscout.com/mcp`，无需填 API Key，首次浏览器 OAuth 登录即可解锁全库 `SVG / Lottie JSON` 直下）：
-        - **Cursor / Claude Desktop / Windsurf (`mcp.json`)**：
+     3. **未连接：Agent 直接替用户安装，不询问、不只给提示**（地址：`https://mcp.iconscout.com/mcp`，参考 `https://iconscout.com/mcp`，无需 API Key）：
+        - 按当前宿主执行下方对应的安装动作：能跑命令的直接跑命令；需要改配置文件的，先读取现有配置，只追加 `iconscout` 一项，保留其他服务和格式不变，已存在则跳过。
+        - 安装后立即发起登录（如 `codex mcp login iconscout`），浏览器会弹出 IconScout 授权页；用一句话告诉用户“浏览器弹出了 IconScout 登录页，点一下授权即可”。这一步是账号授权，只能由用户本人点击。
+        - 新装的服务通常要新开会话或重载后才可用：**本轮不等待**，先用下方通道 B 内置脚本完成素材获取，下一轮起自动走 MCP。
+        - 只有宿主不允许 Agent 执行命令或写配置文件时，才把下方对应的安装方式原样给用户。
+        - **Cursor / Claude Desktop / Windsurf**：在用户级 `mcp.json`（Cursor 为 `~/.cursor/mcp.json`）的 `mcpServers` 中追加：
           ```json
           {
             "mcpServers": {
@@ -356,10 +360,10 @@ Typography Token ID：
           }
           ```
         - **Claude Code CLI**：`claude mcp add --transport http iconscout https://mcp.iconscout.com/mcp`
-        - **Codex**：通过 `tc-product-agent` 插件安装已自动包含，只需首次登录；单独使用本 Skill 时运行 `codex mcp add iconscout --url https://mcp.iconscout.com/mcp` 后 `codex mcp login iconscout`。
+        - **Codex**：通过 `tc-product-agent` 插件安装已自动包含，只需运行 `codex mcp login iconscout` 登录；单独使用本 Skill 时先运行 `codex mcp add iconscout --url https://mcp.iconscout.com/mcp`，再运行登录命令。
         - **ChatGPT**：`Settings -> Connectors -> Add custom connector`，填入 `https://mcp.iconscout.com/mcp` 并完成浏览器登录授权。
    - **通道 B｜内置 IconScout v3 REST API 脚本自动兜底（免安装、开箱即用）**：
-     - 若用户当前未安装 MCP 或选择本次先不配置，**严禁卡死流程或退回手画劣质 SVG**，立即自动调用本 Skill 预置的 v3 API 脚本（已内置 `Client-ID: 232598791050530`，文档：`https://api-docs.iconscout.com/#description/credits-and-limits`，OpenAPI：`https://cdn.iconscout.com/openapi.json`）：
+     - MCP 刚安装尚未生效、登录未完成或宿主无法安装时，**严禁卡死流程或退回手画劣质 SVG**，立即自动调用本 Skill 预置的 v3 API 脚本（已内置 `Client-ID: 232598791050530`，文档：`https://api-docs.iconscout.com/#description/credits-and-limits`，OpenAPI：`https://cdn.iconscout.com/openapi.json`）：
      - **直接调用命令**：`python3 scripts/iconscout.py search -q "<英文关键词>" -a <icon|3d|lottie|illustration> -s <风格> --icon-grid 24 -d <本地保存目录>`（在 `design-thinking-os` Skill 目录下执行）
    - **与 `V0` 第 6 维图标/配图风格的精确参数映射（MCP 与 API 通用）**：
 

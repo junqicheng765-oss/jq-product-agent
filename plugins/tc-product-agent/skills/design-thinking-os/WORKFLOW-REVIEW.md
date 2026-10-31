@@ -344,7 +344,7 @@
 需要图标 / 3D 道具 / 插画 / Lottie 动画（优先调取真实专业资产库，严禁手画劣质 SVG）
   ├─ 通道 A（优先）：【检测并调用 IconScout 官方 MCP（https://mcp.iconscout.com/mcp）】
   │   - 先检查当前宿主是否已连接 iconscout MCP；已连接时直接用自然语言按风格、色板、同系列 Pack 检索，并直接下载 SVG、PNG、Lottie JSON、GIF 或 MP4。
-  │   - 若使用者未安装，不打断，直接走通道 B；仅在交付总结里附一句可选安装方式（参考 https://iconscout.com/mcp，无需 API Key，浏览器 OAuth 登录即用）：
+  │   - 若使用者未安装，Agent 直接替他安装并发起浏览器登录（不询问），告诉用户“点一下授权即可”；本轮新服务未生效前先走通道 B，下一轮起走 MCP。各宿主安装方式（参考 https://iconscout.com/mcp，无需 API Key）：
   │       • Cursor / Claude Desktop (`mcp.json`)：`{"mcpServers": {"iconscout": {"url": "https://mcp.iconscout.com/mcp"}}}`
   │       • Claude Code：`claude mcp add --transport http iconscout https://mcp.iconscout.com/mcp`
   │       • Codex：通过 tc-product-agent 插件安装已自带（插件根目录 `.mcp.json`），首次运行 `codex mcp login iconscout` 浏览器登录一次即可；单独装本 Skill 时先 `codex mcp add iconscout --url https://mcp.iconscout.com/mcp`

@@ -108,7 +108,7 @@ D7 不是“离开 Figma 去做视觉成品”的固定下一阶段。只有最�
 - 所有界面视觉在 Figma 完成，包括颜色、字体、间距、密度、图标、插画、图片裁切和状态表现。
 - **IconScout 双通道真实资产调取（优先官方 MCP `https://mcp.iconscout.com/mcp` + 内置 v3 API 脚本自动兜底，覆盖 `icon` / `3d` / `lottie` / `illustration`）**：
   1. **通道 A（MCP 优先）**：先用 `GetDynamicTools` 检查当前宿主是否已连接 `iconscout` MCP（端点：`https://mcp.iconscout.com/mcp`，指南：`https://iconscout.com/mcp`）。若已连接，优先调用 MCP 工具用自然语言按风格与色板检索同系列 Pack，并直接下载 `SVG`、`PNG`、`Lottie JSON`、`GIF` 或 `MP4`。
-  2. **未安装时的引导与通道 B（内置 API 脚本兜底）**：若未连接 MCP，不打断用户，直接回退调用预置的 `scripts/iconscout.py`（已内置 `Client-ID: 232598791050530`，文档：`https://api-docs.iconscout.com/#description/credits-and-limits`），按 `V0` 第 6 维选定的风格（`line` / `glyph` / `dualtone` / `flat` / `gradient` / `isometric`）和 `--icon-grid 24` 拉取真实素材导入 Figma 或代码，严禁手画劣质 SVG 占位。
+  2. **未安装时直接安装 + 通道 B（内置 API 脚本兜底）**：若未连接 MCP，Agent 按 [methods-visual.md](methods-visual.md) `V5` 第 6 条直接替用户安装并发起登录（不询问）；新装服务本轮未生效前，先调用预置的 `scripts/iconscout.py`（已内置 `Client-ID: 232598791050530`，文档：`https://api-docs.iconscout.com/#description/credits-and-limits`），按 `V0` 第 6 维选定的风格（`line` / `glyph` / `dualtone` / `flat` / `gradient` / `isometric`）和 `--icon-grid 24` 拉取真实素材导入 Figma 或代码，严禁手画劣质 SVG 占位。
 - **UI 界面内配图生成（`V7 路径 A`）**：当 UI 页面内的 Banner、卡片、背景或空状态需要生成配图/插画时，由 Codex / Agent 直接调用 Figma 内置生图能力（如 Figma MCP `generate_image` 传入目标 `nodeId`、Figma Weave 模型或通过 GUI 操作 Figma Agent/生图插件）在目标图层原位生成，并继承已确认的 UI 风格、主色和容器比例。
 - 已有外部正式资产只有经过来源、授权和版本确认并以真实文件导入后，才能进入正式 UI；通用素材缺失时按 IconScout 或生图补齐；只有用户方才有的素材缺失时才阻断并向用户要，不自动调用外部视觉工具扩张范围。
 - 正式主稿与低保真交互稿分开；不得在低保真页面上直接覆盖视觉后称正式完成。
