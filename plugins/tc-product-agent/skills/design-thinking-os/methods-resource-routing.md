@@ -49,8 +49,8 @@ python3 scripts/resource_router.py apg dialog
 
 **步骤**
 1. 把任务拆成场景，例如拍照搜题：入口 → 相机权限 → 裁剪 → 识别中 → 答案 → 追问。每个场景写要解决的问题，不写产品名。
-2. 每个场景先 `asset_memory.py search <场景>`。
-3. 未命中再检索外部：
+2. 仅当项目目录已有 `.design-memory/index.json` 沉淀时才跑 `asset_memory.py search <场景>`；0→1 新项目且内部资产库为空时直接跳过此步，不浪费命令调用。
+3. 检索外部真实竞品界面：
    - 有 Mobbin 授权（Pro 及以上）：MCP `search_screens` / `search_flows` / `search_sections`。按场景和状态搜，例如「camera permission deny state」，不要搜「像某某 App」。
    - 无授权：自己看公开页面，不停工。用网页搜索找同类产品，打开应用商店页面（App Store、Google Play 的截图区）和产品官网，用浏览器截图或读图，看 3–5 个同类产品的同类页面。只看公开页面，不登录、不绕过付费墙、不批量抓取。也可以请用户导出 Mobbin / Page Flows 案例，但不等用户才开工。
    - 每个案例写：产品、页面、来源链接；第一眼是什么画面、占屏多大；信息怎么分区；主行动在哪；我们学什么、不学什么。

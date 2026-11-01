@@ -26,11 +26,19 @@ description: >-
    - 哪怕用户说“给我做个某某界面”或在提问里选了“先做高保真设计稿 / 做可交互原型”，那也只是确认了**最终交付物形态**，**绝不代表允许跳过前面的用户研究、竞品调研、流程设计与交互控件决策！**
 2. **调用任何制作工具（`figma_*`、`GenerateImage`、写 HTML/前端代码）之前，必须先按顺序完成以下前置动作并落盘**：
    - **必做动作 1（读细则）**：必须先用工具实际读取当前阶段对应的 `methods-*.md` 细则文件（0→1 任务必读 [methods-research.md](methods-research.md)、[methods-competitive.md](methods-competitive.md)、[methods-flow.md](methods-flow.md)、[methods-interaction.md](methods-interaction.md)、[methods-ui.md](methods-ui.md)、[methods-visual.md](methods-visual.md)），禁止只看本文件的目录摘要就凭印象发挥。
-   - **必做动作 2（查库与搜实机标杆 + 跑 IconScout 素材检索）**：
-     - 必须先运行 `python3 scripts/asset_memory.py search <场景>` 查内部资产；
-     - 按 `RR` / `CMP1–CMP3` 搜索 3–5 张同类成熟产品的**真实界面截图**（排除宣传海报，存入任务目录 `refs/`）；
-     - **强制执行 `python3 scripts/iconscout.py search`** 检索本页所需的图标、3D 道具、插画或头像素材（若已连接 IconScout MCP 则直接调 MCP），**严禁一次都不调 IconScout 就自己瞎画或去 GitHub 乱扒老旧剪贴画（如 `htdebeer/SVG-cards`）！**
-     - **严禁用“名字首字圆圈（如 周/林/宁/我）”冒充玩家或用户头像！** 凡有角色/用户头像，必须按 `V5` 第 7 条先搜 IconScout，库内无匹配同套系国风/产品风格头像时，必须调用生图工具按统一母体风格前缀成套生成真实头像图片！
+   - **必做动作 2（实际执行组件配方导出、IconScout 检索与头像备料，并跑 `verify_library_usage.py` 核验落盘）**：
+     - **严禁把“知道这些库怎么用 / 跑了 `show` 看一眼”当成“已经调库”！**
+     - 必须实际运行：
+       1. `python3 scripts/component_recipe.py copy <本页所用全部配方ID> --to <任务目录> --preset <风格编号>`（同时生成 `recipes.css` 与 `theme.css`，完整复用配方实现，禁止只参考结构却自己手画平涂色块）；
+       2. `python3 scripts/iconscout.py search -q "<英文关键词>" -a <icon|3d|illustration|lottie> -d <任务目录>/assets`（实际下载素材文件落盘，严禁去 GitHub 乱扒 `SVG-cards` 等老旧剪贴画）；
+       3. 凡有角色/用户头像，先用 `iconscout.py` 检索并过 `V5` 第 7 条文化风格与同套系判断门，库内无匹配同套系头像时，必须调用生图工具按统一母体风格前缀成套生成头像图片（`avatar-*.png/jpg` 存入 `<任务目录>/assets`），**严禁用“名字首字圆圈（如 周/林/宁/我）”回退充数！**
+       4. 仅当界面包含真实世界风景/城市地标/建筑生活配图时，才运行 `python3 scripts/real_image.py search` 并 `get` 到本地（**游戏/UI 的表面材质如牌桌丝绒台呢、胡桃木沿不属于风景摄影，不跑 `real_image.py`，直接用预设纹理或生成材质贴图**）。
+     - **强制跑调库核验脚本**：进入制作与交付前必须运行 `python3 scripts/verify_library_usage.py <任务目录> [--require-avatars N] [--require-photos]`，返回 `"passed": true` 才算调库完成！
+   - **砍掉 4 项浪费时间的无用功（不要再白跑）**：
+     1. **0→1 新项目且无 `.design-memory/index.json` 时，不跑 `asset_memory.py search`**（空库必未命中）；
+     2. **0→1 新建的空白 Figma 文件，严禁调用 `figma_search_design_system` / `figma_get_libraries`**（空白文件只会搜出无关的 Material 普通内容卡片，语义完全不适用）；
+     3. **目标是高保真设计稿或可交互 Demo 时，严禁先在 Figma 里用 `use_figma` 画一遍“灰框结构稿”再去填色**（区块结构直接在 `design-decisions.md` 里定清，一步到位用组件配方和真实素材做高保真）；
+     4. **游戏/UI 表面纹理（桌布、木纹、金属边框）不跑 `real_image.py`**。
    - **必做动作 3（写出 `design-decisions.md` 并向用户汇报前置推导）**：在创建任何 Figma 文件、画任何图层、调任何生图工具或写任何页面代码之前，必须先把**第一步（用户场景、三类竞品结论、范围流程、具体交互控件选型）**和**第二步（UI 风格决策、配色/字体/组件配方与素材清单）**完整写入任务目录的 `design-decisions.md`。
    - **未写完 `design-decisions.md` 前，严禁调用 `figma_create_new_file`、`use_figma`、`GenerateImage` 或写 UI 代码！**
 
@@ -135,8 +143,10 @@ description: >-
    - 和成熟竞品放在一起，我们的构图张力、留白呼吸感、60-30-10 色彩比例、容器与按钮材质能不能打？
    - **零 AI 廉价感检查**：有没有一眼假的 AI 生成图标？有没有红底黑字等低级对比度错误？有没有把 `Photo: / CC BY` 版权字印在界面上？人物头像是不是符合产品文化且同屏统一画风？
 
-3. **三审：设计规范与工程标准准不准？（`QA0` 维度三 + `VE` 脚本）**
-   - 凡产出 HTML/代码界面，交付前运行：
+3. **三审：组件库/素材库真调核验与工程规范准不准？（`QA0` 维度三 + `VE` 脚本）**
+   - **必跑调库核验脚本（防止“只看不用、自己瞎画”）**：
+     - `python3 scripts/verify_library_usage.py <任务目录> [--require-avatars N] [--require-photos]`（核验 `recipes.css`、`theme.css`、IconScout 真实素材、真实头像图片是否全部落盘，拦截“名字首字当头像”和第三方老旧剪贴画，必须 `"passed": true`！）
+   - 凡产出 HTML/代码界面，交付前还必须运行：
      - `python3 scripts/ui_geometry_audit.py <html文件> --width <宽> --height <高>`（检查对齐、横排条垂直居中、图标来源、跨区文字碰撞、首页完备度）；
      - `python3 scripts/color_intelligence.py contrast --css <主题CSS>`（检查实际对比度）；
      - `python3 scripts/style_consistency_audit.py <页面> --preset <预设编号>`（检查 Token 与跨页一致性）；
