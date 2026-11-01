@@ -4,9 +4,13 @@ description: >-
   Triages any product-design request, identifies the earliest unresolved
   design decision that can materially change the requested output, and calls
   only the necessary research, flow, interaction, UI, visual, motion, or
-  validation methods. Use for design execution, optimization, exploration,
-  prototype validation, Figma restoration, landing pages, flows, screens,
-  redesigns, UI, visual, or motion work.
+  validation methods. Before creating any UI file, design node, or user-facing
+  page, write design-decisions.md in the task folder with D1-D9 statuses,
+  first-look object placement, and per-component material sentences copied from
+  the style dictionary; do not start the interface first. Use for design
+  execution, optimization, exploration, prototype validation, Figma
+  restoration, landing pages, flows, screens, redesigns, UI, visual, or motion
+  work.
 ---
 
 # 设计任务工作流
@@ -21,13 +25,29 @@ description: >-
 
 因此：
 
-- 输入完整、范围局部、风险低：直接制作。
+- 输入完整、范围局部、风险低：直接制作。**「直接制作」只表示不重做调研。信息层级和材质清单仍然先写进 `design-decisions.md`，写完才许创建界面。**
 - 问题位置已知但解法未定：从对应设计决定开始。
 - 谁用、为何用、怎样算成功不清楚：从问题探索开始。
 - 方案已有但不确定是否成立：从验证开始。
-- 有准确设计主稿、任务是还原：按主稿制作并做一致性验收，不擅自重设计。
+- 有准确设计主稿、任务是还原：按主稿制作并做一致性验收，不擅自重设计。还原也要先有 `design-decisions.md`，把主稿里的对象和材质抄进文件，再动界面。
 
 禁止把所有任务强制跑成「用研→流程→交互→UI」；也禁止因用户说了“页面/UI/提升”就直接进入该方法。
+
+## 没写完决定文件，不许创建界面
+
+写出任何界面文件、设计稿节点或给用户看的页面之前，先在任务目录写 `design-decisions.md`。这个文件必须先于界面文件存在。已有界面再补这份文件，等于没走流程：停下来，按文件改界面，禁止把文件写成对现稿的描述。
+
+文件里只写四块，每块都要有具体取舍，空标题不算：
+
+1. **D1–D9 每项一个状态。**
+2. **这一屏第一眼是哪个对象，它占画面哪一块。**
+3. **从风格参数字典抄出的材质句子，逐个组件写用哪一句。禁止只写风格名字。** 必须是参数表里的原话，例如台呢径向变深、三个按钮分别是实心色加顶高光和底槽。交付时拿截图逐条对。对不上就不许写「过」。
+4. **一句「现在才允许做页面」。**
+
+「直接制作」只表示不重做调研。信息层级和材质清单仍然先写进这个文件。  
+交付时的任务诊断不得早于这个文件。截图上看不见第 3 块写的材质，审美那条只能写不过。
+
+读完文件不是开工许可。开工许可只看任务目录里有没有写完这四块的 `design-decisions.md`。
 
 ## 方法论总览（开工先讲这一段）
 
@@ -43,7 +63,7 @@ D1 问题与价值 → D2 用户与情境 → D3 成功标准
 → D7 视觉与资产 → D8 动效 → D9 验收
 ```
 
-输入够、范围小 → 直接制作。谁用、为何用不清 → 问题探索。有主稿要还原 → 按稿做，不重开。方案已有但未证实 → 先准备或执行验证。
+输入够、范围小 → 直接制作（仍先写 `design-decisions.md`）。谁用、为何用不清 → 问题探索。有主稿要还原 → 按稿做，不重开。方案已有但未证实 → 先准备或执行验证。
 
 **12 个方法族（按缺口取）**
 
@@ -75,7 +95,7 @@ D1 问题与价值 → D2 用户与情境 → D3 成功标准
 
 ## 开工前必读（硬性，任何工作模式都适用，包括“直接制作”）
 
-本文件只是入口、地图和索引。上面「方法论总览」是开工讲解，**读了总览不等于读过细则**。只要本轮要出界面、海报、图标、动效或任何视觉成品，动手前必须用 Read **逐个打开下面每一个文件的全文**，不是只打开某个小节，也不按「这个任务用不到」跳过。没读完不得写设计、不得出图。
+本文件只是入口、地图和索引。上面「方法论总览」是开工讲解，**读了总览不等于读过细则，读完细则也不等于可以画页面。** 没写完任务目录里的 `design-decisions.md` 四块，不许创建任何界面。细则按需打开对照，不要把「读完列表」当成流程走完。
 
 1. [framework.md](framework.md)
 2. [methods-intake.md](methods-intake.md)
@@ -99,7 +119,7 @@ D1 问题与价值 → D2 用户与情境 → D3 成功标准
 20. [methods-image.md](methods-image.md)
 21. [templates.md](templates.md)
 
-交付的「已读细则」必须按这个顺序列出全部 21 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
+「已读细则」只作对照索引。少读了就在用到时补，不要为了凑 21 个文件名先读完整晚再补决定。禁止用本文件里的摘要代替细则。开工许可只看 `design-decisions.md`。
 
 ## 审查不通过必须改完再交
 
@@ -143,7 +163,7 @@ D1 问题与价值 → D2 用户与情境 → D3 成功标准
 **F. 视觉**（[methods-visual.md](methods-visual.md)「视觉规格通过门」；[methods-close.md](methods-close.md) `QA0` 维度二、三）
 21. 颜色是产品级语义色（背景、文字、按钮、边框、状态、亮暗），与所选风格一致；`python3 scripts/color_intelligence.py contrast --preset <id>` 通过。圆角、阴影、字体与风格参数一致；色彩比例协调、冷暖同频，不脏不俗。多页面产品跑 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>` 且 `"passed": true`：没有色板外的颜色、阶梯外的圆角、字体栈外的字体，同类组件跨页一致。
 22. 有留白和唯一视觉重心，没有卡片套卡片、满屏同样抢眼。
-23. 材质语言覆盖每一个组件：找出全屏做得最弱的元素，它也达到风格参数；图标、3D、插画是成品素材且同一套系；真实世界配图来自 Real Image Library 且有授权记录；人物形象过了文化风格判断。
+23. 材质语言覆盖每一个组件：截图必须对得上 `design-decisions.md` 第 3 块从参数字典抄出的原话，对不上审美只能写不过；找出全屏做得最弱的元素，它也达到风格参数；图标、3D、插画是成品素材且同一套系；真实世界配图来自 Real Image Library 且有授权记录；人物形象过了文化风格判断。
 
 **G. 动效**（只在本轮有动效时；[methods-motion.md](methods-motion.md)「动态验收与性能完成门」）
 24. 动效表达的是反馈、状态变化或空间关系，不是装饰；真实环境下流畅，可打断。
@@ -153,15 +173,15 @@ D1 问题与价值 → D2 用户与情境 → D3 成功标准
 
 ## 运行顺序
 
-上面 21 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
+先写 `design-decisions.md`，再创建任何界面。下面是写完决定文件之后的执行顺序，不是再把阅读当流程。
 
-1. **读取总框架**：Read [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
-2. **任务分诊与语境翻译**：Read [methods-intake.md](methods-intake.md)；需要设计判断时再 Read [methods-context.md](methods-context.md)，形成上游任务卡、设计语境卡、设计任务定义、任务诊断卡和设计决定链。
-3. **确定终点与工作集**：Read [methods-routing.md](methods-routing.md)，先定产出合同、目标决定、必要依赖，再分别建立决定工作、制作动作、证据动作，确定最终设计起点和风险深度。
-4. **组装工作包**：Read [methods-dispatch.md](methods-dispatch.md)，按“决定缺口 × 语境要求”选择最小方法组合。
-5. **选择产物工具**：Read [methods-tool-routing.md](methods-tool-routing.md)，按最终产物选择 Figma、视觉或动效工具；不按阶段把工具全部调用。
-6. **执行路线**：Read [methods-execution.md](methods-execution.md)，逐项执行决定、制作和证据动作，再按工作包读取对应方法文件；`CORE_EVIDENCE` 随研究/测试执行，制作动作按合同执行，成品冻结后再执行 `POST_ARTIFACT_ACCEPTANCE`；`DEFERRED_NEXT_ROUTE` 本轮只准备条件，不得写已验证。
-7. **收口与回传**：Read [methods-close.md](methods-close.md)，汇总各证据动作、更新决定状态，并将新证据、风险和待决策项交回上游。
+1. **读取总框架**：对照 [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
+2. **任务分诊与语境翻译**：按 [methods-intake.md](methods-intake.md) 和必要时的 [methods-context.md](methods-context.md) 形成语境与决定链；任务诊断不得早于 `design-decisions.md`。
+3. **确定终点与工作集**：按 [methods-routing.md](methods-routing.md) 先定产出合同、目标决定、必要依赖，再分别建立决定工作、制作动作、证据动作，确定最终设计起点和风险深度。
+4. **组装工作包**：按 [methods-dispatch.md](methods-dispatch.md)，按“决定缺口 × 语境要求”选择最小方法组合。
+5. **选择产物工具**：按 [methods-tool-routing.md](methods-tool-routing.md)，按最终产物选择 Figma、视觉或动效工具；不按阶段把工具全部调用。
+6. **执行路线**：按 [methods-execution.md](methods-execution.md) 逐项执行决定、制作和证据动作；`CORE_EVIDENCE` 随研究/测试执行，制作动作按合同执行，成品冻结后再执行 `POST_ARTIFACT_ACCEPTANCE`；`DEFERRED_NEXT_ROUTE` 本轮只准备条件，不得写已验证。
+7. **收口与回传**：按 [methods-close.md](methods-close.md) 汇总各证据动作、更新决定状态，并将新证据、风险和待决策项交回上游。审美对照 `design-decisions.md` 第 3 块，截图对不上就写不过。
 
 ## 设计决定链
 
@@ -262,8 +282,12 @@ D1 问题与价值
 ## 对用户的默认交付
 
 ```markdown
+# 决定文件
+- 任务目录 `design-decisions.md` 已先于任何界面文件存在（四块都有具体取舍；后补或写成对现稿的描述 = 没走流程）：
+- 第 3 块材质原话与截图逐条对照（对不上则审美不过）：
+
 # 任务诊断
-- 已读细则（必须是上面 21 个文件的全名，少一个即未读完）：
+- 对照过的细则（按需列出，不是开工许可）：
 - 工作模式：
 - 本轮目标：
 - 主终点与产出合同：
