@@ -82,7 +82,9 @@
       "blur": "局部 blur(12px)",
       "typeScale": "28/20/15/13px，数字 700 tabular-nums",
       "spacing": "内边距 20–24px，间距 12/16px",
-      "family": "minimal-saas",
+      "family": [
+        "minimal-saas"
+      ],
       "derived": [
         "secondary",
         "muted",

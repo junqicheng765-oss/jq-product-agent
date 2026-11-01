@@ -82,7 +82,9 @@
       "blur": "",
       "typeScale": "20/17/15/12px，主按钮 16px 600",
       "spacing": "内边距 12–16px，间距 8/12px",
-      "family": "minimal-saas",
+      "family": [
+        "minimal-saas"
+      ],
       "derived": [
         "secondary",
         "muted",

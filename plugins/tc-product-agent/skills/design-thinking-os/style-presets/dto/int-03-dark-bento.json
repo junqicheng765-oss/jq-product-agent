@@ -83,7 +83,10 @@
       "blur": "blur(16px)",
       "typeScale": "28/20/14/12px，标题 600，数字/标签等宽",
       "spacing": "内边距 20–24px，网格间距 12/16px",
-      "family": "ai-product",
+      "family": [
+        "ai-product",
+        "futuristic"
+      ],
       "derived": [
         "secondary",
         "muted",

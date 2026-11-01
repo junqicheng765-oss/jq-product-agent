@@ -83,7 +83,10 @@
       "blur": "",
       "typeScale": "30/22/16/13px，标题衬线 600，正文行高 1.65",
       "spacing": "内边距 24–32px",
-      "family": "editorial",
+      "family": [
+        "ai-product",
+        "editorial"
+      ],
       "derived": [
         "secondary",
         "muted",

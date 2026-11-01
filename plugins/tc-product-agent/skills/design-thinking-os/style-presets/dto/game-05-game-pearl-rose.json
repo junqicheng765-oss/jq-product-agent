@@ -83,7 +83,10 @@
       "blur": "backdrop-filter: blur(24px)",
       "typeScale": "26/18/14/11px，500，字距 +0.08em",
       "spacing": "",
-      "family": "game",
+      "family": [
+        "glassmorphism",
+        "game"
+      ],
       "derived": [
         "secondary",
         "muted",

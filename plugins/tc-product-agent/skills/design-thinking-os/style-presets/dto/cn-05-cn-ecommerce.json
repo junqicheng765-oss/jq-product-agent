@@ -83,7 +83,9 @@
       "blur": "",
       "typeScale": "28(到手价)/16/13/11px，价格 DIN 700",
       "spacing": "内边距 10–12px，间距 6/8px",
-      "family": "content-feed",
+      "family": [
+        "content-feed"
+      ],
       "derived": [
         "secondary",
         "muted",

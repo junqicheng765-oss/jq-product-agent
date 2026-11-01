@@ -86,7 +86,10 @@
       "blur": "",
       "typeScale": "几何无衬线 700 + 8px 英文编号",
       "spacing": "",
-      "family": "futuristic",
+      "family": [
+        "futuristic",
+        "game"
+      ],
       "derived": [
         "secondary",
         "muted",

@@ -82,7 +82,10 @@
       "blur": "",
       "typeScale": "28/22/16/12px，标题 500/600",
       "spacing": "内边距 16–24px，间距 12/16px",
-      "family": "soft-ui",
+      "family": [
+        "material",
+        "soft-ui"
+      ],
       "derived": [
         "secondary",
         "muted",

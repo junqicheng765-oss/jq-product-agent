@@ -85,7 +85,9 @@
       "blur": "",
       "typeScale": "36/22/15/12px，800",
       "spacing": "内边距 16–24px，间距 12/16px",
-      "family": "editorial",
+      "family": [
+        "editorial"
+      ],
       "derived": [
         "secondary",
         "muted",

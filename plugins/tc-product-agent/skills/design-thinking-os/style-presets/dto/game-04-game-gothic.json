@@ -85,7 +85,9 @@
       "blur": "",
       "typeScale": "28/20/15/12px",
       "spacing": "",
-      "family": "game",
+      "family": [
+        "game"
+      ],
       "derived": [
         "secondary",
         "muted",

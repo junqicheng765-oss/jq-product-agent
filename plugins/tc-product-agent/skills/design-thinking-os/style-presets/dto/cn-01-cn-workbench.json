@@ -82,7 +82,9 @@
       "blur": "",
       "typeScale": "20/16/14/12px，标题 500/600",
       "spacing": "内边距 16–20px，间距 8/12/16px",
-      "family": "minimal-saas",
+      "family": [
+        "enterprise"
+      ],
       "derived": [
         "secondary",
         "muted",

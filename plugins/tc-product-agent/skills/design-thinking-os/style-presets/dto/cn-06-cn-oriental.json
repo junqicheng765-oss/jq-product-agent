@@ -86,7 +86,9 @@
       "blur": "",
       "typeScale": "24/18/15/12px，标题宋体 600，行高 1.6",
       "spacing": "内边距 20–24px，间距 16/20px",
-      "family": "editorial",
+      "family": [
+        "editorial"
+      ],
       "derived": [
         "secondary",
         "muted",

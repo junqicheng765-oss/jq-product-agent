@@ -299,7 +299,10 @@
         "id": "INT-01",
         "file": "dto/int-01-glass.json",
         "name": "现代毛玻璃通透风",
-        "family": "glassmorphism",
+        "family": [
+          "apple-native",
+          "glassmorphism"
+        ],
         "mode": "light",
         "tweakcnNearest": [],
         "system": "apple-native"
@@ -308,7 +311,9 @@
         "id": "INT-02",
         "file": "dto/int-02-swiss-minimal.json",
         "name": "瑞士极简细线网格风",
-        "family": "minimal-saas",
+        "family": [
+          "minimal-saas"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "modern-minimal",
@@ -322,7 +327,10 @@
         "id": "INT-03",
         "file": "dto/int-03-dark-bento.json",
         "name": "暗色微光便当盒风",
-        "family": "ai-product",
+        "family": [
+          "ai-product",
+          "futuristic"
+        ],
         "mode": "dark",
         "tweakcnNearest": [
           "darkmatter",
@@ -334,7 +342,9 @@
         "id": "INT-04",
         "file": "dto/int-04-fintech-fluid.json",
         "name": "冷灰理性流体渐变风",
-        "family": "minimal-saas",
+        "family": [
+          "minimal-saas"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "clean-slate",
@@ -346,7 +356,10 @@
         "id": "INT-05",
         "file": "dto/int-05-warm-editorial.json",
         "name": "暖纸人文书刊风",
-        "family": "editorial",
+        "family": [
+          "ai-product",
+          "editorial"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "claude",
@@ -359,7 +372,10 @@
         "id": "INT-06",
         "file": "dto/int-06-tonal-soft.json",
         "name": "柔和色阶胶囊亲和风",
-        "family": "soft-ui",
+        "family": [
+          "material",
+          "soft-ui"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "soft-pop",
@@ -372,7 +388,9 @@
         "id": "INT-07",
         "file": "dto/int-07-candy-press.json",
         "name": "高饱和立体按压糖果风",
-        "family": "soft-ui",
+        "family": [
+          "soft-ui"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "claymorphism",
@@ -385,7 +403,9 @@
         "id": "INT-08",
         "file": "dto/int-08-neo-brutal.json",
         "name": "先锋粗黑描边撞色风",
-        "family": "editorial",
+        "family": [
+          "editorial"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "neo-brutalism"
@@ -396,7 +416,9 @@
         "id": "CN-01",
         "file": "dto/cn-01-cn-workbench.json",
         "name": "标准蓝白高效工作台风",
-        "family": "minimal-saas",
+        "family": [
+          "enterprise"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "clean-slate"
@@ -407,7 +429,9 @@
         "id": "CN-02",
         "file": "dto/cn-02-cn-lifestyle.json",
         "name": "清爽大图生活卡片风",
-        "family": "content-feed",
+        "family": [
+          "content-feed"
+        ],
         "mode": "light",
         "tweakcnNearest": [],
         "system": ""
@@ -416,7 +440,9 @@
         "id": "CN-03",
         "file": "dto/cn-03-cn-wealth.json",
         "name": "深海藏青稳重财富风",
-        "family": "minimal-saas",
+        "family": [
+          "minimal-saas"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "elegant-luxury"
@@ -427,7 +453,9 @@
         "id": "CN-04",
         "file": "dto/cn-04-cn-miniprogram.json",
         "name": "轻快白卡直达工具风",
-        "family": "minimal-saas",
+        "family": [
+          "minimal-saas"
+        ],
         "mode": "light",
         "tweakcnNearest": [],
         "system": ""
@@ -436,7 +464,9 @@
         "id": "CN-05",
         "file": "dto/cn-05-cn-ecommerce.json",
         "name": "暖橙红高密导购转化风",
-        "family": "content-feed",
+        "family": [
+          "content-feed"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "tangerine",
@@ -448,7 +478,9 @@
         "id": "CN-06",
         "file": "dto/cn-06-cn-oriental.json",
         "name": "东方宣纸留白雅致风",
-        "family": "editorial",
+        "family": [
+          "editorial"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "sage-garden",
@@ -460,7 +492,9 @@
         "id": "CN-07",
         "file": "dto/cn-07-cn-acid-dark.json",
         "name": "暗黑酸性机能潮酷风",
-        "family": "futuristic",
+        "family": [
+          "futuristic"
+        ],
         "mode": "dark",
         "tweakcnNearest": [
           "cyberpunk",
@@ -472,7 +506,9 @@
         "id": "CN-08",
         "file": "dto/cn-08-cn-accessible.json",
         "name": "大字高对比普惠直白风",
-        "family": "accessible",
+        "family": [
+          "accessible"
+        ],
         "mode": "light",
         "tweakcnNearest": [],
         "system": ""
@@ -481,7 +517,9 @@
         "id": "GAME-01",
         "file": "dto/game-01-game-dark-fantasy.json",
         "name": "史诗暗黑锻金重拟物风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "dark",
         "tweakcnNearest": [],
         "system": ""
@@ -490,7 +528,9 @@
         "id": "GAME-02",
         "file": "dto/game-02-game-cartoon.json",
         "name": "高饱和粗描边 Q 弹立体卡通风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "dark",
         "tweakcnNearest": [
           "retro-arcade"
@@ -501,7 +541,9 @@
         "id": "GAME-03",
         "file": "dto/game-03-game-moba-gold.json",
         "name": "深海鎏金斜切流光竞技风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "dark",
         "tweakcnNearest": [],
         "system": ""
@@ -510,7 +552,9 @@
         "id": "GAME-04",
         "file": "dto/game-04-game-gothic.json",
         "name": "哥特羊皮纸手绘拼贴悬疑风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "light",
         "tweakcnNearest": [],
         "system": ""
@@ -519,7 +563,10 @@
         "id": "GAME-05",
         "file": "dto/game-05-game-pearl-rose.json",
         "name": "珠光毛玻璃玫瑰金浪漫轻奢风",
-        "family": "game",
+        "family": [
+          "glassmorphism",
+          "game"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "quantum-rose"
@@ -530,7 +577,9 @@
         "id": "GAME-06",
         "file": "dto/game-06-game-xianxia.json",
         "name": "水墨丹青鎏金云纹国风仙侠风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "light",
         "tweakcnNearest": [],
         "system": ""
@@ -539,7 +588,10 @@
         "id": "GAME-07",
         "file": "dto/game-07-game-tactical.json",
         "name": "斜切战术面板轻机能二次元风",
-        "family": "futuristic",
+        "family": [
+          "futuristic",
+          "game"
+        ],
         "mode": "dark",
         "tweakcnNearest": [
           "bold-tech"
@@ -550,7 +602,9 @@
         "id": "GAME-08",
         "file": "dto/game-08-game-pixel.json",
         "name": "复古阶梯边框 8-Bit 像素街机风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "dark",
         "tweakcnNearest": [
           "retro-arcade",
@@ -562,7 +616,9 @@
         "id": "GAME-09",
         "file": "dto/game-09-game-card-table.json",
         "name": "绿毡胡桃木奢金棋牌桌游风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "dark",
         "tweakcnNearest": [],
         "system": ""
@@ -571,7 +627,9 @@
         "id": "GAME-10",
         "file": "dto/game-10-game-board-party.json",
         "name": "等轴立体棋盘果冻漆面富豪派对风",
-        "family": "game",
+        "family": [
+          "game"
+        ],
         "mode": "light",
         "tweakcnNearest": [
           "candyland"

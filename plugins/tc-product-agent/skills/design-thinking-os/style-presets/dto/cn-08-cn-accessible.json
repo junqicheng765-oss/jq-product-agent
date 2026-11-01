@@ -82,7 +82,9 @@
       "blur": "",
       "typeScale": "26/22/18/16px，正文 ≥ 18px 500，标题 700",
       "spacing": "内边距 16–20px，间距 12/16px",
-      "family": "accessible",
+      "family": [
+        "accessible"
+      ],
       "derived": [
         "secondary",
         "muted",

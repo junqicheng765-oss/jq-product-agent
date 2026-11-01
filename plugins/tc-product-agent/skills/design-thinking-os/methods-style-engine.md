@@ -163,6 +163,7 @@
 | 纯 HTML / CSS | `style_preset.py export <ID> --format css -o theme.css`，页面引入 | 所有写死的值改成 `var(--…)` |
 | Ant Design | `style_preset.py export <ID> --format antd`，放进 `ConfigProvider theme={{ token }}`；暗色加 `theme.darkAlgorithm` | 组件级差异写进 `theme.components` |
 | MUI | 按规格卡写 `createTheme({ palette, shape, typography })` | 圆角、字阶对照规格卡 |
+| Arco Design / TDesign / Fluent UI | 用各自官方的主题 token 机制（Arco 主题配置、TDesign CSS token、Fluent `createLightTheme` / `createDarkTheme`），数值从规格卡取 | 本地没有它们的预设，按规格卡逐项对照填写 |
 | Flutter | `ThemeData(useMaterial3: true, colorScheme: …, textTheme: …)`；Material 风格用 `ColorScheme.fromSeed` | 自定义组件里的 `Color(0x…)` 要改成 `Theme.of(context)` |
 | SwiftUI | 苹果原生风格直接用系统组件和语义色；其他风格用 Asset Catalog 颜色加自定义 `ButtonStyle` / `ViewModifier` | 不嵌入 SF Pro 字体文件到 Web 或非苹果平台 |
 | Jetpack Compose | `MaterialTheme(colorScheme, typography, shapes)` | 同上，写死的 `Color(0x…)` 要收进主题 |

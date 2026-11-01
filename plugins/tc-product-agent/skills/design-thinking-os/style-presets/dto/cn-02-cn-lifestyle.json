@@ -82,7 +82,9 @@
       "blur": "",
       "typeScale": "22/17/15/12px，标题 600，行高 1.5",
       "spacing": "内边距 12–16px，间距 8/12px",
-      "family": "content-feed",
+      "family": [
+        "content-feed"
+      ],
       "derived": [
         "secondary",
         "muted",

@@ -86,7 +86,9 @@
       "blur": "",
       "typeScale": "30/20/15/12px，书法标题 + 宋体正文",
       "spacing": "",
-      "family": "game",
+      "family": [
+        "game"
+      ],
       "derived": [
         "secondary",
         "muted",

@@ -87,7 +87,9 @@
       "blur": "",
       "typeScale": "牌角标大号粗体 800",
       "spacing": "",
-      "family": "game",
+      "family": [
+        "game"
+      ],
       "derived": [
         "secondary",
         "muted",

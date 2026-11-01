@@ -86,7 +86,9 @@
       "blur": "",
       "typeScale": "26(金额)/18/14/12px，金额 DIN tabular-nums 700",
       "spacing": "内边距 16–20px，间距 10/12px",
-      "family": "minimal-saas",
+      "family": [
+        "minimal-saas"
+      ],
       "derived": [
         "secondary",
         "muted",

@@ -155,6 +155,8 @@ D1 问题与价值
 ## 方法文件
 
 - [framework.md](framework.md)：设计师从接收上游任务到交付回传的总框架。
+- [methods-intake.md](methods-intake.md)：任务分诊、工作模式判断与问人条件。
+- [methods-dispatch.md](methods-dispatch.md)：按决定缺口组装最小方法工作包。
 - [methods-context.md](methods-context.md)：将产品用户、问题、行业和约束翻译成设计语境、任务与原则。
 - [methods-competitive.md](methods-competitive.md)：分别分析行业竞品、同类操作竞品和服务同类用户的竞品。
 - [methods-routing.md](methods-routing.md)：确定本轮终点、产出合同、决定工作集、依赖和证据计划。

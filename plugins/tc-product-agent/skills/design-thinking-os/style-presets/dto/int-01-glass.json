@@ -82,7 +82,10 @@
       "blur": "backdrop-filter: blur(20px)（只用于浮层/导航）",
       "typeScale": "28/20/16/13px，标题 700，正文 400 行高 1.45",
       "spacing": "内边距 16–20px，间距 12/16px",
-      "family": "glassmorphism",
+      "family": [
+        "apple-native",
+        "glassmorphism"
+      ],
       "derived": [
         "secondary",
         "muted",
