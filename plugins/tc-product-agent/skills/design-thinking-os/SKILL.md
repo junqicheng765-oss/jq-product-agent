@@ -47,11 +47,10 @@ description: >-
        3. `python3 scripts/iconscout.py search -q "<英文关键词>" -a <icon|3d|illustration|lottie> -d <任务目录>/assets`（实际下载素材文件落盘，严禁去 GitHub 乱扒 `SVG-cards` 等老旧剪贴画）；
        4. 凡有角色/用户头像，先用 `iconscout.py` 检索并过 `V5` 第 7 条判断门；库内无匹配同套系头像时，**严格按用户在第一轮选定的头像画风（Q版3D卡通 / 国风插画 / 写实人物）**锁定统一母体风格前缀，调用生图工具成套生成头像图片（`avatar-*.png/jpg` 存入 `<任务目录>/assets`），**严禁用“名字首字圆圈（如 周/林/宁/我）”回退充数！**
        5. 写出完整的 `<任务目录>/design-decisions.md`，并运行 `python3 scripts/verify_library_usage.py <任务目录> [--require-avatars N] [--require-photos]`，返回 `"passed": true` 后才允许进入工具制作！
-   - **砍掉 4 项浪费时间的无用功（不要再白跑）**：
-     1. **0→1 新项目且无 `.design-memory/index.json` 时，不跑 `asset_memory.py search`**（空库必未命中）；
-     2. **0→1 新建的空白 Figma 文件，严禁调用 `figma_search_design_system` / `figma_get_libraries`**（空白文件只会搜出无关的 Material 普通内容卡片，语义完全不适用）；
-     3. **目标是高保真设计稿或可交互 Demo 时，严禁先在 Figma 里用 `use_figma` 画一遍“灰框结构稿”再去填色**；
-     4. **游戏/UI 表面纹理（桌布、木纹、金属边框）不跑 `real_image.py`**。
+   - **砍掉 3 项浪费时间的无用功（不要再白跑）**：
+     1. **0→1 新建的空白 Figma 文件，严禁调用 `figma_search_design_system` / `figma_get_libraries`**（空白文件只会搜出无关的 Material 普通内容卡片，语义完全不适用）；
+     2. **目标是高保真设计稿或可交互 Demo 时，严禁先在 Figma 里用 `use_figma` 画一遍“灰框结构稿”再去填色**；
+     3. **游戏/UI 表面纹理（桌布、木纹、金属边框）不跑 `real_image.py`**。
 
 ---
 
@@ -65,8 +64,7 @@ description: >-
    **必须先走完整的前置设计推导（打开对应细则文件逐项执行，绝不能直接跳去选风格或建 Figma 文件）**：
    - **1.1 用户研究与语境翻译**（读取 [methods-research.md](methods-research.md) `R0–R8` + [methods-context.md](methods-context.md) `CT2–CT9`）：搞清楚这是什么功能、服务什么人群、在什么真实设备与情境下使用、核心痛点与完成标准是什么，转化成具体可验收的设计原则（`BR1–BR2`）。
    - **1.2 分类竞品调研**（读取 [methods-competitive.md](methods-competitive.md) `CMP1–CMP3` + [methods-resource-routing.md](methods-resource-routing.md) `RR`）：
-     - 先运行 `python3 scripts/asset_memory.py search <场景>` 查内部已沉淀资产；
-     - 再按问题分别调研 **垂类/行业竞品（`CMP1`）**、**跨行业同类操作竞品（`CMP2`）**、**服务同类用户的竞品（`CMP3`）**，用网页搜索查看 3–5 个同类成熟产品的**真实实机界面**（剔除宣传海报，存入任务目录 `refs/`），弄清楚行业基本盘、别人是怎么组织模块与视觉主角的、我们复用什么与规避什么。
+     - 按问题分别调研 **垂类/行业竞品（`CMP1`）**、**跨行业同类操作竞品（`CMP2`）**、**服务同类用户的竞品（`CMP3`）**，用网页搜索查看 3–5 个同类成熟产品的**真实实机界面**（剔除宣传海报，存入任务目录 `refs/`），弄清楚行业基本盘、别人是怎么组织模块与视觉主角的、我们复用什么与规避什么。
    - **1.3 流程设计**（读取 [methods-flow.md](methods-flow.md) `F1–F5`）：明确本轮范围表（做什么/不做什么 `F1`）、核心使用场景（`F2`）与用户主路径（`F3`）。
    - **1.4 交互设计**（读取 [methods-interaction.md](methods-interaction.md) `I1–I6` + [methods-ui.md](methods-ui.md) `U1–U7`）：确定页面职责（`I3`）、信息分级（`U1`）、领域对象表现形态与尺寸分级（`U7`）、具体交互控件选型（`U4`）以及主行动反馈与异常出口（`I5–I6`）。
 
@@ -162,8 +160,7 @@ description: >-
    - 凡产出 HTML/代码界面，交付前还必须运行：
      - `python3 scripts/ui_geometry_audit.py <html文件> --width <宽> --height <高>`（检查对齐、横排条垂直居中、**拦截容器或卡牌行倾斜旋转 `CROOKED_ROTATED_ELEMENT` / `CARD_ROW_NOT_LEVEL`（严禁给 `.played` 或卡牌行加 `transform: rotate(...)` 把牌弄歪）**、图标来源、跨区文字碰撞、首页完备度）；
      - `python3 scripts/color_intelligence.py contrast --css <主题CSS>`（检查实际对比度）；
-     - `python3 scripts/style_consistency_audit.py <页面> --preset <预设编号>`（检查 Token 与跨页一致性）；
-     - `python3 scripts/a11y_audit.py <html文件>`（检查无障碍）。
+     - `python3 scripts/style_consistency_audit.py <页面> --preset <预设编号>`（检查 Token 与跨页一致性）。
 
 > **设计总监打回机制**：只要上面三审中有任何一项不达标（功能残缺、交互生硬、质感不如标杆、有 AI 塑料感或脚本报错），**严禁交付给用户**！立即按 [methods-close.md](methods-close.md) `0.2 回炉路由表` 退回对应环节重改，改完再次终审，直到真正达到高水准才交付。
 
@@ -175,13 +172,13 @@ description: >-
 | :--- | :--- | :--- |
 | **总框架与接单分诊** | [framework.md](framework.md)、[methods-intake.md](methods-intake.md)、[methods-routing.md](methods-routing.md)、[methods-dispatch.md](methods-dispatch.md)、[methods-execution.md](methods-execution.md) | [templates.md](templates.md)、[walkthrough.md](walkthrough.md)、[WORKFLOW-REVIEW.md](WORKFLOW-REVIEW.md) |
 | **用户研究与语境翻译** | [methods-research.md](methods-research.md)（`R0–R8`）、[methods-context.md](methods-context.md)（`CT0–CT9`、`BR1–BR2`） | `python3 scripts/resource_router.py` |
-| **分类竞品与参考智能** | [methods-competitive.md](methods-competitive.md)（`CMP1` 垂类 / `CMP2` 同类操作 / `CMP3` 同类用户）、[methods-resource-routing.md](methods-resource-routing.md)（`RR`、`AM`） | `python3 scripts/asset_memory.py search <场景>`、Mobbin MCP / 应用商店与公开实机截图 |
+| **分类竞品与参考智能** | [methods-competitive.md](methods-competitive.md)（`CMP1` 垂类 / `CMP2` 同类操作 / `CMP3` 同类用户）、[methods-resource-routing.md](methods-resource-routing.md)（`RR`） | Mobbin MCP / 应用商店与公开实机截图 |
 | **任务流程与交互设计** | [methods-flow.md](methods-flow.md)（`F1–F5`）、[methods-interaction.md](methods-interaction.md)（`I1–I6`） | `python3 scripts/resource_router.py apg <模式>` |
 | **UI 架构、控件与对象** | [methods-ui.md](methods-ui.md)（`U0` 三路分流、`U1–U6` 层级/对齐/控件/状态/文案、`U7` 领域对象表现） | `python3 scripts/component_recipe.py`（[component-recipes/](component-recipes/registry.json) 48 个通用配方） |
 | **视觉风格、配色与排版** | [methods-visual.md](methods-visual.md)（`V0` 26+6 风格字典、`V1–V6`）、[methods-style-engine.md](methods-style-engine.md)（`DS0–DS6`）、[methods-color.md](methods-color.md)（`CI0–CI6`） | `python3 scripts/style_preset.py`（[style-presets/](style-presets/registry.json) 3 套系统 + 26 种风格 + 42 个主题）、`python3 scripts/color_intelligence.py`、`python3 scripts/typography_intelligence.py` |
 | **图标/3D、真图库与垫图生图** | [methods-visual.md](methods-visual.md)（`V5` IconScout、`V7` 海报与配图双路径、`VT` 工具选择）、[methods-image.md](methods-image.md)（`IM`） | IconScout MCP / `python3 scripts/iconscout.py`、`python3 scripts/real_image.py`（Unsplash / Openverse / Pixabay / Wikimedia） |
 | **工具路由与动效设计** | [methods-tool-routing.md](methods-tool-routing.md)（`TR0–TR5`）、[methods-motion.md](methods-motion.md)（`M1–M3`、`MI` 动效源码库） | Figma MCP、React Bits / Aceternity / Motion Primitives / Uiverse / 21st.dev、生视频模型 |
-| **原型验证与总监终审** | [methods-prototype.md](methods-prototype.md)（`PROTO1`）、[methods-close.md](methods-close.md)（`QA0` 三大维度终审与回炉路由） | `python3 scripts/side_by_side.py`、`python3 scripts/ui_geometry_audit.py`、`python3 scripts/style_consistency_audit.py`、`python3 scripts/a11y_audit.py` |
+| **原型验证与总监终审** | [methods-prototype.md](methods-prototype.md)（`PROTO1`）、[methods-close.md](methods-close.md)（`QA0` 三大维度终审与回炉路由） | `python3 scripts/verify_library_usage.py`、`python3 scripts/side_by_side.py`、`python3 scripts/ui_geometry_audit.py`、`python3 scripts/style_consistency_audit.py` |
 
 ---
 

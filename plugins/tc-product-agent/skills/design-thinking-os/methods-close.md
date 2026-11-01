@@ -114,12 +114,11 @@ Agent 必须同时从 **「一、用户可用性审查（好不好用）」**、
 
 成品由整套方法论推出，验收也用整套方法论：问题与价值、成功标准、流程、交互、UI、视觉、动效、验证，逐层对照**最终成品**检查。条目见 `SKILL.md`「审查不通过必须改完再交」的 A–H 共 25 条。几何脚本只覆盖 UI 层的对齐、分区碰撞和图标来源，跑过脚本不等于审过。
 
-1. **先以设计总监视角看成品。** 用 `Read` 打开成品截图（Figma 稿用导出图），核对是否达到最初的设计目标、功能与交互控件是否完备合理、风格与材质是否到位，并用 `side_by_side.py` 与同类成熟产品截图并排比对。若交付了 HTML/代码界面，再运行 `python3 scripts/ui_geometry_audit.py <html文件> --width <目标宽> --height <目标高>`、多页面运行 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>`、对比度运行 `python3 scripts/color_intelligence.py contrast --css <主题CSS>`、无障碍运行 `python3 scripts/a11y_audit.py <html文件>`。可操作 Demo 还要按主路径实际点一遍，包括一个失败分支。不看图、不走路径，不算审过。
+1. **先以设计总监视角看成品。** 用 `Read` 打开成品截图（Figma 稿用导出图），核对是否达到最初的设计目标、功能与交互控件是否完备合理、风格与材质是否到位，并用 `side_by_side.py` 与同类成熟产品截图并排比对。若交付了 HTML/代码界面，再运行 `python3 scripts/verify_library_usage.py <任务目录>`、`python3 scripts/ui_geometry_audit.py <html文件> --width <目标宽> --height <目标高>`、多页面运行 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>`、对比度运行 `python3 scripts/color_intelligence.py contrast --css <主题CSS>`。可操作 Demo 还要按主路径实际点一遍，包括一个失败分支。不看图、不走路径，不算审过。
 2. **本轮用过的每个方法，拿它细则里的「完成证据」对照成品再验一遍。** 例如用了 `I6 异常矩阵`，就在成品上找每个阻断的出口。用过却没验 = 未终审。
 3. **A–H 逐条写「过 / 不过 / 不适用」。** 每条带一处成品上能指认的位置，禁止写「整体协调、符合规范」。纯海报没有流程和交互时，C、D 和 E 里不适用的写原因；A、B、F 和 H 仍要审。
 4. **任何一条不过就改产出，改完重审。** 并排三问里已经写了排在标杆后面、或和目标稿差一截的，A–H 里把视觉条打成「过」全部作废，不许两套结论一起交。包括脚本不是 `"passed": true`。问题出在哪一层，就按 `0.2` 退回哪一层改：问题跑题退回问题卡，路径走不通退回流程，没反馈退回交互，层级乱退回 UI，质感差退回视觉。改完重新截图、重新跑脚本、重新写满全部条目，可以重复直到通过。禁止把未通过的稿交给用户，禁止写「已知问题，后续可优化」代替修改。
 5. **结果写进交付的「任务诊断」。** 缺一层，或任何一条不是「过 / 不适用」，都不得交付。
-6. **用户确认本轮方案可复用时**，按 [methods-resource-routing.md](methods-resource-routing.md) `AM` 入库：`asset_memory.py deposit ... --confirm`。未确认不入库。
 
 ---
 
