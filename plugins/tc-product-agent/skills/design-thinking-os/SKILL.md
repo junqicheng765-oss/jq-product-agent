@@ -123,15 +123,13 @@ description: >-
 
 2. **按最终交付物类型走对应的工具与制作工作流（[methods-tool-routing.md](methods-tool-routing.md) + [methods-visual.md](methods-visual.md) `VT` / `V7`）**：
    - **路线 A｜产出是 UI / 产品界面（最终要接入 `jq-product-agent` 落地成可交互 Demo 或 Figma 稿）**
-     - **核心铁律（为什么严禁打开 Figma 自带的 `Agents` 面板徒手生图，也严禁用 `use_figma` 裸写 JS 画框）**：
-       - 你内置的组件配方库（`component-recipes/` 的 3D 按钮、扑克牌、铭牌、倒计时环）、风格预设（`style-presets/`）、开源组件库（`shadcn`、`Magic UI`）和 `iconscout.py` 下载的图标，全部在**本地 HTML/CSS/React 环境**中。
-       - Figma 左边栏自带的 `Agents` 聊天框运行在 Figma 云端，**完全读不到你本地的组件库 CSS 和 IconScout 素材**，只会用基础矩形纯徒手画出一堆没有样式的丑方块！
-     - **唯一正确的标准做法（先用本地库做出高保真 HTML 组件页 → 再按需一键转入 Figma）**：
-       1. **第一步（必做，让所有库 100% 生效）**：一律先在本地用 `component_recipe.py copy`（导出 `recipes.css`）+ `style_preset.py`（导出 `theme.css`）+ `iconscout.py` 下载的真实图标/3D + 成套生成的头像/真图，搭出高保真 HTML/前端页面，在内置浏览器（`http://127.0.0.1:<port>`）打开预览，并跑通 `verify_library_usage.py`、`ui_geometry_audit.py`、`style_consistency_audit.py`、`color_intelligence.py`、`a11y_audit.py` 五大脚本。
-       2. **第二步（当用户需要 Figma 设计稿时，用官方转换接口把本地高保真页直接导进 Figma，绝不让 Figma AI 徒手重画）**：
-          - 需要 **Figma 可编辑设计图层（Design Frame）**：直接调用 Figma MCP 的 **`generate_figma_design`**（捕获本地运行的 `127.0.0.1` 页面）或 **`html_to_figma`**（将内联了 CSS 与 base64 图片的 HTML 直接转为 Figma 可编辑图层 Frame）；
-          - 需要 **Figma 可交互代码图层（Code Layer / Make）**：直接调用 Figma MCP 的 **`send_code_to_figma`** 将本地项目导入 Figma。
-          - **严禁通过 Computer Use 去点开 Figma 左边栏的 `Agents` 聊天框让它徒手画页面，也严禁调 `use_figma` 裸写 `SOLID` 平涂矩形！**
+     - **核心分流原则（按「0→1 空白新建」vs「存量风格延展 / 已有界面」分两条路走）**：
+       1. **【情况 A1：0→1 新建（当前没有现成 Figma 界面可参考）】——先用本地组件库+素材库搭出高保真页，再一键转进 Figma**
+          - **原因**：空白 Figma 文件里没有任何既有界面和组件，Figma 云端的 `Agents` 读不到你本地的 `component-recipes/`、`style-presets/`、`shadcn` 和 `iconscout.py` 素材，在空白文件里让它从零画只会徒手画出一堆没有样式的丑方块。
+          - **做法**：一律先在本地用 `component_recipe.py copy`（`recipes.css`）+ `style_preset.py`（`theme.css`）+ `iconscout.py` 真实图标/3D + 成套头像/真图，搭出高保真 HTML/前端页面，在内置浏览器（`127.0.0.1`）预览并跑通五大校验脚本；需要进 Figma 时，调用 Figma MCP 的 **`generate_figma_design` / `html_to_figma`**（转为可编辑 Figma 图层）或 **`send_code_to_figma`**（转为可运行 Code Layer）直接导进 Figma！
+       2. **【情况 A2：风格延展（Figma 文件里已经有其他设计好的界面了，或第 1 张核心代表页已导进 Figma）】——可以用 Figma AI 参考已有界面延展生成**
+          - **原因**：此时 Figma 文件里已经有现成的界面、组件、颜色与样式规范可供参考。
+          - **做法**：可以调用 **Figma AI（Figma Agents）** 来生成延展的新页面——由 Codex 写出新页面的功能模块与交互结构提示词，**在提示词里明确指定让 Figma AI 参考并复用当前文件中已有的界面/Frame（写清参考的现有页面/Frame 名称或附上已有界面截图）**，保持视觉风格、按钮样式、圆角与字阶 100% 统一；生成后再补充 IconScout / 真图素材精修，最后还原到可交互 Demo。
    - **路线 B｜产出本身是一张图（概念图、插画、角色立绘/头像、局部材质/背景图等纯图片交付）**
      - **标准动作**：**Codex 负责产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）生成图片**。
    - **路线 C｜产出是海报 / 运营图 / Banner / 主视觉 KV（[methods-visual.md](methods-visual.md) `V7 路径 B`）**

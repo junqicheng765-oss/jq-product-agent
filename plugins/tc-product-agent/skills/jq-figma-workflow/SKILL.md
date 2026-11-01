@@ -41,7 +41,10 @@ description: 在 JQ Product Agent 中执行 Figma 设计工作流，检查并引
 
 写入前按 [执行前核对卡](../tc-product-agent/references/18-Figma执行前核对卡.md) 引用任务包、有效授权、唯一目标和保护范围。无目标时请使用者指定归属并提供文件，不自行建团队、项目或文件；已有授权范围直接沿用。
 
-执行前必须已有同包 `$design-thinking-os` 写出的 `design-decisions.md`。没有这份文件，本 Skill 不得生成或精修页面。读取 [生成与直接精修手册](references/figma-execution.md)，并按决定文件执行：**新整页生成时，必须先在本地用 `$design-thinking-os` 的组件配方库（`component_recipe.py copy`）、风格预设（`style_preset.py`）、IconScout 图标/3D 与成套头像/真图搭出高保真 HTML/前端页面并跑通五大校验脚本，再调用 Figma MCP 的 `generate_figma_design` / `html_to_figma`（转成可编辑图层）或 `send_code_to_figma`（转成 Code Layer）直接导进 Figma；严禁打开 Figma 左侧自带的 `Agents` 聊天框让它徒手画简陋方块，也严禁调 `use_figma` 裸写平涂矩形！** 旧页在原稿上直接编辑。回传前执行 [QA0 三大维度验收](../design-thinking-os/methods-close.md)（用户可用性 × 审美与品位 × 设计标准）。
+执行前必须已有同包 `$design-thinking-os` 写出的 `design-decisions.md`。没有这份文件，本 Skill 不得生成或精修页面。读取 [生成与直接精修手册](references/figma-execution.md)，并按决定文件执行：
+- **0→1 新建页面（Figma 文件是空白的、没有任何既有设计界面时）**：先在本地用 `$design-thinking-os` 的组件配方库（`component_recipe.py copy`）、风格预设（`style_preset.py`）、IconScout 图标/3D 与成套头像/真图搭出高保真 HTML/前端页面并跑通五大校验脚本，再调用 Figma MCP 的 `generate_figma_design` / `html_to_figma`（转成可编辑图层）或 `send_code_to_figma`（转成 Code Layer）直接导进 Figma；**严禁在空白 Figma 里打开 `Agents` 从零徒手画丑方块！**
+- **存量风格延展（Figma 文件里已经有其他设计好的界面了，或首张代表页已导进 Figma）**：可以调用 **Figma AI（Figma Agents）** 生成新页面——在提示词里**明确指定让 Figma AI 参考并复用当前文件里已有的界面/Frame（点名已有 Frame 节点或附上已有界面图）**，生成后再补充 IconScout / 真图素材精修；旧页局部修改则在原稿上直接编辑。
+回传前执行 [QA0 三大维度验收](../design-thinking-os/methods-close.md)（用户可用性 × 审美与品位 × 设计标准）。
 
 D 可先用灰框加文字的流程骨架验证链路。进入正式视觉与有样式交付前，必须已有 `design-decisions.md`，再形成代表链路所需的 Figma 页面/状态并还原。E 扩展时先更新决定文件与主稿，再同步 Demo。不为检验工具擅自生成页面；不以本地 HTML 冒充 Figma 设计完成。
 

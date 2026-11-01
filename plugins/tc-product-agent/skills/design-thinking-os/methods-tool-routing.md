@@ -9,7 +9,9 @@
 3. Figma 的正式职责是 **UI 设计**。它不是所有设计工作的默认画布。
 4. Figma 可以承载低保真交互稿和动效原型预览，但这两类必须标明用途，不能冒充正式 UI 主稿或最终动效成品。
 5. 按最终交付物类型选定工具链（见 [methods-visual.md](methods-visual.md) `VT`）：
-   - **产出是 UI / 产品界面（最终要做出可交互 Demo 或 Figma 稿）**：**一律先在本地用内置组件库（`component_recipe.py copy` / `shadcn` / `Magic UI`）+ 风格预设（`style_preset.py`）+ `iconscout.py` 真实素材 + 成套头像搭出高保真 HTML/前端页面并在内置浏览器预览跑通全部校验脚本；若需交付 Figma，再调用 `generate_figma_design` / `html_to_figma` / `send_code_to_figma` 将该高保真页面一键转入 Figma。严禁打开 Figma 自带的 `Agents` 面板徒手画丑方块，严禁调 `use_figma` 裸写平涂矩形，也严禁给一张整屏 AI 位图充当 UI！**
+   - **产出是 UI / 产品界面（最终要做出可交互 Demo 或 Figma 稿）**：
+     - **0→1 新建（无现成 Figma 界面）**：先在本地用内置组件库（`component_recipe.py copy` / `shadcn` / `Magic UI`）+ 风格预设（`style_preset.py`）+ `iconscout.py` 真实素材 + 成套头像搭出高保真 HTML/前端页面并在内置浏览器预览跑通全部校验脚本；若需交付 Figma，再调用 `generate_figma_design` / `html_to_figma` / `send_code_to_figma` 一键转入 Figma（严禁在空白 Figma 里让 Figma Agents 从零徒手画丑方块）；
+     - **存量风格延展（Figma 里已经有其他设计好的界面）**：可以调用 **Figma AI（Figma Agents）** 生成新页面，在提示词里明确让它**参考并复用当前文件中已有的界面/Frame**，生成后补齐真实图标与配图素材，再还原成可交互 Demo；
    - **产出本身是一张图（概念图、插画、角色头像、局部材质图）**：**Codex 产出结构化提示词 + 参考垫图 → 直接调用生图工具**；
    - **产出是海报 / 运营图 / 主视觉 KV**：先定版面结构草图，**去搜索素材（IconScout 3D/插画 + 真实摄影）拼装**，或**搜风格参考图选定感觉后拿「结构草图 + 风格垫图 + 提示词」调用生图工具**。
 6. 正式动效成品调用动效工具或写代码实现；Figma 只能提供已定稿 UI、起止帧、组件状态或预览原型。

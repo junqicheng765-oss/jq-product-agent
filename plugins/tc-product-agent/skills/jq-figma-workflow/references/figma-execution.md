@@ -21,17 +21,17 @@
 
 每批修改后查看实际画面或导出，检查改动对象、相邻内容、全局菜单与共享组件影响；不要为一处修改删除动态状态或受保护图层。无法可靠定位时暂停该对象，返回具体缺口，不转用自然语言反复重画。
 
-## 新整页生成：先在本地用组件库+素材库搭出高保真页面，再一键转入 Figma（严禁调 Figma 自带 Agents 徒手画框）
+## 新整页生成（分「0→1 空白新建」与「存量风格延展」两条路）
 
-**为什么禁止使用 Figma 左侧栏自带的 `Agents` 面板或 `use_figma` 从零画新页面？**
-- Figma 云端自带的 `Agents` 聊天框完全读不到本地的 `component-recipes/`（3D 按钮、渐变、阴影、扑克牌尺寸）、`style-presets/`、`shadcn/Magic UI` 和 `iconscout.py` 素材，只会用基础矩形纯徒手画出一堆没有样式的平涂丑方块。
+1. **情况 A｜0→1 空白新建（目标 Figma 文件里还没有任何设计好的界面可参考）**：
+   - **为什么不能在空白文件里直接调 Figma `Agents`**：空白文件没有既有界面和组件，Figma 云端 `Agents` 读不到本地 `component-recipes/`、`style-presets/` 和 `iconscout.py`，从零画只会徒手画出一堆没有样式的平涂丑方块。
+   - **正确做法**：先在本地按 `$design-thinking-os` 运行 `component_recipe.py copy`、`style_preset.py`、`iconscout.py` 与成套头像/真图，搭出高保真 HTML/前端页面并跑通五大校验脚本；再调用 Figma MCP 的 `generate_figma_design` / `html_to_figma`（转为可编辑图层）或 `send_code_to_figma`（转为 Code Layer）一键导进目标 Figma 文件。
 
-**新整页进 Figma 的唯一正确步骤**：
-1. **先在本地让所有组件库与素材库 100% 生效**：按 `$design-thinking-os` 运行 `component_recipe.py copy`、`style_preset.py`、`iconscout.py` 与成套头像/真图，搭出高保真 HTML/前端页面，并在本地跑通 `verify_library_usage.py`、`ui_geometry_audit.py`、`style_consistency_audit.py`、`color_intelligence.py`；
-2. **用 Figma MCP 官方转换工具一键导进目标 Figma 文件（无需在内置浏览器登录 Figma 点 Agents）**：
-   - 需要 **Figma 可编辑设计图层（Design Frame）**：启动本地预览服务后调用 `generate_figma_design` 捕获到目标 `fileKey`，或将内联了 CSS 与 base64 图片的 HTML 传给 `html_to_figma`；
-   - 需要 **Figma 可交互代码图层（Code Layer / Make）**：调用 `send_code_to_figma` 上传本地项目到目标 `fileKey`。
-3. 导入完成后，用 `get_screenshot` 检查实际生成的 Frame 节点并回传节点链接。
+2. **情况 B｜存量风格延展（目标 Figma 文件里已经有其他设计好的界面了，或第 1 张核心代表页已导进 Figma）**：
+   - **可以直接调用 Figma AI（Figma Agents）生成延展新页面**：
+     - Codex 先根据 `design-decisions.md` 准备好新页面的功能模块与交互结构提示词；
+     - **提示词中必须明确要求 Figma AI 参考并复用当前文件里已有的界面/Frame（写清要参考的已有页面/Frame 名称与节点，或附上已有界面截图）**，沿用既有页面的背景、卡片层级、按钮样式、圆角与字阶；
+     - 提交生成后检查真实图层，再将从 IconScout / `real_image.py` 检索好的真实素材带入做局部精修，最后还原到可交互 Demo。
 
 无基线的三套风格候选保持同一代表页、内容和状态，均在授权目标内；由主 Agent 收集选择后再扩展。有有效设计基线则沿用，不为每个新增页重选风格。
 
