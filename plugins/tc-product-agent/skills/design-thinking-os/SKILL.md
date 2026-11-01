@@ -26,7 +26,11 @@ description: >-
    - 哪怕用户说“给我做个某某界面”或在提问里选了“先做高保真设计稿 / 做可交互原型”，那也只是确认了**最终交付物形态**，**绝不代表允许跳过前面的用户研究、竞品调研、流程设计与交互控件决策！**
 2. **调用任何制作工具（`figma_*`、`GenerateImage`、写 HTML/前端代码）之前，必须先按顺序完成以下前置动作并落盘**：
    - **必做动作 1（读细则）**：必须先用工具实际读取当前阶段对应的 `methods-*.md` 细则文件（0→1 任务必读 [methods-research.md](methods-research.md)、[methods-competitive.md](methods-competitive.md)、[methods-flow.md](methods-flow.md)、[methods-interaction.md](methods-interaction.md)、[methods-ui.md](methods-ui.md)、[methods-visual.md](methods-visual.md)），禁止只看本文件的目录摘要就凭印象发挥。
-   - **必做动作 2（查库与搜实机标杆）**：必须先运行 `asset_memory.py` 查内部资产，并按 `RR` / `CMP1–CMP3` 搜索 3–5 张同类成熟产品的**真实界面截图**（排除宣传海报，存入任务目录 `refs/`）。
+   - **必做动作 2（查库与搜实机标杆 + 跑 IconScout 素材检索）**：
+     - 必须先运行 `python3 scripts/asset_memory.py search <场景>` 查内部资产；
+     - 按 `RR` / `CMP1–CMP3` 搜索 3–5 张同类成熟产品的**真实界面截图**（排除宣传海报，存入任务目录 `refs/`）；
+     - **强制执行 `python3 scripts/iconscout.py search`** 检索本页所需的图标、3D 道具、插画或头像素材（若已连接 IconScout MCP 则直接调 MCP），**严禁一次都不调 IconScout 就自己瞎画或去 GitHub 乱扒老旧剪贴画（如 `htdebeer/SVG-cards`）！**
+     - **严禁用“名字首字圆圈（如 周/林/宁/我）”冒充玩家或用户头像！** 凡有角色/用户头像，必须按 `V5` 第 7 条先搜 IconScout，库内无匹配同套系国风/产品风格头像时，必须调用生图工具按统一母体风格前缀成套生成真实头像图片！
    - **必做动作 3（写出 `design-decisions.md` 并向用户汇报前置推导）**：在创建任何 Figma 文件、画任何图层、调任何生图工具或写任何页面代码之前，必须先把**第一步（用户场景、三类竞品结论、范围流程、具体交互控件选型）**和**第二步（UI 风格决策、配色/字体/组件配方与素材清单）**完整写入任务目录的 `design-decisions.md`。
    - **未写完 `design-decisions.md` 前，严禁调用 `figma_create_new_file`、`use_figma`、`GenerateImage` 或写 UI 代码！**
 
@@ -100,10 +104,11 @@ description: >-
 
 2. **按最终交付物类型走对应的工具与制作工作流（[methods-tool-routing.md](methods-tool-routing.md) + [methods-visual.md](methods-visual.md) `VT` / `V7`）**：
    - **路线 A｜产出是 UI / 产品界面（最终要落地成可交互 Demo）**
-     - **核心原则（严禁 Codex 自己调 `use_figma` 硬画图层，也严禁直接拿一张 AI 生图当 UI）**：
-       - **不是让 Codex 自己操作 Figma 画框搭页面！** Codex 调 `use_figma` 手写代码画出来的全是简陋色块；
-       - **Codex 的职责是**：走完前面的用研、竞品、流程、交互控件与风格决策后，**生成完整的结构化提示词（Prompt，包含页面职责、功能模块、具体交互控件、风格色板参数）并带好参考图（`refs/` 真实竞品参考图）→ 操作 Figma AI（Figma Agent / First Draft / Make）生成可编辑的 UI 设计稿**（再将从 IconScout / `real_image.py` 搜好的真实图标、3D、真图素材带进去替换或拼装精修）；
-       - **还原成可交互 Demo**：Figma AI 生成设计稿并确认后，通过 Figma MCP（`get_design_context` / `get_screenshot`）读取该 Frame 节点，1:1 还原成**可交互 Demo（HTML/前端代码）**，并跑通几何、对比度、风格一致性验收脚本。
+     - **为什么不能让 Codex 直接用 `figma_use_figma` 写 JS 画框？**  
+       因为你内置的组件库（`component-recipes/`、`shadcn`、`Magic UI`、`style-presets/`）全是 HTML/CSS/React 代码，而 Figma MCP 的 `use_figma` 只接受底层 Plugin API JS（`figma.createRectangle` + 纯色填充）。一旦让 Codex 用 `use_figma` 手写 JS 画界面，所有的组件库样式、立体高光阴影都会丢失，退化成简陋的平涂色块！
+     - **正确做法（二选一，严禁用 `use_figma` 手画简陋平涂色块，也严禁拿一张整屏 AI 位图充当 UI）**：
+       1. **生成提示词 + 带好参考图 → 操作 Figma AI（First Draft / Make）生成**：Codex 根据前序推导产出完整的结构化提示词并带好 `refs/` 参考图，通过宿主 GUI（Computer Use）操作 Figma 客户端内的 Figma AI 生成设计稿，再把从 `iconscout.py` / `real_image.py` / 同套系头像生成拿到的真实素材贴入图层；最后还原成可交互 Demo。
+       2. **先用内置组件库 + 风格预设 + IconScout 素材搭出高保真 HTML 组件页 → 再用 `generate_figma_design` / `html_to_figma` 导进 Figma**：如果当前环境无法通过 GUI 调起 Figma AI，必须先在本地用 `component_recipe.py copy` + `style_preset.py export` + `iconscout.py` 真实素材 + 成套生成的头像搭出完整高保真页面（让组件库的 3D 按钮、渐变、阴影和标准尺寸 100% 生效），再通过 `generate_figma_design` / `html_to_figma` 转为可编辑 Figma 图层，绝不许用 `use_figma` 裸写平涂矩形！
    - **路线 B｜产出本身是一张图（概念图、插画、角色立绘/头像、局部材质/背景图等纯图片交付）**
      - **标准动作**：**Codex 负责产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）生成图片**。
    - **路线 C｜产出是海报 / 运营图 / Banner / 主视觉 KV（[methods-visual.md](methods-visual.md) `V7 路径 B`）**

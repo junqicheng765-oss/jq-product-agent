@@ -142,17 +142,17 @@
         "mobile-consumer",
         "game-table"
       ],
-      "use": "人：用户、同行人、玩家；图片必须是真实头像或用户上传，回退只用名字首字",
-      "dont": "不要用表情符号或通用剪影当头像",
+      "use": "用户、同行人、玩家头像：必须装载真实图片资产（先调 IconScout 检索并过 V5 第 7 条文化风格与同套系判断门；库内无匹配同套系头像时，必须按统一风格前缀调用生图工具成套生成头像图片）",
+      "dont": "严禁在高保真设计稿或 Demo 中用『名字首字文字圆圈（如 周/林/宁/我）』冒充头像！不要用表情符号、通用剪影或跨画风拼凑图当头像",
       "states": [
-        "有图",
-        "无图回退首字",
-        "在线点"
+        "同套系图片头像",
+        "在线点",
+        "当前回合光圈"
       ],
       "variants": [],
       "requires": [],
       "icons": [],
-      "source": "改写自 shadcn/ui Avatar（MIT）与 Origin UI avatar group（MIT）",
+      "source": "改写自 shadcn/ui Avatar（MIT）与 Origin UI avatar group（MIT），接入 V5 文化风格与同套系头像门禁",
       "license": "MIT",
       "file": "recipes/avatar.html"
     },

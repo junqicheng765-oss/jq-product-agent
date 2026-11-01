@@ -3,11 +3,11 @@
   "id": "avatar",
   "name": "头像 / 头像组",
   "tags": ["base", "mobile-consumer", "game-table"],
-  "source": "改写自 shadcn/ui Avatar（MIT）与 Origin UI avatar group（MIT）",
+  "source": "改写自 shadcn/ui Avatar（MIT）与 Origin UI avatar group（MIT），接入 V5 文化风格与同套系头像门禁",
   "license": "MIT",
-  "states": ["有图", "无图回退首字", "在线点"],
-  "use": "人：用户、同行人、玩家；图片必须是真实头像或用户上传，回退只用名字首字",
-  "dont": "不要用表情符号或通用剪影当头像",
+  "states": ["同套系图片头像", "在线点", "当前回合光圈"],
+  "use": "用户、同行人、玩家头像：必须装载真实图片资产（先调 IconScout 检索并过 V5 第 7 条文化风格与同套系判断门；库内无匹配同套系头像时，必须按统一风格前缀调用生图工具成套生成头像图片）",
+  "dont": "严禁在高保真设计稿或 Demo 中用『名字首字文字圆圈（如 周/林/宁/我）』冒充头像！不要用表情符号、通用剪影或跨画风拼凑图当头像",
   "icons": []
 }
 -->
@@ -27,11 +27,10 @@
 <!-- demo -->
 <div style="display:flex;gap:16px;align-items:center">
   <span class="r-avatar r-avatar--lg"><img src="preview-assets/photo-1015.jpg" alt="Anna"><span class="r-avatar__status"></span></span>
-  <span class="r-avatar" aria-label="王磊">王</span>
+  <span class="r-avatar"><img src="preview-assets/photo-1036.jpg" alt="Lin"></span>
   <span class="r-avatar-group" aria-label="3 位同行人">
     <span class="r-avatar r-avatar--sm"><img src="preview-assets/photo-1036.jpg" alt=""></span>
     <span class="r-avatar r-avatar--sm"><img src="preview-assets/photo-1043.jpg" alt=""></span>
-    <span class="r-avatar r-avatar--sm">+1</span>
   </span>
 </div>
 <!-- /demo -->
