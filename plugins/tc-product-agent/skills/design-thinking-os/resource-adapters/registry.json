@@ -249,18 +249,51 @@
       "note": "V5 / V7 已接 MCP + scripts/iconscout.py"
     },
     {
-      "id": "unsplash",
+      "id": "real-image-library",
       "stage": [
         "asset"
       ],
-      "capability": "asset",
+      "capability": "photo",
       "mode": "api",
-      "priority": "A",
-      "url": "https://unsplash.com/developers",
-      "auth": "需要用户的 Unsplash Access Key",
-      "search": "仅当用户提供 key 时按关键词检索摄影",
-      "license": "Unsplash License，保留来源；不用于再分发图库",
-      "fallback": "IconScout illustration 或 V7 生图",
+      "priority": "S",
+      "search": "python3 scripts/real_image.py search \"<主题>\" --role hero|card|background|place --tone <warm|cool|neutral|dark|green>",
+      "returns": "统一结构：id / source / title / creator / license / preview / sized download / attribution",
+      "acquire": "python3 scripts/real_image.py get <id> --from-json <search.json> --out ./assets/real-images；写入 V5 manifest 与 ATTRIBUTION.md",
+      "license": "逐张记录。可商用优先（CC0 / PDM / CC BY / Pixabay / Unsplash / Pexels）；NC/ND 降权。Unsplash 必须用返回 URL 并打 download 追踪，不囤成自己的永久图库。",
+      "fallback": "当前库超时或无 key：自动跳过，继续下一个。全部失败或无匹配：才走 V7 生图。不抓网页冒充 API。",
+      "sources": [
+        {
+          "id": "pixabay",
+          "priority": "S",
+          "auth": "PIXABAY_API_KEY",
+          "note": "v1 主库。默认 100 次/分钟。留用图下载到本地。"
+        },
+        {
+          "id": "openverse",
+          "priority": "S",
+          "auth": "可匿名",
+          "note": "v1 主库。license_type=commercial。可能超时，超时不硬失败。"
+        },
+        {
+          "id": "unsplash",
+          "priority": "S",
+          "auth": "UNSPLASH_ACCESS_KEY",
+          "url": "https://unsplash.com/developers",
+          "note": "高质量补充。Demo 50 次/小时，生产额度需审批。"
+        },
+        {
+          "id": "pexels",
+          "priority": "S",
+          "auth": "PEXELS_API_KEY",
+          "note": "有 key 才启用。官方目前暂停发新 Key。"
+        },
+        {
+          "id": "wikimedia",
+          "priority": "A",
+          "auth": "无",
+          "note": "具体地点、地标、历史文化提到最前。"
+        }
+      ],
       "wired": true
     },
     {

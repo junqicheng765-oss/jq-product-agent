@@ -52,9 +52,10 @@ description: >-
 17. [methods-tool-routing.md](methods-tool-routing.md)
 18. [methods-close.md](methods-close.md)
 19. [methods-resource-routing.md](methods-resource-routing.md)
-20. [templates.md](templates.md)
+20. [methods-image.md](methods-image.md)
+21. [templates.md](templates.md)
 
-交付的「已读细则」必须按这个顺序列出全部 20 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
+交付的「已读细则」必须按这个顺序列出全部 21 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
 
 ## 审查不通过必须改完再交
 
@@ -98,7 +99,7 @@ description: >-
 **F. 视觉**（[methods-visual.md](methods-visual.md)「视觉规格通过门」；[methods-close.md](methods-close.md) `QA0` 维度二、三）
 21. 颜色是产品级语义色（背景、文字、按钮、边框、状态、亮暗），与所选风格一致；`python3 scripts/color_intelligence.py contrast --preset <id>` 通过。圆角、阴影、字体与风格参数一致；色彩比例协调、冷暖同频，不脏不俗。多页面产品跑 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>` 且 `"passed": true`：没有色板外的颜色、阶梯外的圆角、字体栈外的字体，同类组件跨页一致。
 22. 有留白和唯一视觉重心，没有卡片套卡片、满屏同样抢眼。
-23. 材质语言覆盖每一个组件：找出全屏做得最弱的元素，它也达到风格参数；图标、3D、插画是成品素材且同一套系；人物形象过了文化风格判断。
+23. 材质语言覆盖每一个组件：找出全屏做得最弱的元素，它也达到风格参数；图标、3D、插画是成品素材且同一套系；真实世界配图来自 Real Image Library 且有授权记录；人物形象过了文化风格判断。
 
 **G. 动效**（只在本轮有动效时；[methods-motion.md](methods-motion.md)「动态验收与性能完成门」）
 24. 动效表达的是反馈、状态变化或空间关系，不是装饰；真实环境下流畅，可打断。
@@ -108,7 +109,7 @@ description: >-
 
 ## 运行顺序
 
-上面 20 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
+上面 21 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
 
 1. **读取总框架**：Read [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
 2. **任务分诊与语境翻译**：Read [methods-intake.md](methods-intake.md)；需要设计判断时再 Read [methods-context.md](methods-context.md)，形成上游任务卡、设计语境卡、设计任务定义、任务诊断卡和设计决定链。
@@ -168,13 +169,14 @@ D1 问题与价值
 - [methods-flow.md](methods-flow.md)：范围、场景、任务路径。
 - [methods-interaction.md](methods-interaction.md)：页面职责、反馈、异常。
 - [methods-ui.md](methods-ui.md)：信息层级、组件、状态、文案。
-- [methods-visual.md](methods-visual.md)：Figma UI 内的全部界面视觉依据、26+6 风格参数字典（国际化 8 + 国内 8 + 游戏 10 + 通用质感 6）、色字图与候选；融合 IconScout 官方 MCP（`https://mcp.iconscout.com/mcp`）与内置 v3 API 兜底脚本 [scripts/iconscout.py](scripts/iconscout.py)（`Client-ID: 232598791050530`）用于拉取统一风格的 `icon / 3d / lottie / illustration`；只有非界面视觉成品或明确独立资产委托才另走视觉工具。
+- [methods-visual.md](methods-visual.md)：Figma UI 内的全部界面视觉依据、26+6 风格参数字典（国际化 8 + 国内 8 + 游戏 10 + 通用质感 6）、色字图与候选；融合 IconScout 官方 MCP（`https://mcp.iconscout.com/mcp`）与内置 v3 API 兜底脚本 [scripts/iconscout.py](scripts/iconscout.py)（`Client-ID: 232598791050530`）用于拉取统一风格的 `icon / 3d / lottie / illustration`；真实世界摄影走 [methods-image.md](methods-image.md)，不是 IconScout，也不是先 AI 生图；只有非界面视觉成品或明确独立资产委托才另走视觉工具。
 - [methods-color.md](methods-color.md)：配色智能。现成色板只作灵感（Coolors / Color Hunt / Huemint 不抓取、不调非商用 API）；产品级语义色从本地 5 套系统和 Radix 12 阶生成；品牌色本地插值；预览 3 套后写入 token，并跑对比度检查。
 - [methods-style-engine.md](methods-style-engine.md)：设计风格引擎。识别现状，探索和应用分开；从本地预设库 [style-presets/](style-presets/registry.json) 提取规格（Apple、Material 3、Ant Design 三套系统，26 种内置风格，42 个 Tweakcn 主题，12 个风格族），按技术栈做组件映射，批量应用到整个产品，用 [scripts/style_consistency_audit.py](scripts/style_consistency_audit.py) 验收跨页一致性；本地缺的再去线上库补并沉淀。
 - [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；`MI` 从 React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev 检索动效源码并集成；视频/动态图形和格式特定动画按工具路由执行。
 - [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
 - [methods-close.md](methods-close.md)：按工作模式验收，内置 `QA0`（用户可用性 × 审美与品位 × 设计标准）三大维度审查与 [scripts/ui_geometry_audit.py](scripts/ui_geometry_audit.py) 自动 DOM 几何/对齐/碰撞/头像质检门。
-- [methods-resource-routing.md](methods-resource-routing.md)：资源路由。不新增设计方法；按 adapter 调用真实案例、字体、组件、验收工具。先搜内部 `asset-memory`，再本地预设，再自动接口，再已授权 MCP，最后才是参考链接。含参考智能（RR）、排版（TY）、验证引擎（VE）、资产记忆（AM）。
+- [methods-resource-routing.md](methods-resource-routing.md)：资源路由。不新增设计方法；按 adapter 调用真实案例、字体、组件、验收工具。先搜内部 `asset-memory`，再本地预设，再自动接口，再已授权 MCP，最后才是参考链接。含参考智能（RR）、排版（TY）、验证引擎（VE）、资产记忆（AM）。真实摄影接到 `IM`。
+- [methods-image.md](methods-image.md)：真实摄影素材库。统一 `Image Search Adapter`（Pixabay + Openverse 为主，Unsplash / Pexels / Wikimedia 补充）。真实场景、人物生活、建筑、自然、地点先搜真图；找不到或必须虚构才 AI 生图。
 - [templates.md](templates.md)：诊断、工作包和产出模板。
 - [walkthrough.md](walkthrough.md)：典型路由回验。
 
@@ -197,8 +199,9 @@ D1 问题与价值
 - 已有有效答案不重问；用户明确冻结上游时，不擅自重开。
 - **素材缺失分两类处理**：
   - 只有用户方才有的素材（品牌 Logo、真实产品图、真实人物照片、真实数据与文案、授权字体、已有设计稿文件）缺失时，才算“缺了就无法开工”，向用户要；其余部分照常推进。
-  - 通用素材（图标、3D 图标与道具、徽章、插画、背景、氛围图、虚构角色头像）缺失时不停、不问：先从 IconScout 找，库里没有或风格不匹配就按统一风格 AI 生成。两种情况都不得用占位图、Emoji 或手画简笔替代。
+  - 通用素材缺失时不停、不问。**图标、3D、徽章、插画、虚构角色头像**先从 IconScout 找，库里没有或风格不匹配再按统一风格 AI 生成。**真实世界的场景、人物生活、建筑、自然风景、具体地点**先按 [methods-image.md](methods-image.md) 检索真实摄影；找不到合适图、或画面必须虚构，才 AI 生图。两种情况都不得用占位图、Emoji 或手画简笔替代。
 - **图标、3D 图标、插画、Lottie 动效一律先去 IconScout 拿现成专业素材**（它同时有线性/面性图标、3D、插画和 Lottie 动画），同一屏用同一套系。不要自己手写 SVG 路径、用 CSS/Canvas 拼图形或让模型临时画简陋图标、简陋动画。返回、设置、关闭这类功能按钮里的图标也算，必须放下载好的成品 SVG 文件，禁止为了「按钮里要有 SVG」而手写一个齿轮或箭头。IconScout 确实没有合适的才退一步：图标用成熟开源图标库的同风格整套，3D/插画按统一风格 AI 生成，动效用现成素材改色或在专业素材基础上加动画；只有品牌专属图形才自制，且必须达到同套图标的网格、线宽和精致度。
+- **真实摄影走 Real Image Library，不先 AI 生图**：Hero、卡片配图、氛围背景、地标只要表现真实世界，就运行 `python3 scripts/real_image.py search "<主题>" --role hero|card|background|place --tone <冷暖>`。主库 Pixabay + Openverse；有 key 再开 Unsplash / Pexels；具体地点优先 Wikimedia。选定后 `get` 到本地并留下作者与许可证。没搜过真实图库，不得把「写实摄影」直接交给生图模型。用户头像圈仍走 IconScout 文化门，不拿图库随机真人脸当头像。
 - **对象按它自己的样子表现，缩小也要认得出**：界面里出现用户在现实或该领域里认得的对象时，先找出用户靠什么认出它，按它本来的视觉惯例表现。不能用它的名字代替它本身。显示尺寸放不下完整形态时，用这个领域已有的缩略方式保留识别特征，而不是退成写字。方法见 [methods-ui.md](methods-ui.md) `U7`。
 - **风格的材质要做到每一个组件上**：按钮、标签、面板、图标、输入框都要达到所选风格的工艺，不能只做背景和主视觉。检查时找全屏最弱的那个元素。方法见 [methods-visual.md](methods-visual.md) `V0` Step 3 末尾「贯穿 6 维的硬要求」。
 - **先用内部已验收资产，再调用外部库**：动手前 `python3 scripts/asset_memory.py search <场景>`。外部资源必须走 [methods-resource-routing.md](methods-resource-routing.md) 的 adapter（怎么搜、返回什么、怎么用、许可证、失败怎么办）。没有公开接口的（Page Flows、部分灵感站）只给链接，不抓取、不假装能自动安装。Mobbin 有付费套餐时再发起 MCP 授权；没有就当参考库。
@@ -216,7 +219,7 @@ D1 问题与价值
 
 ```markdown
 # 任务诊断
-- 已读细则（必须是上面 20 个文件的全名，少一个即未读完）：
+- 已读细则（必须是上面 21 个文件的全名，少一个即未读完）：
 - 工作模式：
 - 本轮目标：
 - 主终点与产出合同：
@@ -256,4 +259,4 @@ D1 问题与价值
 - 下一路由节点：
 ```
 
-嵌入任何上游 Product Agent（如 `jq-product-agent`）时，本 Skill 是设计方法论与执行决策子流程，不替换上游的产品阶段（`A–F`）、唯一事实源、授权和业务决策；本文件内的 `D1–D9` 仅指「内部设计决定链」，不替代上游的 `D 阶段` 或设计就绪门。主 Agent 与阶段 Skill 按需调用本 Skill 完成设计语境翻译、UI 三路分流（`U0/V0`）、26+6 风格参数字典绑定、IconScout 双通道资产调取、双路径生图（`V7`）、三条动效实现链路（`TR5`）及交付前 `QA0`（用户可用性 × 审美与品位 × 设计标准）综合验收与回炉修改。
+嵌入任何上游 Product Agent（如 `jq-product-agent`）时，本 Skill 是设计方法论与执行决策子流程，不替换上游的产品阶段（`A–F`）、唯一事实源、授权和业务决策；本文件内的 `D1–D9` 仅指「内部设计决定链」，不替代上游的 `D 阶段` 或设计就绪门。主 Agent 与阶段 Skill 按需调用本 Skill 完成设计语境翻译、UI 三路分流（`U0/V0`）、26+6 风格参数字典绑定、IconScout 双通道资产调取、真实摄影库（`IM`）、双路径生图（`V7`）、三条动效实现链路（`TR5`）及交付前 `QA0`（用户可用性 × 审美与品位 × 设计标准）综合验收与回炉修改。

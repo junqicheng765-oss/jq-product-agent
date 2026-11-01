@@ -8,7 +8,7 @@
 - **Reference**：`resource-adapters/registry.json` 里 `capability=reference|spec`（Mobbin、Page Flows、ARIA APG…）
 - **Style**：`style-presets/` + `color-presets/`
 - **Component**：shadcn / Magic UI / Origin UI / Figma 套件（风格引擎 + 本文件）
-- **Asset**：IconScout（`V5`）+ 本文件的 Unsplash / SVG Repo 降级
+- **Asset**：IconScout（`V5`，图标/3D/插画/Lottie）+ Real Image Library（`IM`，真实摄影）+ SVG Repo 降级
 
 检索顺序固定：
 
@@ -135,8 +135,14 @@ python3 scripts/asset_memory.py deposit --type pattern --title "权限被拒可�
 | 风格与配色 | 本地 style-presets / color-presets | DS、CI |
 | 字体 | typography_intelligence | V3 |
 | 组件与页面 | 记忆 → shadcn / Magic UI / Figma 套件 | U0、DS3、MI |
-| 素材 | IconScout → Unsplash（有 key）→ 生图 | V5、V7 |
+| 素材 | 图标/3D/插画 → IconScout；真实摄影 → `IM` / `real_image.py`；无匹配或虚构 → 生图 | V5、V7、IM |
 | 动效 | MI | methods-motion |
 | 验收 | VE + QA0 | methods-close |
 
-九个建议环节里，风格 / 配色 / 组件 / 动效 / IconScout 本来就有。本文件补的是：**真实案例检索、字体自动选型、可执行验收、内部沉淀**，以及一张统一的 adapter 表。
+九个建议环节里，风格 / 配色 / 组件 / 动效 / IconScout 本来就有。本文件补的是：**真实案例检索、字体自动选型、可执行验收、内部沉淀**，以及一张统一的 adapter 表。真实摄影的细则在 [methods-image.md](methods-image.md)，不在这里再写一套方法。
+
+## IM 真实摄影（接到 V5 / V7，不是新的视觉方法）
+
+**触发问题**：稿上这一处需要真实世界的照片吗？  
+**步骤**：按 [methods-image.md](methods-image.md) 运行 `scripts/real_image.py`。主库 Pixabay + Openverse；有 key 再开 Unsplash / Pexels；具体地点优先 Wikimedia。  
+**完成证据**：用上的图有作者、许可证、本地文件；该用真图却直接生图的，本项不过。
