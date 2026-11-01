@@ -159,7 +159,7 @@ description: >-
    - **必跑调库核验脚本（防止“只看不用、自己瞎画”）**：
      - `python3 scripts/verify_library_usage.py <任务目录> [--require-avatars N] [--require-photos]`（核验 `recipes.css`、`theme.css`、IconScout 真实素材、真实头像图片是否全部落盘，拦截“名字首字当头像”和第三方老旧剪贴画，必须 `"passed": true`！）
    - 凡产出 HTML/代码界面，交付前还必须运行：
-     - `python3 scripts/ui_geometry_audit.py <html文件> --width <宽> --height <高>`（检查对齐、横排条垂直居中、图标来源、跨区文字碰撞、首页完备度）；
+     - `python3 scripts/ui_geometry_audit.py <html文件> --width <宽> --height <高>`（检查对齐、横排条垂直居中、**拦截容器或卡牌行倾斜旋转 `CROOKED_ROTATED_ELEMENT` / `CARD_ROW_NOT_LEVEL`（严禁给 `.played` 或卡牌行加 `transform: rotate(...)` 把牌弄歪）**、图标来源、跨区文字碰撞、首页完备度）；
      - `python3 scripts/color_intelligence.py contrast --css <主题CSS>`（检查实际对比度）；
      - `python3 scripts/style_consistency_audit.py <页面> --preset <预设编号>`（检查 Token 与跨页一致性）；
      - `python3 scripts/a11y_audit.py <html文件>`（检查无障碍）。

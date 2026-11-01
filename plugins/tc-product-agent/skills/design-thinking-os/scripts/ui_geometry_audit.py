@@ -141,6 +141,49 @@ AUDIT_JS = r"""
     });
   });
 
+  // 2b. Check card rows and UI containers for crooked/tilted rotation (e.g. transform: rotate(-2deg))
+  //     or vertical staircase drift across unselected sibling cards in the same horizontal row.
+  document.querySelectorAll('section, div, ul, .g-card').forEach(el => {
+    const cs = window.getComputedStyle(el);
+    const tr = cs.transform;
+    if (tr && tr !== 'none' && tr.startsWith('matrix(')) {
+      const nums = tr.slice(7, -1).split(',').map(Number);
+      const a = nums[0], b = nums[1];
+      // 180deg flip has b ~ 0; a crooked tilt (1deg..45deg) has |b| > 0.015 and |a| > 0.5
+      if (Math.abs(b) > 0.015 && Math.abs(a) > 0.5) {
+        const deg = (Math.atan2(b, a) * 180 / Math.PI).toFixed(1);
+        issues.push({
+          code: 'CROOKED_ROTATED_ELEMENT',
+          severity: 'FAIL',
+          element: selectorOf(el),
+          message: `Element ${selectorOf(el)} is tilted by ${deg}deg (transform: ${tr}), making the row/cards look crooked. Keep card rows and UI containers horizontally level (0deg).`
+        });
+      }
+    }
+    if (cs.display === 'flex' || cs.display === 'inline-flex') {
+      if (cs.flexDirection && cs.flexDirection.startsWith('column')) return;
+      const cards = Array.from(el.children).filter(c =>
+        c.classList && c.classList.contains('g-card') &&
+        c.getAttribute('aria-pressed') !== 'true' &&
+        c.getAttribute('data-selected') !== 'true'
+      );
+      if (cards.length >= 2) {
+        const baseCy = rect(cards[0]).cy;
+        cards.slice(1).forEach(card => {
+          const diff = Math.abs(rect(card).cy - baseCy);
+          if (diff > 2.0) {
+            issues.push({
+              code: 'CARD_ROW_NOT_LEVEL',
+              severity: 'FAIL',
+              element: `${selectorOf(el)} -> ${selectorOf(card)}`,
+              message: `Unselected cards in horizontal row ${selectorOf(el)} are not level: centerY drifts by ${diff.toFixed(1)}px. Remove container rotation or uneven margins.`
+            });
+          }
+        });
+      }
+    }
+  });
+
   // 3. Flag stock 3D character avatars for a cultural-fit review, and fail hand-drawn SVG faces.
   //    3D icons/props/badges are not flagged; only human avatars need the style-match check.
   document.querySelectorAll('img').forEach(img => {
