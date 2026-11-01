@@ -6,6 +6,7 @@
 - [methods-visual.md](methods-visual.md) `V0` 负责按语境**选**风格（26 种风格 + 6 种质感手法的参数字典）；
 - 本文件负责把选定的风格**落到代码和设计稿上**：找到对应的设计系统和组件、映射到项目的技术栈、批量应用、验收一致性；
 - 动效组件检索走 [methods-motion.md](methods-motion.md) `MI`，本文件只在资源层里引用它。
+- 配色的检索、语义化、对比度走 [methods-color.md](methods-color.md) `CI`；本文件在 `DS2` 取颜色规格时调用它，不另起一套选色逻辑。
 
 ## 三类资源：只有前两类能自动化
 
@@ -128,7 +129,7 @@
 
 **步骤**
 1. 运行 `python3 scripts/style_preset.py show <ID>`，读出八类规格：
-   - 颜色
+   - 颜色：先按 [methods-color.md](methods-color.md) 取出产品级语义色（本地 5 套系统或品牌色生成），不要只用参数表上的 3–4 个色块
    - 字体
    - 圆角
    - 间距

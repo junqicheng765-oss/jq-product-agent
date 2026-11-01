@@ -43,16 +43,17 @@ description: >-
 8. [methods-interaction.md](methods-interaction.md)
 9. [methods-ui.md](methods-ui.md)
 10. [methods-visual.md](methods-visual.md)
-11. [methods-style-engine.md](methods-style-engine.md)
-12. [methods-motion.md](methods-motion.md)
-13. [methods-prototype.md](methods-prototype.md)
-14. [methods-research.md](methods-research.md)
-15. [methods-competitive.md](methods-competitive.md)
-16. [methods-tool-routing.md](methods-tool-routing.md)
-17. [methods-close.md](methods-close.md)
-18. [templates.md](templates.md)
+11. [methods-color.md](methods-color.md)
+12. [methods-style-engine.md](methods-style-engine.md)
+13. [methods-motion.md](methods-motion.md)
+14. [methods-prototype.md](methods-prototype.md)
+15. [methods-research.md](methods-research.md)
+16. [methods-competitive.md](methods-competitive.md)
+17. [methods-tool-routing.md](methods-tool-routing.md)
+18. [methods-close.md](methods-close.md)
+19. [templates.md](templates.md)
 
-交付的「已读细则」必须按这个顺序列出全部 18 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
+交付的「已读细则」必须按这个顺序列出全部 19 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
 
 ## 审查不通过必须改完再交
 
@@ -94,7 +95,7 @@ description: >-
 20. 文案：标题是对象或任务，按钮是动词加对象，没有脱离上下文的「确定 / 提交 / 出错了」。
 
 **F. 视觉**（[methods-visual.md](methods-visual.md)「视觉规格通过门」；[methods-close.md](methods-close.md) `QA0` 维度二、三）
-21. 颜色、圆角、阴影、字体与所选风格参数一致；色彩比例协调、冷暖同频，不脏不俗。多页面产品跑 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>` 且 `"passed": true`：没有色板外的颜色、阶梯外的圆角、字体栈外的字体，同类组件跨页一致。
+21. 颜色是产品级语义色（背景、文字、按钮、边框、状态、亮暗），与所选风格一致；`python3 scripts/color_intelligence.py contrast --preset <id>` 通过。圆角、阴影、字体与风格参数一致；色彩比例协调、冷暖同频，不脏不俗。多页面产品跑 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>` 且 `"passed": true`：没有色板外的颜色、阶梯外的圆角、字体栈外的字体，同类组件跨页一致。
 22. 有留白和唯一视觉重心，没有卡片套卡片、满屏同样抢眼。
 23. 材质语言覆盖每一个组件：找出全屏做得最弱的元素，它也达到风格参数；图标、3D、插画是成品素材且同一套系；人物形象过了文化风格判断。
 
@@ -106,7 +107,7 @@ description: >-
 
 ## 运行顺序
 
-上面 18 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
+上面 19 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
 
 1. **读取总框架**：Read [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
 2. **任务分诊与语境翻译**：Read [methods-intake.md](methods-intake.md)；需要设计判断时再 Read [methods-context.md](methods-context.md)，形成上游任务卡、设计语境卡、设计任务定义、任务诊断卡和设计决定链。
@@ -167,6 +168,7 @@ D1 问题与价值
 - [methods-interaction.md](methods-interaction.md)：页面职责、反馈、异常。
 - [methods-ui.md](methods-ui.md)：信息层级、组件、状态、文案。
 - [methods-visual.md](methods-visual.md)：Figma UI 内的全部界面视觉依据、26+6 风格参数字典（国际化 8 + 国内 8 + 游戏 10 + 通用质感 6）、色字图与候选；融合 IconScout 官方 MCP（`https://mcp.iconscout.com/mcp`）与内置 v3 API 兜底脚本 [scripts/iconscout.py](scripts/iconscout.py)（`Client-ID: 232598791050530`）用于拉取统一风格的 `icon / 3d / lottie / illustration`；只有非界面视觉成品或明确独立资产委托才另走视觉工具。
+- [methods-color.md](methods-color.md)：配色智能。现成色板只作灵感（Coolors / Color Hunt / Huemint 不抓取、不调非商用 API）；产品级语义色从本地 5 套系统和 Radix 12 阶生成；品牌色本地插值；预览 3 套后写入 token，并跑对比度检查。
 - [methods-style-engine.md](methods-style-engine.md)：设计风格引擎。识别现状，探索和应用分开；从本地预设库 [style-presets/](style-presets/registry.json) 提取规格（Apple、Material 3、Ant Design 三套系统，26 种内置风格，42 个 Tweakcn 主题，12 个风格族），按技术栈做组件映射，批量应用到整个产品，用 [scripts/style_consistency_audit.py](scripts/style_consistency_audit.py) 验收跨页一致性；本地缺的再去线上库补并沉淀。
 - [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；`MI` 从 React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev 检索动效源码并集成；视频/动态图形和格式特定动画按工具路由执行。
 - [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
@@ -180,7 +182,7 @@ D1 问题与价值
 
 默认不问，直接做。设计师能自己拍板的专业判断（风格、配色、组件库、密度、圆角、字体、图标、素材、版式、首帧、是否先做代表页）一律由 Agent 决定并直接产出。
 
-**固定要问的例外**：做海报 / 运营图 / 主视觉 KV 走 AI 生图时，必须把 2–3 张风格参考图并排展示给用户挑 1 张（用户已给参考图时除外）；只问“挑哪张”，垫法和主色由 Agent 定。海报 / 运营图 / 单图交付静态版后，若投放场景支持动图，必须用提问工具问用户要不要动态版并说明效果预期（用户原话已要求动图时直接做）。用户要求探索风格或给已有产品换风格时，用同一个代表页渲染 3 个不同方向并排给用户挑；**批量改已有产品的代码前**，必须给出代表页改前改后对比和要改的文件范围，让用户确认一次（0→1 新建不需要）。见 [methods-style-engine.md](methods-style-engine.md) `DS1`。
+**固定要问的例外**：做海报 / 运营图 / 主视觉 KV 走 AI 生图时，必须把 2–3 张风格参考图并排展示给用户挑 1 张（用户已给参考图时除外）；只问“挑哪张”，垫法和主色由 Agent 定。海报 / 运营图 / 单图交付静态版后，若投放场景支持动图，必须用提问工具问用户要不要动态版并说明效果预期（用户原话已要求动图时直接做）。用户要求探索风格或给已有产品换风格时，用同一个代表页渲染 3 个不同方向并排给用户挑；**批量改已有产品的代码前**，必须给出代表页改前改后对比和要改的文件范围，让用户确认一次（0→1 新建不需要）。见 [methods-style-engine.md](methods-style-engine.md) `DS1`。用户要求看看配色、或品牌色有多种合理映射时，用 [methods-color.md](methods-color.md) `CI2` 出 3 套语义色预览再问一次。
 
 - 只有以下三种情况才问：
   1. 缺了就无法开工的事实（例如不知道要做什么、给谁用、在哪投放），且无法从上下文合理推断；
@@ -197,6 +199,7 @@ D1 问题与价值
 - **图标、3D 图标、插画、Lottie 动效一律先去 IconScout 拿现成专业素材**（它同时有线性/面性图标、3D、插画和 Lottie 动画），同一屏用同一套系。不要自己手写 SVG 路径、用 CSS/Canvas 拼图形或让模型临时画简陋图标、简陋动画。返回、设置、关闭这类功能按钮里的图标也算，必须放下载好的成品 SVG 文件，禁止为了「按钮里要有 SVG」而手写一个齿轮或箭头。IconScout 确实没有合适的才退一步：图标用成熟开源图标库的同风格整套，3D/插画按统一风格 AI 生成，动效用现成素材改色或在专业素材基础上加动画；只有品牌专属图形才自制，且必须达到同套图标的网格、线宽和精致度。
 - **对象按它自己的样子表现，缩小也要认得出**：界面里出现用户在现实或该领域里认得的对象时，先找出用户靠什么认出它，按它本来的视觉惯例表现。不能用它的名字代替它本身。显示尺寸放不下完整形态时，用这个领域已有的缩略方式保留识别特征，而不是退成写字。方法见 [methods-ui.md](methods-ui.md) `U7`。
 - **风格的材质要做到每一个组件上**：按钮、标签、面板、图标、输入框都要达到所选风格的工艺，不能只做背景和主视觉。检查时找全屏最弱的那个元素。方法见 [methods-visual.md](methods-visual.md) `V0` Step 3 末尾「贯穿 6 维的硬要求」。
+- **配色必须是产品级语义色，不是几个好看的色块**：风格定了之后，按 [methods-color.md](methods-color.md) 从 `color-presets/` 取一套含背景、文字、按钮、边框、状态色和亮暗模式的系统（默认 5 套 + Radix 12 阶）。用户给了品牌色用 `from-brand`；用户从 Coolors / Color Hunt / Huemint 粘贴的色板用 `from-palette` 转成语义色。禁止抓取这些灵感站，禁止调用 Huemint API。写入后跑 `color_intelligence.py contrast`。
 - **风格定了就整套用，先本地后线上**：选定风格后，按 [methods-style-engine.md](methods-style-engine.md) 从 `style-presets/` 取出整套规格（颜色、字体、圆角、间距、导航、卡片、交互、动效）以及绑定的设计系统、页面区块库和动效库；本地缺的再去线上库补。全产品只在一处定义 token，组件和页面都引用它，不逐页手调。改完跑风格一致性脚本。
 - **写成代码的动效先去组件库找源码**：先写清这条动效要解决什么、怎么触发、起止状态和时长，再按 [methods-motion.md](methods-motion.md) `MI` 去 React Bits、Aceternity UI、Motion Primitives、Uiverse、21st.dev 检索。合适的审过源码后直接拿来，改成规格数值和设计 token，并记录来源与许可证；没有合适的再用项目已有引擎自写。不用付费组件，不运行未审的安装命令，不编造来源。
 - **IconScout 素材服务（MCP）没装就直接装**：Agent 自己跑安装命令或在配置里追加，并发起浏览器登录，只告诉用户“点一下授权”；不询问、不只给提示。本轮未生效前先用内置脚本 `scripts/iconscout.py`（见 [methods-visual.md](methods-visual.md) `V5` 第 6 条）。
@@ -208,7 +211,7 @@ D1 问题与价值
 
 ```markdown
 # 任务诊断
-- 已读细则（必须是上面 18 个文件的全名，少一个即未读完）：
+- 已读细则（必须是上面 19 个文件的全名，少一个即未读完）：
 - 工作模式：
 - 本轮目标：
 - 主终点与产出合同：

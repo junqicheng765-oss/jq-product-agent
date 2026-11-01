@@ -338,6 +338,16 @@
   DS4 批量应用：先 token、再组件、最后页面，全产品只在一处定义 token
   DS5 跨页一致性验收：scripts/style_consistency_audit.py passed
   DS6 本地缺的去线上库补（区块库、Tweakcn 新主题、动效走 MI），验收通过的沉淀回预设库
+
+颜色单独成层【配色智能】（methods-color.md），跟在风格之后：
+  CI0 先定风格和语义角色（页面底、文字、按钮、边框、状态）
+  CI1 本地 5 套系统 / 品牌色 from-brand / 用户粘贴的灵感色板 from-palette
+      ——Coolors、Color Hunt、Huemint 只作灵感，禁止抓取和调用非商用 API
+  CI2 语境明确则直接定；要探索时 preview 3 套（本地预览 + Realtime Colors 链接）
+  CI3 转成 Design Tokens（浅/暗 + Radix 12 阶）
+  CI4 只写入颜色变量，不改字体圆角
+  CI5 color_intelligence.py contrast 必须 PASS
+  CI6 验收通过的新系统沉淀进 color-presets/
 ```
 
 ### 2. 图标 / 3D 道具 / 插画 / Lottie「MCP + API 双通道」调取与高颜值头像/海报生成链路

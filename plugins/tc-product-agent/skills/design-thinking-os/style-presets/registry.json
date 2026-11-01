@@ -1102,5 +1102,23 @@
         "note": "Figma/Sketch 套件，不是代码"
       }
     ]
+  },
+  "color": {
+    "module": "methods-color.md",
+    "registry": "color-presets/registry.json",
+    "defaultByFamily": {
+      "apple-native": "apple-minimal",
+      "glassmorphism": "apple-minimal",
+      "minimal-saas": "apple-minimal",
+      "editorial": "warm-editorial",
+      "soft-ui": "nature-calm",
+      "ai-product": "ai-gradient",
+      "futuristic": "dark-premium",
+      "content-feed": "nature-calm",
+      "enterprise": "apple-minimal",
+      "material": "nature-calm",
+      "accessible": "apple-minimal",
+      "game": "dark-premium"
+    }
   }
 }

@@ -401,6 +401,20 @@ UI 内原位生图记录（如适用，V7 路径 A）：Figma 节点 ID / 生图
 线上补充与沉淀（DS6）：资源 / 来源 URL / 许可证 / 用途；新沉淀进 style-presets 的预设与 registry.json 变更
 ```
 
+## 配色智能记录
+
+```markdown
+风格族与候选系统（CI0）：
+来源（CI1）：本地系统 ID / 品牌 hex + 色阶 / 用户粘贴的灵感色板（站点名，非抓取）——禁止写编造的「来自 Coolors xxx」
+探索（CI2）：直接拍板 / 3 套预览文件与用户选择 / 已有产品换色的确认记录
+语义 token（CI3）：background / foreground / card / primary / muted-foreground / border / ring / destructive / success / warning（浅 + 暗）
+12 阶源色阶：中性 / 主色 / 成功 / 警告 / 危险
+V2 记录是否写齐：
+应用（CI4）：写入的 CSS 文件 / 只改颜色未改字体圆角
+对比度（CI5）：color_intelligence.py contrast 结果（正文 ≥ 4.5，大字普惠 ≥ 7）
+沉淀（CI6）：新系统文件与 registry 变更
+```
+
 ## 独立海报 / 运营图 / 主视觉 KV 制作合同（优先 IconScout 素材快拼 vs 双垫 AI 生图）
 
 适用：最终交付物是独立运营图、活动海报或宣发主视觉 KV（`TR4` / `V7 路径 B`），严禁无结构草图盲目生图；能用现成透明底素材快速拼装的优先走方式 1，无需动用整图 AI 生图。
