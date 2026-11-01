@@ -194,7 +194,8 @@ D7 不是“离开 Figma 去做视觉成品”的固定下一阶段。只有最�
 
 - Figma 原型可以使用已批准 UI 和组件状态，表达关键触发、起止帧、页面关系和大致方向，用于评审或预测试；必须标 `FIGMA_MOTION_PREVIEW`。
 - Figma 原型不能证明最终 easing、时间、打断、代码行为和性能已实现，也不能替代 reduced motion、中断、返回、快速重复触发和资源释放验收。
-- **正式 UI 交互动效最终必须通过写代码实现**（如 CSS / JS / GSAP / Framer Motion / SwiftUI / 原生客户端动效代码），确保与真实 UI 组件、实时手势和异步状态绑定，并在目标运行环境完成测试。
+- **正式 UI 交互动效最终必须通过写代码实现**（如 CSS / JS / GSAP / Motion / Anime.js / SwiftUI / 原生客户端动效代码），确保与真实 UI 组件、实时手势和异步状态绑定，并在目标运行环境完成测试。
+- **写代码前先检索现成组件**：规格定好后，按 [methods-motion.md](methods-motion.md) `MI` 去 React Bits、Aceternity UI、Motion Primitives、Uiverse、21st.dev 找可直接取源码的组件。先审源码，再安装或复制，然后改成规格数值和设计 token，并记录来源与许可证。没有合适的，才用项目已有引擎自写。不引入付费组件、不运行未审的安装命令、不编造来源。
 
 ### B. 复杂视觉动效、3D 流体光影、运营动态图与宣传视频（首尾帧垫图 → 生视频模型 → 转码 MP4 / WebM / GIF / 动态 WebP 路线）
 

@@ -164,7 +164,7 @@ D1 问题与价值
 - [methods-interaction.md](methods-interaction.md)：页面职责、反馈、异常。
 - [methods-ui.md](methods-ui.md)：信息层级、组件、状态、文案。
 - [methods-visual.md](methods-visual.md)：Figma UI 内的全部界面视觉依据、26+6 风格参数字典（国际化 8 + 国内 8 + 游戏 10 + 通用质感 6）、色字图与候选；融合 IconScout 官方 MCP（`https://mcp.iconscout.com/mcp`）与内置 v3 API 兜底脚本 [scripts/iconscout.py](scripts/iconscout.py)（`Client-ID: 232598791050530`）用于拉取统一风格的 `icon / 3d / lottie / illustration`；只有非界面视觉成品或明确独立资产委托才另走视觉工具。
-- [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；视频/动态图形和格式特定动画按工具路由执行。
+- [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；`MI` 从 React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev 检索动效源码并集成；视频/动态图形和格式特定动画按工具路由执行。
 - [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
 - [methods-close.md](methods-close.md)：按工作模式验收，内置 `QA0`（用户可用性 × 审美与品位 × 设计标准）三大维度审查与 [scripts/ui_geometry_audit.py](scripts/ui_geometry_audit.py) 自动 DOM 几何/对齐/碰撞/头像质检门。
 - [templates.md](templates.md)：诊断、工作包和产出模板。
@@ -193,6 +193,7 @@ D1 问题与价值
 - **图标、3D 图标、插画、Lottie 动效一律先去 IconScout 拿现成专业素材**（它同时有线性/面性图标、3D、插画和 Lottie 动画），同一屏用同一套系。不要自己手写 SVG 路径、用 CSS/Canvas 拼图形或让模型临时画简陋图标、简陋动画。返回、设置、关闭这类功能按钮里的图标也算，必须放下载好的成品 SVG 文件，禁止为了「按钮里要有 SVG」而手写一个齿轮或箭头。IconScout 确实没有合适的才退一步：图标用成熟开源图标库的同风格整套，3D/插画按统一风格 AI 生成，动效用现成素材改色或在专业素材基础上加动画；只有品牌专属图形才自制，且必须达到同套图标的网格、线宽和精致度。
 - **对象按它自己的样子表现，缩小也要认得出**：界面里出现用户在现实或该领域里认得的对象时，先找出用户靠什么认出它，按它本来的视觉惯例表现。不能用它的名字代替它本身。显示尺寸放不下完整形态时，用这个领域已有的缩略方式保留识别特征，而不是退成写字。方法见 [methods-ui.md](methods-ui.md) `U7`。
 - **风格的材质要做到每一个组件上**：按钮、标签、面板、图标、输入框都要达到所选风格的工艺，不能只做背景和主视觉。检查时找全屏最弱的那个元素。方法见 [methods-visual.md](methods-visual.md) `V0` Step 3 末尾「贯穿 6 维的硬要求」。
+- **写成代码的动效先去组件库找源码**：先写清这条动效要解决什么、怎么触发、起止状态和时长，再按 [methods-motion.md](methods-motion.md) `MI` 去 React Bits、Aceternity UI、Motion Primitives、Uiverse、21st.dev 检索。合适的审过源码后直接拿来，改成规格数值和设计 token，并记录来源与许可证；没有合适的再用项目已有引擎自写。不用付费组件，不运行未审的安装命令，不编造来源。
 - **IconScout 素材服务（MCP）没装就直接装**：Agent 自己跑安装命令或在配置里追加，并发起浏览器登录，只告诉用户“点一下授权”；不询问、不只给提示。本轮未生效前先用内置脚本 `scripts/iconscout.py`（见 [methods-visual.md](methods-visual.md) `V5` 第 6 条）。
 - **工具不可用时换载体，不停工**：有 Figma 且项目以 Figma 为主稿时在 Figma 做；Figma 未连接、或用户要快速看效果/可操作 Demo 时，直接用 HTML/代码按同一套风格参数出界面，并跑 `scripts/ui_geometry_audit.py` 验收。只有用户明确要求必须交 Figma 文件而 Figma 不可用时，才说明情况。
 - **“已批准/已确认”的含义**：用户已认可的稿，或 Agent 本轮产出并通过自检的稿，都可以作为下游（视觉、动效、生视频）的冻结输入；不需要单独等用户点头。用户委托做设计即视为允许 Agent 在平台规范、设计系统或风格库范围内探索具体数值。

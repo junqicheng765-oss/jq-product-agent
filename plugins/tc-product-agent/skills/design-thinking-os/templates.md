@@ -415,7 +415,7 @@ UI 内原位生图记录（如适用，V7 路径 A）：Figma 节点 ID / 生图
 
 ## UI 交互动效规格（纯代码实现路线）
 
-只在表达界面反馈、状态转换或空间关系时使用。Figma 原型仅作 `FIGMA_MOTION_PREVIEW` 预览，**正式交付最终必须通过写代码实现（CSS / JS / GSAP / Framer Motion / SwiftUI 等）**。以下仅为交付展示摘要；实际执行和验收必须逐条填写 [methods-motion.md](methods-motion.md) 的“共用实现规格”，不得用本摘要省略起止值、中断、焦点、减弱或性能字段。
+用于表达界面反馈、状态转换或空间关系；首屏、背景、文字特效等品牌表现动效也用本模板，D5、焦点、手势字段不适用时写「不适用」。Figma 原型仅作 `FIGMA_MOTION_PREVIEW` 预览，**正式交付最终必须通过写代码实现（CSS / JS / GSAP / Framer Motion / SwiftUI 等）**。以下仅为交付展示摘要；实际执行和验收必须逐条填写 [methods-motion.md](methods-motion.md) 的“共用实现规格”，不得用本摘要省略起止值、中断、焦点、减弱或性能字段。
 
 ```markdown
 规格 ID / 版本 / M1–M3：
@@ -423,7 +423,9 @@ UI 内原位生图记录（如适用，V7 路径 A）：Figma 节点 ID / 生图
 Figma UI 来源节点与版本：（必填）
 稳定对象 / 组件状态 / 起止画面标识：（必填）
 FIGMA_MOTION_PREVIEW 节点与版本：（仅做预览时填写）
-正式 UI 交互动效工具动作 ID 与代码实现栈（CSS / JS / GSAP / 客户端代码）：（正式交付时必填）
+正式 UI 交互动效工具动作 ID 与代码实现栈（CSS / JS / GSAP / Motion / Anime.js / 客户端代码）：（正式交付时必填）
+组件检索（MI）：检索条件 / 比较过的候选 / 选用的库与组件页 URL / 许可证 / 源码审查结论 / 新增依赖及体积 —— 或「库里无合适组件，自写，引擎：」
+修改的文件：
 D5 含义、状态及来源：
 触发事件 / guard / 重复触发：
 起态 / 终态：
