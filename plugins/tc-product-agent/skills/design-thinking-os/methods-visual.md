@@ -138,7 +138,7 @@
      选完风格不只用参数表：组件先从 [component-recipes/](component-recipes/registry.json) 取；React 项目缺的再从区块库补；本地缺的再按 [methods-style-engine.md](methods-style-engine.md) `DS6` 去线上补。
    - 立即写入当前任务的 `V0 视觉方向与 6 维决策卡`（或 `DESIGN-<模块>-任务包.md`），锁死为本轮唯一视觉数据源。
 3. **Step 5.3｜自动拼进 Figma / 组件库 / 生图执行指令**：
-   - **操作 Figma（`use_figma` / Figma Agent / Make）**：使用下方模板将锁定的 Token 数值绑定为 Figma Variables / Styles，并把组装好的指令发送给 Figma 执行层：
+   - **操作 Figma AI 生成 UI（严禁 Codex 用 `use_figma` 从零手画矩形框）**：Codex 只负责使用下方模板把前置推导的页面功能区块、交互控件、锁定的 Token 数值与参考图（`refs/`）组装成完整的结构化提示词，然后通过 Computer Use / 宿主操作 **Figma AI（Figma Agent / First Draft / Make）** 生成可编辑的设计稿 Frame，再将搜集好的 IconScout / 真图素材带入微调：
      ```text
      [Figma 视觉执行指令组装模板]
      - 绑定风格：{style_id} {style_name}
@@ -457,9 +457,9 @@ Typography Token ID：
 
 | 最终交付物类型 | 标准工具工作流 | 核心纪律与原因 |
 | :--- | :--- | :--- |
-| **1. UI / 产品界面**<br>*(最终要接入 Product Agent 做出可交互 Demo)* | **进 Figma 拼装 UI Frame → 再 1:1 还原成可交互 Demo**<br>1. 在 Figma 中绑定 `style-presets/` 变量，调用组件库、IconScout 真实图标/3D、`real_image.py` 真实摄影拼装可编辑 Frame（游戏/强材质界面里的头像、绒面、木纹等局部材质作为图像资产填入图层，扑克牌 `5:7` 标准尺寸、按钮与 HUD 布局由精确组件控制）；<br>2. 依据 Figma 节点还原为可交互 HTML/前端 Demo，并跑通 `ui_geometry_audit.py`、`style_consistency_audit.py`、`color_intelligence.py`。<br>*(仅当无 Figma 环境且用户明确走本地路线时，直接用 `component_recipe.py` 真实组件 + CSS Token 拼装可交互 Demo)* | **严禁直接拿一张 AI 生成的整屏图片充当 UI！** 整屏 AI 生图没有组件结构、扑克牌/控件尺寸失真，且无法还原成可交互 Demo |
-| **2. 单张图 / 视觉图像资产**<br>*(概念图、插画、角色头像、局部材质/背景图)* | **产出提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）** | 交付物本身就是图像时，重点是锁定画风、构图与光影，用精选垫图 + 结构化提示词直接出图 |
-| **3. 海报 / 运营图 / Banner / 主视觉 KV**<br>*(见下方 `V7 路径 B`)* | 先定图文占比与**版面结构草图（`layout_sketch`）**，二选一：<br>1. **搜索素材去 Figma 拼装**：从 IconScout 搜透明底 3D/插画素材、从 `real_image.py` 搜真图，导入 Figma 配合版式底板与矢量文字拼装；<br>2. **垫图 + 提示词调生图工具**：先搜 2–3 张风格参考图让用户选定感觉（`style_ref`），再拿「结构草图 + 风格垫图 + 提示词」调生图工具 | 复杂版式（如上下结构、多模块）在 Figma 里搜素材拼装最清晰可控；需要全画幅光影融合时用双垫生图 |
+| **1. UI / 产品界面**<br>*(最终要接入 Product Agent 做出可交互 Demo)* | **Codex 生成结构化提示词 + 带好参考图 → 操作 Figma AI 生成设计稿 → 补充真实素材精修 → 再 1:1 还原成可交互 Demo**<br>1. **不是让 Codex 自己调 `use_figma` 从零手画矩形框！** Codex 负责根据前序推导组装完整的 **Figma AI 提示词**（含页面职责、功能模块、交互控件、风格色板参数）并带好 `refs/` 竞品参考图，通过宿主 GUI / Computer Use 操作 **Figma AI（Figma Agent / First Draft / Make）** 生成可编辑的设计稿 Frame；<br>2. 将从 IconScout 拉取的真实图标/3D、从 `real_image.py` 拉取的真实摄影或游戏局部材质贴入/替换进 Frame 精修；<br>3. 通过 Figma MCP（`get_design_context` / `get_screenshot`）读取该 Frame 节点，还原为可交互 HTML/前端 Demo，并跑通 `ui_geometry_audit.py`、`style_consistency_audit.py`、`color_intelligence.py`。 | 既严禁让 Codex 调 `use_figma` 手写低劣色块，也严禁直接拿一张整屏 AI 位图充当 UI；必须由 Codex 备好 Prompt + 参考图驱动 Figma AI 生成可编辑图层，再还原为可交互 Demo |
+| **2. 单张图 / 视觉图像资产**<br>*(概念图、插画、角色头像、局部材质/背景图)* | **Codex 产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）** | 交付物本身就是图像时，重点是锁定画风、构图与光影，用精选垫图 + 结构化提示词直接出图 |
+| **3. 海报 / 运营图 / Banner / 主视觉 KV**<br>*(见下方 `V7 路径 B`)* | 先定图文占比与**版面结构草图（`layout_sketch`）**，二选一：<br>1. **搜索素材去 Figma 拼装**：从 IconScout 搜透明底 3D/插画素材、从 `real_image.py` 搜真图，导入 Figma 配合 Figma AI / 版式底板与矢量文字拼装；<br>2. **垫图 + 提示词调生图工具**：先搜 2–3 张风格参考图让用户选定感觉（`style_ref`），再拿「结构草图 + 风格垫图 + 提示词」调生图工具 | 复杂版式（如上下结构、多模块）在 Figma 里搜素材拼装最清晰可控；需要全画幅光影融合时用双垫生图 |
 
 ### 关键执行纪律
 

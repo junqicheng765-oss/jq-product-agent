@@ -41,7 +41,7 @@ description: 在 JQ Product Agent 中执行 Figma 设计工作流，检查并引
 
 写入前按 [执行前核对卡](../tc-product-agent/references/18-Figma执行前核对卡.md) 引用任务包、有效授权、唯一目标和保护范围。无目标时请使用者指定归属并提供文件，不自行建团队、项目或文件；已有授权范围直接沿用。
 
-执行前必须已有同包 `$design-thinking-os` 写出的 `design-decisions.md`（含 D1–D9 状态、第一眼对象位置、逐组件材质句子、「现在才允许做页面」）。没有这份文件，本 Skill 不得生成或精修页面。读取 [生成与直接精修手册](references/figma-execution.md)，并按决定文件执行，不要在这里重新选风格或跳过真图库。旧页直接编辑；新整页按决定文件锁定的风格参数生成后精修；同一区域生成与精修串行。人物头像/图标/3D/插画走 IconScout；真实摄影先走 Real Image Library（`IM`）；无匹配或必须虚构才原位生图。回传前执行 [QA0 三大维度验收](../design-thinking-os/methods-close.md)（用户可用性 × 审美与品位 × 设计标准）。
+执行前必须已有同包 `$design-thinking-os` 写出的 `design-decisions.md`。没有这份文件，本 Skill 不得生成或精修页面。读取 [生成与直接精修手册](references/figma-execution.md)，并按决定文件执行：**新整页生成时，不是让 Codex 调 `use_figma` 写代码手画图层，而是由 Codex 生成结构化提示词并带好参考图，通过宿主 GUI / Computer Use 操作 Figma AI（Figma Agent / First Draft / Make）生成设计稿**，再将从 IconScout / Real Image Library（`IM`）检索好的真实素材带入精修；旧页在原稿上直接编辑。回传前执行 [QA0 三大维度验收](../design-thinking-os/methods-close.md)（用户可用性 × 审美与品位 × 设计标准）。
 
 D 可先用灰框加文字的流程骨架验证链路。进入正式视觉与有样式交付前，必须已有 `design-decisions.md`，再形成代表链路所需的 Figma 页面/状态并还原。E 扩展时先更新决定文件与主稿，再同步 Demo。不为检验工具擅自生成页面；不以本地 HTML 冒充 Figma 设计完成。
 

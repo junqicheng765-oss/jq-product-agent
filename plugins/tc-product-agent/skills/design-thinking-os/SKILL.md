@@ -100,14 +100,16 @@ description: >-
 
 2. **按最终交付物类型走对应的工具与制作工作流（[methods-tool-routing.md](methods-tool-routing.md) + [methods-visual.md](methods-visual.md) `VT` / `V7`）**：
    - **路线 A｜产出是 UI / 产品界面（最终要落地成可交互 Demo）**
-     - **铁律：严禁拿一张 AI 直接生成的整屏图片充当 UI！** 整屏 AI 生图没有组件结构、卡牌/控件尺寸失真，且无法在 `jq-product-agent` 中还原成可交互 Demo。
-     - **标准动作**：**进 Figma 拼装 → 再还原成可交互 Demo**。在 Figma 中用真实图层、Auto Layout、Variables、组件库、IconScout 图标/3D 与 `real_image.py` 真图拼装出准确的 UI Frame（游戏/强材质界面里的头像、绒面、木纹等作为局部图像素材贴入对应容器，扑克牌 `5:7` 标准尺寸、按钮与 HUD 必须由精确组件控制）；Figma 确认后再按节点 1:1 还原成可交互 HTML/前端 Demo（仅当无 Figma 且明确走本地代码路线时，直接用 `component_recipe.py` 真实组件 + `style_preset.py` Token 拼装可交互 Demo）。
+     - **核心原则（严禁 Codex 自己调 `use_figma` 硬画图层，也严禁直接拿一张 AI 生图当 UI）**：
+       - **不是让 Codex 自己操作 Figma 画框搭页面！** Codex 调 `use_figma` 手写代码画出来的全是简陋色块；
+       - **Codex 的职责是**：走完前面的用研、竞品、流程、交互控件与风格决策后，**生成完整的结构化提示词（Prompt，包含页面职责、功能模块、具体交互控件、风格色板参数）并带好参考图（`refs/` 真实竞品参考图）→ 操作 Figma AI（Figma Agent / First Draft / Make）生成可编辑的 UI 设计稿**（再将从 IconScout / `real_image.py` 搜好的真实图标、3D、真图素材带进去替换或拼装精修）；
+       - **还原成可交互 Demo**：Figma AI 生成设计稿并确认后，通过 Figma MCP（`get_design_context` / `get_screenshot`）读取该 Frame 节点，1:1 还原成**可交互 Demo（HTML/前端代码）**，并跑通几何、对比度、风格一致性验收脚本。
    - **路线 B｜产出本身是一张图（概念图、插画、角色立绘/头像、局部材质/背景图等纯图片交付）**
-     - **标准动作**：**产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）生成图片**。
+     - **标准动作**：**Codex 负责产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）生成图片**。
    - **路线 C｜产出是海报 / 运营图 / Banner / 主视觉 KV（[methods-visual.md](methods-visual.md) `V7 路径 B`）**
      - 先定图文占比与**版面结构草图（`layout_sketch`）**，按场景二选一：
-       1. **搜索素材去 Figma 拼装**：从 IconScout 搜索透明底 3D/插画素材、从 `real_image.py` 搜索真实摄影，导入 Figma 配合版式底板与清晰矢量文字拼装成稿；
-       2. **垫图 + 提示词调生图工具**：先搜 2–3 张风格参考图让用户选出最想要的感觉（`style_ref`），再拿「版面结构草图 + 风格参考垫图 + 结构化提示词」直接调用生图工具生成。
+       1. **搜索素材去 Figma 拼装**：从 IconScout 搜索透明底 3D/插画素材、从 `real_image.py` 搜索真实摄影，带进 Figma 配合 Figma AI / 版式底板与清晰矢量文字拼装成稿；
+       2. **垫图 + 提示词调生图工具**：先搜 2–3 张风格参考图让用户选出最想要的感觉（`style_ref`），由 Codex 产出结构化提示词 + 带好「版面结构草图 + 风格参考垫图」直接调用生图工具生成。
    - **动效判断（[methods-motion.md](methods-motion.md) `D8` / `TR5`）**：
      - **UI 交互动效（`TR5-A`）**：从动效组件库（`MI`：React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev）检索源码集成到可交互 Demo；
      - **轻量矢量动画（`TR5-C`）**：从 IconScout 拉取真 `Lottie (.json)` 或基于专业矢量图标加动画；
