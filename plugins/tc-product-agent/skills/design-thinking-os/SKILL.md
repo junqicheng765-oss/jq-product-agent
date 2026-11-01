@@ -34,9 +34,10 @@ description: >-
         - **① 用户研究与场景痛点（`R1` + `CT`）**：服务什么人群、在什么设备与场景下使用、核心痛点是什么；
         - **② 三类竞品调研结论（`CMP1` 垂类竞品 / `CMP2` 同类操作竞品 / `CMP3` 同类用户竞品）**：拆解刚看的真实竞品界面是怎么组织模块与交互的、各自优缺点是什么、我们大概想做成什么样；
         - **③ 流程与具体交互形式设计（`F1–F3` + `I1–I6` + `U4`）**：明确页面职责（`I3`）、功能模块架构、对象尺寸（`U7`），以及**每个核心操作具体采用什么交互控件（`U4`：如下拉菜单、Picker、底部弹窗、常驻胶囊条还是分列点选）**；
-     4. **在汇报末尾调用提问工具（`request_user_input_async` / `AskQuestion`，不同维度分成独立问题，绝不把“设备”和“交付物”混成一个互斥单选）征求用户意见**：
-        - **问题 1（视觉风格方向选择 `V0`）**：根据前面的竞品与定位，给出 **2–3 个差异化的视觉风格方向**（用大白话讲清各自要传达的意思和视觉手段，首项标 `(Recommended)`），让用户选择他想要的风格；
-        - **问题 2（交互方案与交付确认）**：确认上述交互方案与设备场景是否合理，以及本次先交付高保真设计稿还是可交互 Demo。
+     4. **在汇报末尾调用提问工具（`request_user_input_async` / `AskQuestion`，不同维度分成独立单选题，最多 3 题）征求用户意见**：
+        - **问题 1（视觉风格方向选择 `V0`）**：根据前面的竞品与定位，给出 **2–3 个差异化的整体视觉风格方向**（用大白话讲清各自要传达的意思和视觉手段，首项标 `(Recommended)`），让用户选择；
+        - **问题 2（人物头像画风选择 `V5`，当界面包含玩家/用户头像时必问）**：询问用户偏好哪种头像画风——例如 **① 3D 潮玩 / Q 版卡通头像**、**② 国风 / 精致插画头像**、还是 **③ 写实人物头像**（避免未经询问直接生出写实大叔或违和泥人）；
+        - **问题 3（交互方案与交付载体确认）**：确认上述交互方案与设备场景是否合理，以及直接在浏览器预览出高保真可交互组件稿，还是需要同步进 Figma。
      5. **🛑 第一轮硬停止点**：发出上述汇报和提问后，**本轮立即停止等待用户回复！在用户选定视觉风格之前，严禁运行 `style_preset.py`、严禁运行 `component_recipe.py`、严禁运行 `iconscout.py`、严禁调 Figma 或写代码！**
 
    - **【第二轮（用户选定风格并确认交互后）：调取风格/组件/IconScout 库落盘 → 写出 `design-decisions.md` → 制作与总监终审】**
@@ -44,7 +45,7 @@ description: >-
        1. `python3 scripts/style_preset.py show <用户选定的风格编号>` 与 `color_intelligence.py contrast`、`typography_intelligence.py pick`；
        2. `python3 scripts/component_recipe.py copy <本页所用全部配方ID> --to <任务目录> --preset <风格编号>`（同时生成 `recipes.css` 与 `theme.css`，完整复用配方实现，禁止只跑 `show` 看一眼就自己手画平涂色块）；
        3. `python3 scripts/iconscout.py search -q "<英文关键词>" -a <icon|3d|illustration|lottie> -d <任务目录>/assets`（实际下载素材文件落盘，严禁去 GitHub 乱扒 `SVG-cards` 等老旧剪贴画）；
-       4. 凡有角色/用户头像，先用 `iconscout.py` 检索并过 `V5` 第 7 条文化风格与同套系判断门，库内无匹配同套系头像时，必须调用生图工具按统一母体风格前缀成套生成头像图片（`avatar-*.png/jpg` 存入 `<任务目录>/assets`），**严禁用“名字首字圆圈（如 周/林/宁/我）”回退充数！**
+       4. 凡有角色/用户头像，先用 `iconscout.py` 检索并过 `V5` 第 7 条判断门；库内无匹配同套系头像时，**严格按用户在第一轮选定的头像画风（Q版3D卡通 / 国风插画 / 写实人物）**锁定统一母体风格前缀，调用生图工具成套生成头像图片（`avatar-*.png/jpg` 存入 `<任务目录>/assets`），**严禁用“名字首字圆圈（如 周/林/宁/我）”回退充数！**
        5. 写出完整的 `<任务目录>/design-decisions.md`，并运行 `python3 scripts/verify_library_usage.py <任务目录> [--require-avatars N] [--require-photos]`，返回 `"passed": true` 后才允许进入工具制作！
    - **砍掉 4 项浪费时间的无用功（不要再白跑）**：
      1. **0→1 新项目且无 `.design-memory/index.json` 时，不跑 `asset_memory.py search`**（空库必未命中）；
@@ -121,12 +122,13 @@ description: >-
    - **成熟组件库与通用配方**（[methods-style-engine.md](methods-style-engine.md) `DS3`）：React 项目调 `shadcn/ui`、`Magic UI`、`Ant Design` 等组件库；跨技术栈或 HTML 原型用 `python3 scripts/component_recipe.py` 调取结构配方。
 
 2. **按最终交付物类型走对应的工具与制作工作流（[methods-tool-routing.md](methods-tool-routing.md) + [methods-visual.md](methods-visual.md) `VT` / `V7`）**：
-   - **路线 A｜产出是 UI / 产品界面（最终要落地成可交互 Demo）**
-     - **为什么不能让 Codex 直接用 `figma_use_figma` 写 JS 画框？**  
-       因为你内置的组件库（`component-recipes/`、`shadcn`、`Magic UI`、`style-presets/`）全是 HTML/CSS/React 代码，而 Figma MCP 的 `use_figma` 只接受底层 Plugin API JS（`figma.createRectangle` + 纯色填充）。一旦让 Codex 用 `use_figma` 手写 JS 画界面，所有的组件库样式、立体高光阴影都会丢失，退化成简陋的平涂色块！
-     - **正确做法（二选一，严禁用 `use_figma` 手画简陋平涂色块，也严禁拿一张整屏 AI 位图充当 UI）**：
-       1. **生成提示词 + 带好参考图 → 操作 Figma AI（First Draft / Make）生成**：Codex 根据前序推导产出完整的结构化提示词并带好 `refs/` 参考图，通过宿主 GUI（Computer Use）操作 Figma 客户端内的 Figma AI 生成设计稿，再把从 `iconscout.py` / `real_image.py` / 同套系头像生成拿到的真实素材贴入图层；最后还原成可交互 Demo。
-       2. **先用内置组件库 + 风格预设 + IconScout 素材搭出高保真 HTML 组件页 → 再用 `generate_figma_design` / `html_to_figma` 导进 Figma**：如果当前环境无法通过 GUI 调起 Figma AI，必须先在本地用 `component_recipe.py copy` + `style_preset.py export` + `iconscout.py` 真实素材 + 成套生成的头像搭出完整高保真页面（让组件库的 3D 按钮、渐变、阴影和标准尺寸 100% 生效），再通过 `generate_figma_design` / `html_to_figma` 转为可编辑 Figma 图层，绝不许用 `use_figma` 裸写平涂矩形！
+   - **路线 A｜产出是 UI / 产品界面（最终要接入 `jq-product-agent` 落地成可交互 Demo）**
+     - **核心原则**：我们内置的组件配方库（`component-recipes/`）、风格预设（`style-presets/`）和开源组件库（`shadcn`、`Magic UI`）全部是原生 HTML/CSS/React 代码，且 `jq-product-agent` 的最终目标是产出**有样式、可操作的 Demo**。
+     - **默认推荐主路线（0→1 无既有 Figma 主稿时：直接用组件库 + 真实素材搭出高保真页面并在内置浏览器预览）**：
+       - 直接用 `component_recipe.py copy` + `style_preset.py` + `iconscout.py` 下载的图标/3D + 成套生成的头像/真图，搭出像素级精确的高保真 HTML/前端页面，并在宿主内置浏览器（如 `127.0.0.1` 实时预览窗口）打开展示，同时跑通 `verify_library_usage.py`、`ui_geometry_audit.py`、`style_consistency_audit.py`、`color_intelligence.py`、`a11y_audit.py` 五大脚本。
+       - **为什么这样最好**：所有组件库的 3D 按钮高光、渐变、阴影、标准扑克尺寸 100% 原生生效，不经过 `use_figma` 劣化，而且做出来的设计稿直接就是可点击验证的 Demo！
+     - **什么时候调 Figma（已有 Figma 主稿或用户明确要求交 Figma 时）**：
+       - 当项目已有 Figma 主稿需要延展，或用户在提问中明确要求交付 Figma 文件时，通过 Figma AI 生成或将上述搭好的高保真组件页导入 Figma，严禁用 `use_figma` 裸写 `SOLID` 平涂简陋色块！
    - **路线 B｜产出本身是一张图（概念图、插画、角色立绘/头像、局部材质/背景图等纯图片交付）**
      - **标准动作**：**Codex 负责产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）生成图片**。
    - **路线 C｜产出是海报 / 运营图 / Banner / 主视觉 KV（[methods-visual.md](methods-visual.md) `V7 路径 B`）**
@@ -186,10 +188,10 @@ description: >-
 
 1. **0→1 需求第一轮怎么汇报与提问（先给出用研/竞品/交互方案，再请用户选视觉风格与确认交互）**：
    - 当用户给了一个 0→1 需求（如“给我做一个掼蛋”），**严禁第一轮什么都不分析就只抛一个空问题，更严禁一上来就直接宣布用什么视觉风格！**
-   - 第一轮必须先完成并向用户汇报 **【① 用户与场景痛点、② 三类竞品调研拆解、③ 任务流程与具体交互控件方案】**，然后在同一次回复末尾用提问工具弹出 **2–3 道独立单选题**（绝不要把“用什么设备”和“交付设计稿还是 Demo”混进同一个单选里）：
-     - **第 1 题（选定视觉风格方向）**：提供 2–3 个适合该产品的差异化视觉风格选项（用大白话讲清各自想表达的感受与视觉手段，首项标 `(Recommended)`），让用户选择；
-     - **第 2 题（确认目标设备与交互方案）**：确认主要使用设备（如手机横屏 vs 电脑网页）及上述交互控件设计是否合理；
-     - **第 3 题（确认交付形态）**：先做高保真设计稿，还是直接做成可交互 Demo。
+   - 第一轮必须先完成并向用户汇报 **【① 用户与场景痛点、② 三类竞品调研拆解、③ 任务流程与具体交互控件方案】**，然后在同一次回复末尾用提问工具弹出 **2–3 道独立单选题**：
+     - **第 1 题（选定整体视觉风格方向）**：提供 2–3 个适合该产品的差异化视觉风格选项（用大白话讲清各自想表达的感受与视觉手段，首项标 `(Recommended)`），让用户选择；
+     - **第 2 题（选定人物头像画风，当界面有玩家/用户头像时必问）**：让用户选择想要 **3D 潮玩/Q 版卡通头像**、**国风/精致插画头像**、还是 **写实人物头像**；
+     - **第 3 题（确认交互方案与交付载体）**：确认设备场景与交互控件方案，以及直接出浏览器高保真组件预览/可交互 Demo 还是需要进 Figma。
    - **发出提问后立即停止本轮，等用户回复选定视觉风格后，第二轮再跑 `style_preset.py`、`component_recipe.py`、`iconscout.py` 调库制作！**
 2. **其他情况什么时候征求用户意见**：
    - **做海报 / KV 走 AI 生图时**：先搜 2–3 张不同感觉的风格参考图并排给用户看，让用户挑 1 张最想要的感觉拿去垫图；
