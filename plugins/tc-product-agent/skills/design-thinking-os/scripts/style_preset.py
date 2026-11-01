@@ -118,7 +118,8 @@ def cmd_list(a):
     for f in fams:
         print(f"[{f['id']}] {f['name']} — {f['scenes']}")
         print(f"   系统预设: {', '.join(f['systems']) or '-'} | 内置风格: {', '.join(f['dto']) or '-'} | Tweakcn: {', '.join(f['tweakcn']) or '-'}")
-        print(f"   页面区块库: {', '.join(f['layout']) or '-'} | 动效库: {', '.join(f['motion']) or '-'}")
+        print(f"   通用组件配方: {', '.join(f.get('recipes', [])) or '-'}（python3 scripts/component_recipe.py list --tag <标签>）")
+        print(f"   React 区块库: {', '.join(f['layout']) or '-'} | 动效库: {', '.join(f['motion']) or '-'}")
     if not a.family:
         print(f"\n共 {len(reg['presets']['systems'])} 个系统预设、{len(reg['presets']['dto'])} 个内置风格、{len(reg['presets']['tweakcn'])} 个 Tweakcn 主题。")
 

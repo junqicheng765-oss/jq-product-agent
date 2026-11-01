@@ -69,7 +69,10 @@
           "#A1A1AA"
         ],
         "primary": "#111827",
-        "extra": []
+        "extra": [
+          "#FAFAFA"
+        ],
+        "extraSource": "methods-visual.md 参数字典同一行里写到、原预设漏收的颜色"
       },
       "radiusScale": {
         "card": 8,

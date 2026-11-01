@@ -1,350 +1,159 @@
 ---
 name: design-thinking-os
 description: >-
-  Triages any product-design request, identifies the earliest unresolved
-  design decision that can materially change the requested output, and calls
-  only the necessary research, flow, interaction, UI, visual, motion, or
-  validation methods. Before creating any UI file, design node, or user-facing
-  page, write design-decisions.md in the task folder with D1-D9 statuses,
-  first-look object placement, and per-component material sentences copied from
-  the style dictionary; do not start the interface first. Use for design
-  execution, optimization, exploration, prototype validation, Figma
-  restoration, landing pages, flows, screens, redesigns, UI, visual, or motion
-  work.
+  Simulates a senior product/UI/visual designer and Design Director end-to-end.
+  Triages any request by how much is already defined: runs full 0-to-1 discovery
+  (user research, 3-type competitor analysis, flow design) when open, or critiques
+  and refines PM wireframes/expected interactions (information architecture, page
+  duty, concrete interaction controls like dropdown vs picker vs modal vs next page)
+  before entering UI. Routes UI through existing design systems, B2B component
+  libraries, or 0-to-1 style decisions (Apple, Gemini/Material, Claude editorial,
+  Cursor dark bento, CN lifestyle, Game UI styles), pulling real assets from
+  IconScout, Real Image Library, and component libraries instead of AI-slop icons,
+  using reference-image pad generation for posters/complex game UI, choosing the
+  right tool (Figma vs component code vs visual synthesis vs motion), and running a
+  strict Design Director final review (QA0) before delivery.
 ---
 
-# 设计任务工作流
+# 设计师完整工作流（Design Thinking OS）
 
-模拟设计师接到上游任务后的真实工作：先理解产品输入并翻译成设计可使用的语境，再判断需要直接做、分析、调研、设计或验证。方法库不是固定阶段；只有当前决定需要它时才调用。
+本 Skill 模拟一名**成熟设计师 + 设计总监**接到工作后的真实思考、决策、调库、选工具与终审全流程。  
+所有阶段的方法论细则与对应的素材库、组件库、配色/字体/验收脚本都已经内置在当前目录中——**不要跳过思考直接瞎画，不要让 AI 现画劣质图标，更不要用死板的机械套路去砍掉页面原本该有的功能。**
 
-## 核心规则
+---
 
-> 从「会实质改变本轮产出」的最早未解决决定开始；已确认、冻结、与本轮无关的上游不重做。
+## 一、设计师接单后的完整运作流程（按任务情况分流）
 
-决定链回答“现在缺哪个设计决定”；设计语境回答“用户、任务、行业和环境要求这个决定怎样解决”。两者缺一不可。
+### 第一步：看需求给到了什么程度，决定从哪切入（研究 → 竞品 → 流程 → 交互）
 
-因此：
+接到任务后，先判断上游给的信息处在哪个阶段（细则见 [methods-intake.md](methods-intake.md)、[methods-context.md](methods-context.md)、[methods-routing.md](methods-routing.md)）：
 
-- 输入完整、范围只是替换已批准的文案或既有组件内的已定内容：直接制作。**新的一屏、或要让用户看懂并输入的界面，即使上游需求已经写全，也不是直接制作。** 先判断这样安排对用户是否合理，再重做信息层级、这一屏的职责，以及输入怎么从用户的决定顺序组织。业务事实不改。不合理的安排回传上游，不直接画上去。
-- 问题位置已知但解法未定：从对应设计决定开始。
-- 谁用、为何用、怎样算成功不清楚：从问题探索开始。
-- 方案已有但不确定是否成立：从验证开始。
-- 有准确设计主稿、任务是还原：按主稿制作并做一致性验收，不擅自重设计。还原也要先有 `design-decisions.md`，把主稿里的对象和材质抄进文件，再动界面。
+1. **如果是 0→1 的需求（做什么功能、服务谁、大概想做成什么样还不清楚）**  
+   必须走完整的前置设计推导，不能直接跳去画图：
+   - **用户研究与语境翻译**（[methods-research.md](methods-research.md) `R0–R8` + [methods-context.md](methods-context.md) `CT2–CT9`）：搞清楚这是什么功能、服务什么人群、在什么真实情境下使用、用户的核心痛点与判断标准是什么，转化成具体可验收的设计原则（`BR1–BR2`）。
+   - **分类竞品调研**（[methods-competitive.md](methods-competitive.md) `CMP1–CMP3` + [methods-resource-routing.md](methods-resource-routing.md) `RR`）：
+     - 先运行 `python3 scripts/asset_memory.py search <场景>` 查内部已沉淀资产；
+     - 再按问题分别调研 **垂类/行业竞品（`CMP1`）**、**跨行业同类操作竞品（`CMP2`）**、**服务同类用户的竞品（`CMP3`）**，用网页搜索查看 3–5 个同类成熟产品的真实界面（存入任务目录 `refs/`），弄清楚行业基本盘、别人是怎么组织模块与视觉主角的、我们大概想做成什么样。
+   - **流程设计**（[methods-flow.md](methods-flow.md) `F1–F5`）：明确本轮做什么/不做什么（`F1`）、核心使用场景（`F2`）与用户主路径（`F3`）。
 
-禁止把所有任务强制跑成「用研→流程→交互→UI」；也禁止因用户说了“页面/UI/提升”就直接进入该方法。
+2. **如果产品经理已经给了需求文档、字段清单或“交互原型”**  
+   - **产品经理给的“交互”往往只是一个业务预期，不是真正的交互设计。** 设计师绝不能不加思考地照着字段清单画个表单或把页面砍成半成品。
+   - 必须先审视它合不合理，根据上游给的详细程度，在局部或整体上对 **信息架构、步骤切页（`I1`）、页面职责（`I3`）、异常反馈（`I5–I6`）以及具体的交互表现形式（`U4 组件选型`）** 做专业修改与决策（细则见 [methods-interaction.md](methods-interaction.md)、[methods-ui.md](methods-ui.md)）：
+     - **页面职责必须准确（`I3`）**：比如做“首页”，就必须承担首页的完整功能（让用户看懂产品能提供什么、有核心入口、有代表性内容/行程预览、有导航结构），绝不能做成只有一张图加一颗按钮的“详情页”，也不能做成干瘪的“填表页”。
+     - **具体交互形式由设计师决定（`U4`）**：比如让用户选择信息（目的地、日期、同行人、偏好），到底是用下拉菜单（Select）、滚轮 Picker、底部弹窗（Sheet/Modal）、快捷胶囊点选（Chips），还是跳去下一个页面？能默认带出或点选的，绝不让用户满屏打字。
+     - 如果发现上游安排对用户不合理（需要删减、合并或后置某些步骤），用提问工具给出专业建议让用户确认。
 
-## 没写完决定文件，不许创建界面
+3. **如果已有正式设计主稿要求还原，或只是替换已确认文案**  
+   - 直接按正式主稿与规范执行还原和一致性检查（[methods-close.md](methods-close.md)）。
 
-写出任何界面文件、设计稿节点或给用户看的页面之前，先在任务目录写 `design-decisions.md`。这个文件必须先于界面文件存在。已有界面再补这份文件，等于没走流程：停下来，按文件改界面，禁止把文件写成对现稿的描述。
+---
 
-文件里只写四块，每块都要有具体取舍，空标题不算：
+### 第二步：交互形式确定后，进入 UI 设计与视觉风格决策（[methods-ui.md](methods-ui.md) `U0` + [methods-visual.md](methods-visual.md) `V0` + [methods-style-engine.md](methods-style-engine.md) `DS`）
 
-1. **D1–D9 每项一个状态。**
-2. **这一屏第一眼是哪个对象，它占画面哪一块。**
-3. **从风格参数字典抄出的材质句子，逐个组件写用哪一句。禁止只写风格名字。** 必须是参数表里的原话，例如台呢径向变深、三个按钮分别是实心色加顶高光和底槽。交付时拿截图逐条对。对不上就不许写「过」。
-4. **一句「现在才允许做页面」。**
+当页面包含哪些功能区块、信息层级（`U1–U3`）、领域对象怎么表现（`U7`）以及用什么交互控件（`U4`）确定之后，再进入 UI 阶段，按 `U0` 三路分流：
 
-「直接制作」只表示不重做调研。信息层级和材质清单仍然先写进这个文件。  
-交付时的任务诊断不得早于这个文件。截图上看不见第 3 块写的材质，审美那条只能写不过。
+1. **情况 A｜存量项目风格延展（`U0` 路线 1）**  
+   - 如果项目已经有现成页面、设计系统或组件库，直接去读已有的设计规范与组件库（`DS0`），提取现有的主辅色、背景与卡片层级、圆角、字号阶梯、图标风格进行延展，不重新选风格。
 
-读完文件不是开工许可。开工许可只看任务目录里有没有写完这四块的 `design-decisions.md`。
+2. **情况 B｜纯 B 端 / 企业中后台从 0 到 1（`U0` 路线 2）**  
+   - 直接调用成熟的公开组件库（国内中后台用 `Ant Design` / `Arco Design` / `TDesign`；出海 SaaS / AI 工作台用 `shadcn/ui`；海外企业用 `MUI` / `Fluent UI`）及 `style-presets/systems/` 预设快速搭建。
 
-## 写出风格名字，不等于用了风格
+3. **情况 C｜C 端产品 / AI 产品 / 游戏 / 强品牌界面从 0 到 1（`U0` 路线 3 → `V0` 风格决策 + `DS` 风格引擎 + `CI` 配色 + `TY` 字体）**  
+   - 思考这个 UI 要传达什么核心感受、通过什么样的视觉手段来表达这个风格（细则见 [methods-visual.md](methods-visual.md) `V0` 的 **26 种风格预设 + 6 种通用质感**，以及 [style-presets/registry.json](style-presets/registry.json) 的 **13 个风格族**）：
+     - **现代 UI / AI / 消费级产品风格各不相同**：例如苹果毛玻璃通透风（`apple-native` / `INT-01`）、瑞士极简细线网格风（`INT-02`）、Cursor/Linear 暗色微光便当盒风（`INT-03`）、Claude 暖纸人文书刊风（`INT-05`）、Gemini/Material 柔和色阶胶囊风（`INT-06`）、国内清爽大图生活卡片风（`CN-02`）、深海藏青稳重财富风（`CN-03`）、新中式宣纸留白风（`CN-06`）等；
+     - **游戏与互动娱乐产品**：进入专门的游戏风格池（`GAME-01`～`GAME-10`），如掼蛋/棋牌用 `GAME-09 绿毡胡桃木奢金棋牌桌游风`，休闲对战用 `GAME-02 高饱和粗描边 Q 弹卡通风`，国风仙侠用 `GAME-06 水墨丹青鎏金云纹风`。
+   - **风格怎么拍板（`V0` Step 2 & `DS1`）**：
+     - 如果品类语境非常明确（如掼蛋牌桌、银行理财），直接选定最匹配的风格预设；
+     - **如果存在多条合理方向、无法替用户独断（比如一个全新的旅行、社区或 AI 产品，想用苹果风、暖纸人文风还是清爽卡片风都可以），就提供 2–3 个风格选项（用大白话讲清各自想表达的视觉形式，或出同结构预览），征求用户的意见让用户选择！**
+   - **调取风格、配色与字体库脚本把参数配齐**：
+     - 风格规格：`python3 scripts/style_preset.py show <预设编号>`（导出/应用用 `export` / `apply`）；
+     - 语义色与对比度：`python3 scripts/color_intelligence.py contrast --preset <预设编号>`（确保按钮与文字对比度达标，绝不搞出红底黑字）；
+     - 字体与字阶：`python3 scripts/typography_intelligence.py pick --family <风格族> --langs zh,en`。
 
-选定 `CN-02`、`INT-05` 这类编号之后，必须整套落地。只写风格名、只抄两个色值、再拿通用 App 壳去贴图，算没设计。
+---
 
-1. 运行 `python3 scripts/style_preset.py apply <编号> --css <全局CSS>`，或把该 JSON 的 `cssVars` 原样写入 `:root`。页面里的颜色、圆角、字体只引用这些变量。
-2. 页面结构跟风格族走。`content-feed`（清爽大图生活卡片）是：大图在卡片里，标题在图下的白底上，弱分割、精致标签、一颗实心胶囊。禁止压暗蒙层、禁止顶栏加表单的原型壳、禁止把三张小缩略图当成设计。
-3. 禁止另造一套品牌色来躲开 token 验收。`from-brand` 不能覆盖已选定的风格色板。字典允许的点缀才能用。
-4. 交付前跑 `python3 scripts/style_consistency_audit.py <页面> --preset <编号>`。色板外颜色、阶梯外圆角，或截图像可点击线框、聊天底栏、灰底贴图，审美那条写不过。脚本 `"passed": true` 不能当成设计通过。
+### 第三步：调取成熟组件/素材库、设计视觉元素（Banner/头像/海报）与选对工具（[methods-visual.md](methods-visual.md) `V5/V7/VT` + [methods-tool-routing.md](methods-tool-routing.md)）
 
-## 材质必须在截图上看得见
+成熟设计师做东西**绝不会让 AI 现画劣质图标，也不会拿一个风格词就盲目生图**，而是分清里面有哪些是 UI 组件、哪些是视觉设计（Banner、头像、海报、动效），调取准备好的专业库并选用最合适的工具：
 
-参数表里的句子是要出现在画面上的。决定文件写对、只换一个底色、其余仍是底上飘字和默认控件，算没设计。
+1. **严禁 AI 现画劣质 Icon！一律调取成熟素材库与组件库**：
+   - **图标 / 3D 元素 / 插画 / Lottie 微动效**（[methods-visual.md](methods-visual.md) `V5`）：一律从 **IconScout**（优先官方 MCP，或内置脚本 `python3 scripts/iconscout.py search -q "<英文关键词>" -a <icon|3d|illustration|lottie> -s <风格> -d <目录>`）或成熟开源图标库拉取同一套系（Same Pack）的成品文件，**严禁手写简陋 SVG 路径或让 AI 画一眼假的图标**。
+   - **真实世界摄影（风景、城市地标、建筑、人文生活）**（[methods-image.md](methods-image.md) `IM`）：一律先运行 `python3 scripts/real_image.py search "<主题>" --role hero|card|background|place` 从 Unsplash / Openverse / Pixabay / Wikimedia 检索并 `get` 真实摄影（作者与许可证只记入资产记录文件，**绝不印在产品 UI 画面上**）。
+   - **人物头像（Avatar）**（`V5` 第 7 条）：先搜素材库并过「文化风格 + 同套系判断门」；如果库里搜出来是欧美橡皮泥人、不符合国风或当前产品气质，立即放弃库结果，锁定统一母体风格前缀词成套生成高颜值头像。
+   - **成熟组件库与通用配方**（[methods-style-engine.md](methods-style-engine.md) `DS3`）：React 项目调 `shadcn/ui`、`Magic UI`、`Ant Design` 等组件库；跨技术栈或 HTML 原型用 `python3 scripts/component_recipe.py` 调取结构配方。
 
-- 棋牌桌（`GAME-09`）：桌沿必须是看得见厚度的胡桃木框加香槟金嵌线，不是细描边。席位必须是同一套木色名牌：金圈头像、名字、剩牌用牌背叠。级牌和房间号做木沿上的小牌，不当网页顶栏。出牌区是这一屏最大的牌。按钮坐在近侧木沿里，带顶高光和底槽。
-- 生活卡片（`CN-02`）：大图在白卡片顶上，标题在图下，不用压暗蒙层。
-- 信息必须坐在风格自己的容器里（卡片、名牌、木沿），不能把标题、人数、状态直接写在页面底上。
-- 交付时拿截图对决定文件第 3 块。看不见那句材质，审美不过。色值脚本通过也不能改这个结论。
+2. **UI 内的 Banner 与独立海报 / 主视觉 KV（[methods-visual.md](methods-visual.md) `V7 路径 B`）**：
+   - **绝不是定了一个风格名字就直接拿去盲目生图！**
+   - 先确定图文占比和**版面结构草图（`layout_sketch`，如上下结构、左右结构、中心构图）**：
+     - **方式 1（优先拼装）**：如果海报/Banner 要表现的信息结构复杂或有明确的 3D 道具/真实场景，直接用搭好的版式底板 + 清晰矢量文字 + 从 IconScout 拉取的透明底 3D/插画素材或 `real_image.py` 的真实摄影拼装合成；
+     - **方式 2（搜风格参考图 → 选感觉 → 垫图生成）**：如果需要 AI 生成，**先去搜索该风格相关的直观参考图（不同材质、光影、画风感觉的图），选出最想要的感觉（独立海报展示 2–3 张让用户挑一张），然后把「选中的风格参考图（`style_ref`）+ 版面结构草图（`layout_sketch`）」一起作为 `reference_image_paths` 垫图喂给生图模型生成**！
 
-## 方法论总览（开工先讲这一段）
+3. **按最终交付物类型走对应的工具与制作工作流（[methods-tool-routing.md](methods-tool-routing.md) + [methods-visual.md](methods-visual.md) `VT` / `V7`）**：
+   - **路线 A｜产出是 UI / 产品界面（最终要落地成可交互 Demo）**
+     - **铁律：严禁拿一张 AI 直接生成的整屏图片充当 UI！** 整屏 AI 生图没有组件结构、扑克牌/控件尺寸失真，且无法在 `jq-product-agent` 中还原成可交互 Demo。
+     - **标准动作**：**进 Figma 拼装 → 再还原成可交互 Demo**。在 Figma 中用真实图层、Auto Layout、Variables、组件库、IconScout 图标/3D 与 `real_image.py` 真图拼装出准确的 UI Frame（游戏/强材质界面里的头像、台呢绒面、木纹等作为局部图像素材贴入对应容器，扑克牌 `5:7` 标准尺寸、按钮与 HUD 必须由精确组件控制）；Figma 确认后再按节点 1:1 还原成可交互 HTML/前端 Demo（仅当无 Figma 且明确走本地代码路线时，直接用 `component_recipe.py` 真实组件 + `style_preset.py` Token 拼装可交互 Demo）。
+   - **路线 B｜产出本身是一张图（概念图、插画、角色立绘/头像、局部材质/背景图等纯图片交付）**
+     - **标准动作**：**产出结构化提示词（Prompt）+ 准备参考垫图（`reference_image_paths`）→ 直接调用生图工具（`GenerateImage` / Figma `generate_image`）生成图片**。
+   - **路线 C｜产出是海报 / 运营图 / Banner / 主视觉 KV（[methods-visual.md](methods-visual.md) `V7 路径 B`）**
+     - 先定图文占比与**版面结构草图（`layout_sketch`）**，按场景二选一：
+       1. **搜索素材去 Figma 拼装**：从 IconScout 搜索透明底 3D/插画素材、从 `real_image.py` 搜索真实摄影，导入 Figma 配合版式底板与清晰矢量文字拼装成稿；
+       2. **垫图 + 提示词调生图工具**：先搜 2–3 张风格参考图让用户选出最想要的感觉（`style_ref`），再拿「版面结构草图 + 风格参考垫图 + 结构化提示词」直接调用生图工具生成。
+   - **动效判断（[methods-motion.md](methods-motion.md) `D8` / `TR5`）**：
+     - **UI 交互动效（`TR5-A`）**：从动效组件库（`MI`：React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev）检索源码集成到可交互 Demo；
+     - **轻量矢量动画（`TR5-C`）**：从 IconScout 拉取真 `Lottie (.json)` 或基于专业矢量图标加动画；
+     - **动态海报 / 视频（`TR5-B`）**：若海报场景支持动图，询问用户后拿静态图做【首帧垫图】+ 运动提示词调生视频模型，转码为 `GIF / 动态 WebP / 循环 MP4`。
 
-动手前用这段把全貌讲清楚。这是地图，**不能代替下面 21 个文件的全文**。本轮也不会跑满；只取「答案不同会改稿」的缺口。
+---
 
-这套 Skill 是设计师接到任务后的工作方式，不是固定瀑布。一共 **5 种工作模式**、**1 条 9 级决定链**、**12 个方法族**、大约 **60 个可调用方法**，外加 **5 个资源模块**（案例、字体、验收脚本、资产记忆、真实摄影）。调度、路由、执行、选工具另有一套运行骨架，负责怎么开工，不另算设计手法。
+### 第四步：模拟「设计总监」做交付前全面终审（[methods-close.md](methods-close.md) `QA0`）
 
-**决定链（每次扫描，不每次做完）**
+所有内容做完后，**绝不能做完就交**！必须切换成**设计总监（Design Director）**视角，用 `Read` 打开成品图并运行验证脚本，从三个核心维度把关：
 
-```
-D1 问题与价值 → D2 用户与情境 → D3 成功标准
-→ D4 任务流程 → D5 交互规则 → D6 UI 信息
-→ D7 视觉与资产 → D8 动效 → D9 验收
-```
+1. **一审：有没有达到最初的设计目标？所有功能与交互是不是完备、合理？（`QA0` 维度一 + A–D）**
+   - 放到真实用户场景里看：页面类型对不对？（比如要求做首页，绝不能交出一张只有单景点大图加一颗按钮的详情页，也不能交出简陋的表单页；要求做掼蛋牌桌，自己的手牌必须是完整可辨识的大牌面，绝不能只剩一排角标窄条。）
+   - 交互形式合不合理？用户进来第一眼看什么、怎么点选、下一步去哪，3 秒内能不能看懂？
 
-输入够、范围小 → 直接制作（仍先写 `design-decisions.md`）。谁用、为何用不清 → 问题探索。有主稿要还原 → 按稿做，不重开。方案已有但未证实 → 先准备或执行验证。
+2. **二审：好不好看？视觉风格、质感与细节到没到位？（`QA0` 维度二）**
+   - 运行 `python3 scripts/side_by_side.py --shot <成品图> --width <宽> --height <高> --refs <refs下同方向真实竞品截图> -o compare-r1.png`，用 `Read` 打开并排对比图：
+   - 和成熟竞品放在一起，我们的构图张力、留白呼吸感、60-30-10 色彩比例、容器与按钮材质能不能打？
+   - **零 AI 廉价感检查**：有没有一眼假的 AI 生成图标？有没有红底黑字等低级对比度错误？有没有把 `Photo: / CC BY` 版权字印在界面上？人物头像是不是符合产品文化且同屏统一画风？
 
-**12 个方法族（按缺口取）**
+3. **三审：设计规范与工程标准准不准？（`QA0` 维度三 + `VE` 脚本）**
+   - 凡产出 HTML/代码界面，交付前运行：
+     - `python3 scripts/ui_geometry_audit.py <html文件> --width <宽> --height <高>`（检查对齐、横排条垂直居中、图标来源、跨区文字碰撞、首页完备度）；
+     - `python3 scripts/color_intelligence.py contrast --css <主题CSS>`（检查实际对比度）；
+     - `python3 scripts/style_consistency_audit.py <页面> --preset <预设编号>`（检查 Token 与跨页一致性）；
+     - `python3 scripts/a11y_audit.py <html文件>`（检查无障碍）。
 
-| 族 | 管什么 | 有哪些 |
+> **设计总监打回机制**：只要上面三审中有任何一项不达标（功能残缺、交互生硬、质感不如标杆、有 AI 塑料感或脚本报错），**严禁交付给用户**！立即按 [methods-close.md](methods-close.md) `0.2 回炉路由表` 退回对应环节重改（交互或功能不全退回第一步，风格或素材差退回第二/三步），改完再次终审，直到真正达到高水准才交付。
+
+---
+
+## 二、方法文件与内置资源库索引（按当前步骤打开对应细则，不凭记忆瞎猜）
+
+| 阶段 / 职责 | 细则文件 | 内置可调用的库与脚本 |
 | :--- | :--- | :--- |
-| 研究 `R` | 问题、用户、证据、价值 | R0–R8 |
-| 竞品 `CMP` | 行业门槛、同类操作、同类用户习惯 | CMP1–CMP3 |
-| 语境 `CT` | 把产品事实译成设计能用的约束 | CT0–CT9、BR1–BR2 |
-| 流程 `F` | 范围、场景、主路径 | F1–F5 |
-| 交互 `I` | 切页、命名、职责、反馈、异常 | I1–I6 |
-| UI `U` | 分级、主行动、对齐、组件、对象、状态、文案 | U0–U7 |
-| 视觉 `V` | 风格方向、依据、字体、图标图片、候选 | V0–V7 |
-| 风格 `DS` | 风格整套落到全产品，跨页一致 | DS0–DS6 |
-| 配色 `CI` | 产品级语义色、12 阶、对比度 | CI0–CI6 |
-| 动效 `M`/`MI` | 反馈、状态、空间；代码动效先找现成库 | M1–M3、MI |
-| 原型与验证 | 可测原型；概念/走查/信任/价值；交付三维度 | PROTO1、VAL1–VAL4、QA0 |
-| 资源 | 案例、字体、验收脚本、记忆、真图 | RR、TY、VE、AM、IM |
+| **总框架与接单分诊** | [framework.md](framework.md)、[methods-intake.md](methods-intake.md)、[methods-routing.md](methods-routing.md)、[methods-dispatch.md](methods-dispatch.md)、[methods-execution.md](methods-execution.md) | [templates.md](templates.md)、[walkthrough.md](walkthrough.md)、[WORKFLOW-REVIEW.md](WORKFLOW-REVIEW.md) |
+| **用户研究与语境翻译** | [methods-research.md](methods-research.md)（`R0–R8`）、[methods-context.md](methods-context.md)（`CT0–CT9`、`BR1–BR2`） | `python3 scripts/resource_router.py` |
+| **分类竞品与参考智能** | [methods-competitive.md](methods-competitive.md)（`CMP1` 垂类 / `CMP2` 同类操作 / `CMP3` 同类用户）、[methods-resource-routing.md](methods-resource-routing.md)（`RR`、`AM`） | `python3 scripts/asset_memory.py search <场景>`、Mobbin MCP / 应用商店与公开实机截图 |
+| **任务流程与交互设计** | [methods-flow.md](methods-flow.md)（`F1–F5`）、[methods-interaction.md](methods-interaction.md)（`I1–I6`） | `python3 scripts/resource_router.py apg <模式>` |
+| **UI 架构、控件与对象** | [methods-ui.md](methods-ui.md)（`U0` 三路分流、`U1–U6` 层级/对齐/控件/状态/文案、`U7` 领域对象表现） | `python3 scripts/component_recipe.py`（[component-recipes/](component-recipes/registry.json) 48 个通用配方） |
+| **视觉风格、配色与排版** | [methods-visual.md](methods-visual.md)（`V0` 26+6 风格字典、`V1–V6`）、[methods-style-engine.md](methods-style-engine.md)（`DS0–DS6`）、[methods-color.md](methods-color.md)（`CI0–CI6`） | `python3 scripts/style_preset.py`（[style-presets/](style-presets/registry.json) 3 套系统 + 26 种风格 + 42 个主题）、`python3 scripts/color_intelligence.py`、`python3 scripts/typography_intelligence.py` |
+| **图标/3D、真图库与垫图生图** | [methods-visual.md](methods-visual.md)（`V5` IconScout、`V7` 海报与配图双路径、`VT` 工具选择）、[methods-image.md](methods-image.md)（`IM`） | IconScout MCP / `python3 scripts/iconscout.py`、`python3 scripts/real_image.py`（Unsplash / Openverse / Pixabay / Wikimedia） |
+| **工具路由与动效设计** | [methods-tool-routing.md](methods-tool-routing.md)（`TR0–TR5`）、[methods-motion.md](methods-motion.md)（`M1–M3`、`MI` 动效源码库） | Figma MCP、React Bits / Aceternity / Motion Primitives / Uiverse / 21st.dev、生视频模型 |
+| **原型验证与总监终审** | [methods-prototype.md](methods-prototype.md)（`PROTO1`）、[methods-close.md](methods-close.md)（`QA0` 三大维度终审与回炉路由） | `python3 scripts/side_by_side.py`、`python3 scripts/ui_geometry_audit.py`、`python3 scripts/style_consistency_audit.py`、`python3 scripts/a11y_audit.py` |
 
-**落地时三条素材路，不要混**
+---
 
-- 图标 / 3D / 插画 / Lottie → IconScout，不手画简陋图形
-- 用户头像圈 → 先过文化匹配和同套系；不匹配再成套生成
-- 真实风景、地点、生活 → Real Image Library；找不到或必须虚构才 AI 生图
+## 三、向用户提问与沟通的纪律
 
-**做完必须对着成品验收**  
-从「是不是那件事」验到对齐、对比度、图标来源、真图授权。不过就改，改完再交。几何、对比度、跨页风格、无障碍有脚本的，脚本必须过。
-
-对用户讲解时用大白话，不要甩上表里的编号。编号只给执行用。
-
-## 开工前必读（硬性，任何工作模式都适用，包括“直接制作”）
-
-本文件只是入口、地图和索引。上面「方法论总览」是开工讲解，**读了总览不等于读过细则，读完细则也不等于可以画页面。** 没写完任务目录里的 `design-decisions.md` 四块，不许创建任何界面。细则按需打开对照，不要把「读完列表」当成流程走完。
-
-1. [framework.md](framework.md)
-2. [methods-intake.md](methods-intake.md)
-3. [methods-context.md](methods-context.md)
-4. [methods-routing.md](methods-routing.md)
-5. [methods-dispatch.md](methods-dispatch.md)
-6. [methods-execution.md](methods-execution.md)
-7. [methods-flow.md](methods-flow.md)
-8. [methods-interaction.md](methods-interaction.md)
-9. [methods-ui.md](methods-ui.md)
-10. [methods-visual.md](methods-visual.md)
-11. [methods-color.md](methods-color.md)
-12. [methods-style-engine.md](methods-style-engine.md)
-13. [methods-motion.md](methods-motion.md)
-14. [methods-prototype.md](methods-prototype.md)
-15. [methods-research.md](methods-research.md)
-16. [methods-competitive.md](methods-competitive.md)
-17. [methods-tool-routing.md](methods-tool-routing.md)
-18. [methods-close.md](methods-close.md)
-19. [methods-resource-routing.md](methods-resource-routing.md)
-20. [methods-image.md](methods-image.md)
-21. [templates.md](templates.md)
-
-「已读细则」只作对照索引。少读了就在用到时补，不要为了凑 21 个文件名先读完整晚再补决定。禁止用本文件里的摘要代替细则。开工许可只看 `design-decisions.md`。
-
-## 审查不通过必须改完再交
-
-成品是用整套方法论做出来的，验收也用整套方法论验，不只看 UI 一层。终审从「为什么做」一直查到「像素准不准」，**每一层都对着最终成品检查**，不是对着当初的分析稿自评。几何脚本只覆盖 UI 层的对齐、分区碰撞和图标来源，不能代替其余各层。
-
-**两条硬要求：**
-
-- **本轮实际用过的每一个方法，都要拿它在细则里写的「完成证据」对照成品再验一遍**（例如用了 `F3 主路径`，就验「未参与项目的人能按成品走通、比现状少了哪一步」）。用过却没验 = 未终审。
-- 下面每一层逐条写「过 / 不过 / 不适用（原因）」，并指出成品上的具体位置。任何一条「不过」，或脚本不是 `"passed": true`，都先改产出，再重新截图、重新跑脚本、重新逐层写。脚本过了而第 23 条不过，同样先改再交。禁止把没过的稿交给用户，禁止用「后续可优化」或分数把原型写成通过。
-
-**A. 问题与价值**（[methods-research.md](methods-research.md) `R1` `R7` `R8`；[methods-context.md](methods-context.md)）
-1. 成品解决的是问题卡里那个用户、那个情境下的那件事，没有跑题去做别的。
-2. 价值主张里的差异点，在成品上用户能直接看到或感受到。
-3. 本轮最危险的假设，成品里有对应的设计回应；仍未验证的明确标为假设。
-
-**B. 成功标准与体验损耗**（[methods-research.md](methods-research.md) `R8`；[methods-close.md](methods-close.md) `QA0` 维度一）
-4. 关键行为在成品上能顺畅发生，路径上没有挡住它的东西。
-5. 没有为了数据牺牲体验：没有打断主任务的弹窗、假倒计时、拒绝比接受更难点的设计。
-
-**C. 流程**（[methods-flow.md](methods-flow.md) `F1` `F3` 与「流程评审」）
-6. 只做了范围内的事，范围外的没有偷偷加进来。
-7. 没参与项目的人能按成品把主路径走通；能说清比现状少了哪一步或哪种不确定。
-
-**D. 交互**（[methods-interaction.md](methods-interaction.md) `I2` `I3` `I5` `I6`）
-8. 一页一个主任务；同一对象全程同一个名字，进出和返回结果明确。
-9. 主行动点下去，用户不用猜是否生效。
-10. 主路径上每个阻断（失败、无权限、超时、没网）都有能执行的出口。
-
-**E. UI**（[methods-ui.md](methods-ui.md) `U1`–`U7`）
-11. 信息分级：这一屏先看的只有 1–2 件。
-12. 单一主行动：2 秒能指出下一步；同一组只有一个实心强调；危险动作不和正常推进一样抢。
-13. 对比：眯眼先看到对象、关键判断和主行动。
-14. 亲密：相关的靠近、无关的分开；同一状态只在一处反馈。
-15. 对齐：先分区再摆元素，分区不重叠、横排条垂直居中；HTML 跑 `python3 scripts/ui_geometry_audit.py <html文件>` 且 `"passed": true`。
-16. 重复：同类对象同一套结构和样式。
-17. 组件：控件是为完成任务选的，不多一种像按钮的东西。
-18. 对象表现形式与尺寸分级：用户认得的对象按它自己的视觉惯例表现，不用它的名字代替它；按最小实际尺寸截图，同类对象仍能一眼区分。
-19. 状态：空、失败、加载、禁用、超长内容里用得上的都有下一步。
-20. 文案：标题是对象或任务，按钮是动词加对象，没有脱离上下文的「确定 / 提交 / 出错了」。
-
-**F. 视觉**（[methods-visual.md](methods-visual.md)「视觉规格通过门」；[methods-close.md](methods-close.md) `QA0` 维度二、三）
-21. 颜色是产品级语义色（背景、文字、按钮、边框、状态、亮暗），与所选风格一致；`python3 scripts/color_intelligence.py contrast --preset <id>` 通过。圆角、阴影、字体与风格参数一致；色彩比例协调、冷暖同频，不脏不俗。多页面产品跑 `python3 scripts/style_consistency_audit.py <所有页面> --preset <预设>` 且 `"passed": true`：没有色板外的颜色、阶梯外的圆角、字体栈外的字体，同类组件跨页一致。
-22. 有留白和唯一视觉重心，没有卡片套卡片、满屏同样抢眼。
-23. 材质语言覆盖每一个组件，且画面不像原型：盖住背景色后仍能看见风格容器和材质；截图必须对得上 `design-decisions.md` 第 3 块从参数字典抄出的原话，对不上、或只换了底色、或字飘在底上，只能写不过。几何脚本和色值脚本通过不能把这一条改成过。找出全屏做得最弱的元素，它也达到风格参数；图标、3D、插画是成品素材且同一套系；真实世界配图来自 Real Image Library 且有授权记录；人物形象过了文化风格判断。
-
-**G. 动效**（只在本轮有动效时；[methods-motion.md](methods-motion.md)「动态验收与性能完成门」）
-24. 动效表达的是反馈、状态变化或空间关系，不是装饰；真实环境下流畅，可打断。
-
-**H. 验证与下一步**（[methods-close.md](methods-close.md) 对应工作模式收口）
-25. 写清哪些已被证据支持、哪些仍是假设，以及用什么最小测试去验证；不把「做完了」写成「已验证」。axe-core 的严重问题已清零，或写明未跑及原因。用户确认可复用的方案已按 `AM` 询问是否入库（未确认不入库）。
-
-## 运行顺序
-
-出界面时按这一条走完，不能从中间进，也不能用「直接制作」跳过 3、4、5、6。调研方法仍然按缺口取，不强制从用研跑到动效。
-
-1. **分诊。** 选定工作模式。直接制作只用于替换已批准文案或既有组件里的已定内容。上游需求具体，但这一屏还没从用户角度组织过，就不是直接制作。
-2. **扫描 D1–D9，并做设计判断。** 已确认的业务事实复用，不重做用研。出界面前仍要写清三件事，写进决定文件第 2 块：这一屏先看的 1–2 件是否合理（`U1`）；这一屏负责什么、什么不放在这屏（页面职责）；用户按自己的决定顺序怎样输入，能点选的不照需求清单打字。上游这样排对用户不合理，标回传，不开始画。
-3. **写 `design-decisions.md` 四块，然后才许创建界面。** 第 2 块必须包含上面三件事，并写每一组信息坐在哪个容器里。第 3 块写预设编号，并从参数表逐个组件抄材质原句。容器、层级和材质没写完，停在这一步。
-4. **按缺口打开细则，出界面时下面几项必开。** 分区没写清就走 `U1`、`U3`。风格没整套落地就走 `V0` 和 `DS2`–`DS3`。有真实场景就走 `IM`，有图标就走 IconScout。其余方法仍然按缺口，不凑满 21 个文件。
-5. **整套落地后再画。** 把预设的 `cssVars` 写入页面，结构跟风格族走，材质出现在组件上。禁止只换背景，禁止另造一套色。
-6. **验收。** 截图对照第 3 块；`QA0` 维度二第 5 项；几何和色值脚本。任一不过就改页面。不许改决定文件去迁就页面。脚本通过不能代替第 5 项。
-7. **交回产品主线。** 带回决定状态、截图和未验证项。不把做完写成已验证。
-
-下面这些文件是第 4 步按缺口打开的细则，不是另一条要先读完的流程： [framework.md](framework.md)、[methods-intake.md](methods-intake.md)、[methods-routing.md](methods-routing.md)、[methods-dispatch.md](methods-dispatch.md)、[methods-execution.md](methods-execution.md)、[methods-ui.md](methods-ui.md)、[methods-visual.md](methods-visual.md)、[methods-style-engine.md](methods-style-engine.md)、[methods-image.md](methods-image.md)、[methods-close.md](methods-close.md)。
-
-## 设计决定链
-
-按顺序扫描，但不等于每次都执行：
-
-```
-D1 问题与价值
-→ D2 用户与情境
-→ D3 用户/产品结果与成功指标
-→ D4 任务流程
-→ D5 交互规则、语义反馈与状态
-→ D6 UI 信息层级与内容
-→ D7 界面视觉系统与资产
-→ D8 UI 动效表达
-→ D9 验收或验证程序
-```
-
-每项只能标：
-
-- `CONFIRMED`：有有效来源，且本轮可复用。
-- `FROZEN`：用户明确要求不重开；记录风险但服从范围。
-- `TEST_INPUT`：当前方案或假设是本轮测试对象；测试前暂不重开，但不代表已证实。
-- `ASSUMPTION`：已有暂定答案；必须写若错影响，并标 `RESOLVE_NOW` 或 `ACCEPT_FOR_NOW`。
-- `MISSING`：本轮需要解决，且可通过设计工作补齐。
-- `BLOCKED`：必须等待外部事实、只有用户方才有的素材、权限或授权；受影响工作不能继续。通用素材缺失、Figma 未连接、无正式基线都不算 `BLOCKED`（见「问人规则」）。
-- `N/A`：本任务不适用。
-
-起点是最早一个同时满足「`MISSING` 或 `ASSUMPTION/RESOLVE_NOW`」和「答案不同会改变本轮产出」的决定。`ASSUMPTION/ACCEPT_FOR_NOW` 不在同一工作包内反复触发；它进入风险和后续验证。遇到会阻断产出的 `BLOCKED` 时停止受影响部分并向责任人取输入。`TEST_INPUT` 在方案验证任务中不触发回溯：先测当前版本，结果再决定状态转换和回到哪一项。
-
-## 工作模式
-
-- **直接制作**：确切修改、有效来源、上游不受影响、验收标准明确。
-- **局部优化**：问题位置已知；只在受影响决定内诊断与设计。
-- **问题探索**：问题、用户、价值或成功判断不清。
-- **方案验证**：方案已存在；标“验证准备”时只准备测试就绪载体和延期合同，标“验证执行”时实际取得理解、可用、可信或价值证据。
-- **设计还原/交付**：依据既有主稿、规范或版本做还原与交接。
-
-## 方法文件
-
-- [framework.md](framework.md)：设计师从接收上游任务到交付回传的总框架。
-- [methods-intake.md](methods-intake.md)：任务分诊、工作模式判断与问人条件。
-- [methods-dispatch.md](methods-dispatch.md)：按决定缺口组装最小方法工作包。
-- [methods-context.md](methods-context.md)：将产品用户、问题、行业和约束翻译成设计语境、任务与原则。
-- [methods-competitive.md](methods-competitive.md)：分别分析行业竞品、同类操作竞品和服务同类用户的竞品。
-- [methods-routing.md](methods-routing.md)：确定本轮终点、产出合同、决定工作集、依赖和证据计划。
-- [methods-tool-routing.md](methods-tool-routing.md)：按最终产物选择 Figma、视觉和动效工具并定义交接。
-- [methods-execution.md](methods-execution.md)：执行方法、传递产物、控制停止与重路由。
-- [methods-research.md](methods-research.md)：问题、用户、情境、证据、价值。
-- [methods-flow.md](methods-flow.md)：范围、场景、任务路径。
-- [methods-interaction.md](methods-interaction.md)：页面职责、反馈、异常。
-- [methods-ui.md](methods-ui.md)：信息层级、组件、状态、文案。
-- [methods-visual.md](methods-visual.md)：Figma UI 内的全部界面视觉依据、26+6 风格参数字典（国际化 8 + 国内 8 + 游戏 10 + 通用质感 6）、色字图与候选；融合 IconScout 官方 MCP（`https://mcp.iconscout.com/mcp`）与内置 v3 API 兜底脚本 [scripts/iconscout.py](scripts/iconscout.py)（`Client-ID: 232598791050530`）用于拉取统一风格的 `icon / 3d / lottie / illustration`；真实世界摄影走 [methods-image.md](methods-image.md)，不是 IconScout，也不是先 AI 生图；只有非界面视觉成品或明确独立资产委托才另走视觉工具。
-- [methods-color.md](methods-color.md)：配色智能。现成色板只作灵感（Coolors / Color Hunt / Huemint 不抓取、不调非商用 API）；产品级语义色从本地 5 套系统和 Radix 12 阶生成；品牌色本地插值；预览 3 套后写入 token，并跑对比度检查。
-- [methods-style-engine.md](methods-style-engine.md)：设计风格引擎。识别现状，探索和应用分开；从本地预设库 [style-presets/](style-presets/registry.json) 提取规格（Apple、Material 3、Ant Design 三套系统，26 种内置风格，42 个 Tweakcn 主题，12 个风格族），按技术栈做组件映射，批量应用到整个产品，用 [scripts/style_consistency_audit.py](scripts/style_consistency_audit.py) 验收跨页一致性；本地缺的再去线上库补并沉淀。
-- [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；`MI` 从 React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev 检索动效源码并集成；视频/动态图形和格式特定动画按工具路由执行。
-- [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
-- [methods-close.md](methods-close.md)：按工作模式验收，内置 `QA0`（用户可用性 × 审美与品位 × 设计标准）三大维度审查与 [scripts/ui_geometry_audit.py](scripts/ui_geometry_audit.py) 自动 DOM 几何/对齐/碰撞/头像质检门。
-- [methods-resource-routing.md](methods-resource-routing.md)：资源路由。不新增设计方法；按 adapter 调用真实案例、字体、组件、验收工具。先搜内部 `asset-memory`，再本地预设，再自动接口，再已授权 MCP，最后才是参考链接。含参考智能（RR）、排版（TY）、验证引擎（VE）、资产记忆（AM）。真实摄影接到 `IM`。
-- [methods-image.md](methods-image.md)：真实摄影素材库。统一 `Image Search Adapter`（Pixabay + Openverse 为主，Unsplash 已预置 Access Key / Pexels / Wikimedia 补充）。真实场景、人物生活、建筑、自然、地点先搜真图；找不到或必须虚构才 AI 生图。
-- [templates.md](templates.md)：诊断、工作包和产出模板。
-- [walkthrough.md](walkthrough.md)：典型路由回验。
-
-每个方法都必须遵守自己的：触发问题、最低输入、跳过条件、步骤、产出、完成证据、不得替代项。
-
-## 问人规则
-
-默认不问，直接做。设计师能自己拍板的专业判断（风格、配色、组件库、密度、圆角、字体、图标、素材、版式、首帧、是否先做代表页）一律由 Agent 决定并直接产出。
-
-**固定要问的例外**：做海报 / 运营图 / 主视觉 KV 走 AI 生图时，必须把 2–3 张风格参考图并排展示给用户挑 1 张（用户已给参考图时除外）；只问“挑哪张”，垫法和主色由 Agent 定。海报 / 运营图 / 单图交付静态版后，若投放场景支持动图，必须用提问工具问用户要不要动态版并说明效果预期（用户原话已要求动图时直接做）。用户要求探索风格或给已有产品换风格时，用同一个代表页渲染 3 个不同方向并排给用户挑；**批量改已有产品的代码前**，必须给出代表页改前改后对比和要改的文件范围，让用户确认一次（0→1 新建不需要）。见 [methods-style-engine.md](methods-style-engine.md) `DS1`。用户要求看看配色、或品牌色有多种合理映射时，用 [methods-color.md](methods-color.md) `CI2` 出 3 套语义色预览再问一次。
-
-- 只有以下三种情况才问：
-  1. 缺了就无法开工的事实（例如不知道要做什么、给谁用、在哪投放），且无法从上下文合理推断；
-  2. 会花钱、对外发布、覆盖或删除正式文件等不可逆或高成本动作；
-  3. 存在两条同样合理、结果差异很大的方向，且语境完全无法判断。
-- 需要问时，一轮最多合并成 1 个问题，选项 2–3 个，首项是推荐项；不分多轮追问，不逐项确认细节。
-- 其余缺口用 `ASSUMPTION:` 按最合理的默认继续，交付时用一句话说明做了哪些选择、想改可以说。
-- 不为“走流程”停下来等批准：做完一页可直接铺开，生成完一张可直接继续；用户随时可以叫停或改。
-- 0→1 没有品牌规范时，风格库参数和组件库默认值就是依据，Agent 直接采用并标注“可替换为品牌色/品牌字体”，不因此停下来要输入。
-- 已有有效答案不重问；用户明确冻结上游时，不擅自重开。
-- **素材缺失分两类处理**：
-  - 只有用户方才有的素材（品牌 Logo、真实产品图、真实人物照片、真实数据与文案、授权字体、已有设计稿文件）缺失时，才算“缺了就无法开工”，向用户要；其余部分照常推进。
-  - 通用素材缺失时不停、不问。**图标、3D、徽章、插画、虚构角色头像**先从 IconScout 找，库里没有或风格不匹配再按统一风格 AI 生成。**真实世界的场景、人物生活、建筑、自然风景、具体地点**先按 [methods-image.md](methods-image.md) 检索真实摄影；找不到合适图、或画面必须虚构，才 AI 生图。两种情况都不得用占位图、Emoji 或手画简笔替代。
-- **图标、3D 图标、插画、Lottie 动效一律先去 IconScout 拿现成专业素材**（它同时有线性/面性图标、3D、插画和 Lottie 动画），同一屏用同一套系。不要自己手写 SVG 路径、用 CSS/Canvas 拼图形或让模型临时画简陋图标、简陋动画。返回、设置、关闭这类功能按钮里的图标也算，必须放下载好的成品 SVG 文件，禁止为了「按钮里要有 SVG」而手写一个齿轮或箭头。IconScout 确实没有合适的才退一步：图标用成熟开源图标库的同风格整套，3D/插画按统一风格 AI 生成，动效用现成素材改色或在专业素材基础上加动画；只有品牌专属图形才自制，且必须达到同套图标的网格、线宽和精致度。
-- **真实摄影走 Real Image Library，不先 AI 生图**：Hero、卡片配图、氛围背景、地标只要表现真实世界，就运行 `python3 scripts/real_image.py search "<主题>" --role hero|card|background|place --tone <冷暖>`。Unsplash 已预置 Access Key，开箱即用。主库 Pixabay（有 key 才开）+ Openverse + Unsplash；Pexels 有 key 才开；具体地点优先 Wikimedia。选定后 `get` 到本地并留下作者与许可证。没搜过真实图库，不得把「写实摄影」直接交给生图模型。用户头像圈仍走 IconScout 文化门，不拿图库随机真人脸当头像。
-- **对象按它自己的样子表现，缩小也要认得出**：界面里出现用户在现实或该领域里认得的对象时，先找出用户靠什么认出它，按它本来的视觉惯例表现。不能用它的名字代替它本身。显示尺寸放不下完整形态时，用这个领域已有的缩略方式保留识别特征，而不是退成写字。方法见 [methods-ui.md](methods-ui.md) `U7`。
-- **风格的材质要做到每一个组件上**：按钮、标签、面板、图标、输入框都要达到所选风格的工艺，不能只做背景和主视觉。检查时找全屏最弱的那个元素。方法见 [methods-visual.md](methods-visual.md) `V0` Step 3 末尾「贯穿 6 维的硬要求」。
-- **先用内部已验收资产，再调用外部库**：动手前 `python3 scripts/asset_memory.py search <场景>`。外部资源必须走 [methods-resource-routing.md](methods-resource-routing.md) 的 adapter（怎么搜、返回什么、怎么用、许可证、失败怎么办）。没有公开接口的（Page Flows、部分灵感站）只给链接，不抓取、不假装能自动安装。Mobbin 有付费套餐时再发起 MCP 授权；没有就当参考库。
-- **字体按风格族和语言自动选型**：`python3 scripts/typography_intelligence.py pick --family <风格族> --langs zh,en`。中日韩正文必须带 CJK 字体，不能只用 Inter。
-- **验收要跑可执行检查**：几何、对比度、跨页风格之外，再跑 `python3 scripts/a11y_audit.py <页面>`（axe-core）。有 Chromatic token 才做视觉回归，没有就并排截图，不写「已做视觉回归」。
-- **配色必须是产品级语义色，不是几个好看的色块**：风格定了之后，按 [methods-color.md](methods-color.md) 从 `color-presets/` 取一套含背景、文字、按钮、边框、状态色和亮暗模式的系统（默认 5 套 + Radix 12 阶）。用户给了品牌色用 `from-brand`；用户从 Coolors / Color Hunt / Huemint 粘贴的色板用 `from-palette` 转成语义色。禁止抓取这些灵感站，禁止调用 Huemint API。写入后跑 `color_intelligence.py contrast`。
-- **风格定了就整套用，先本地后线上**：选定风格后，按 [methods-style-engine.md](methods-style-engine.md) 从 `style-presets/` 取出整套规格（颜色、字体、圆角、间距、导航、卡片、交互、动效）以及绑定的设计系统、页面区块库和动效库；本地缺的再去线上库补。全产品只在一处定义 token，组件和页面都引用它，不逐页手调。改完跑风格一致性脚本。
-- **写成代码的动效先去组件库找源码**：先写清这条动效要解决什么、怎么触发、起止状态和时长，再按 [methods-motion.md](methods-motion.md) `MI` 去 React Bits、Aceternity UI、Motion Primitives、Uiverse、21st.dev 检索。合适的审过源码后直接拿来，改成规格数值和设计 token，并记录来源与许可证；没有合适的再用项目已有引擎自写。不用付费组件，不运行未审的安装命令，不编造来源。
-- **IconScout 素材服务（MCP）没装就直接装**：Agent 自己跑安装命令或在配置里追加，并发起浏览器登录，只告诉用户“点一下授权”；不询问、不只给提示。本轮未生效前先用内置脚本 `scripts/iconscout.py`（见 [methods-visual.md](methods-visual.md) `V5` 第 6 条）。
-- **工具不可用时换载体，不停工**：有 Figma 且项目以 Figma 为主稿时在 Figma 做；Figma 未连接、或用户要快速看效果/可操作 Demo 时，直接用 HTML/代码按同一套风格参数出界面，并跑 `scripts/ui_geometry_audit.py` 验收。只有用户明确要求必须交 Figma 文件而 Figma 不可用时，才说明情况。
-- **“已批准/已确认”的含义**：用户已认可的稿，或 Agent 本轮产出并通过自检的稿，都可以作为下游（视觉、动效、生视频）的冻结输入；不需要单独等用户点头。用户委托做设计即视为允许 Agent 在平台规范、设计系统或风格库范围内探索具体数值。
-- 必须问时，问题和选项要用用户一眼能懂的大白话，严禁出现本 Skill 的内部术语（风格编号、六维/6 维参数、参数组合、决策漏斗、token、`V0`、`D1–D9`、`U0`、`QA0` 等）和第三方品牌/产品点名。品牌/产品名只禁止出现在给用户看的文字里；发给生图模型或 Figma 的提示词照常保留，不要删。
-
-## 对用户的默认交付
-
-```markdown
-# 决定文件
-- 任务目录 `design-decisions.md` 已先于任何界面文件存在（四块都有具体取舍；后补或写成对现稿的描述 = 没走流程）：
-- 第 3 块材质原话与截图逐条对照（对不上则审美不过）：
-
-# 任务诊断
-- 对照过的细则（按需列出，不是开工许可）：
-- 工作模式：
-- 本轮目标：
-- 主终点与产出合同：
-- 候选起点 / 最终设计起点：
-- 上游复用依据：
-- 设计语境与关键推导（需要设计判断时）：
-- 设计原则与关键矛盾（需要设计判断时）：
-- 决定工作 / 制作动作 / 证据动作：
-- 风险深度：
-- 选用方法及理由：
-- 产物工具、职责边界及交接：
-- 明确跳过及理由：
-- 产出物：
-- 完成证据：
-- 交付前终审（按上文「审查不通过必须改完再交」A–H 共 25 条，每条写过 / 不过 / 不适用 + 成品位置；有不过或脚本未通过 = 先改再交）：
-  - 本轮用过的方法及各自「完成证据」对照成品的结果：
-  - A 问题与价值（1–3）：
-  - B 成功标准与体验损耗（4–5）：
-  - C 流程（6–7）：
-  - D 交互（8–10）：
-  - E UI（11–20，含几何脚本 passed）：
-  - F 视觉（21–23，多页面含风格一致性脚本 passed）：
-  - G 动效（24）：
-  - H 验证与下一步（25）：
-  - 本轮终审改掉的问题：
-- 未知 / 假设 / 风险：
-
-# 设计结果
-（只交本轮工作包内的产出）
-
-# 上游回传
-- 受影响决定及前后状态：
-- 证据动作 ID、动作状态、外部执行状态和 D9-PLAN 版本：
-- 证据对象版本、场次或检查记录 ID、情境与适用范围：
-- 被支持或推翻的产品/设计假设：
-- 需要上游决定的事项及责任人：
-- 下一路由节点：
-```
-
-嵌入任何上游 Product Agent（如 `jq-product-agent`）时，本 Skill 是**所有界面、图片和视觉稿的唯一执行入口**，不替换上游的产品阶段（`A–F`）、唯一事实源、授权和业务决策；本文件内的 `D1–D9` 仅指「内部设计决定链」，不替代上游的 `D 阶段` 或设计就绪门。主 Agent 与 C/D/E 阶段 Skill **只要会创建页面或图片，就必须先执行本 Skill 并写完 `design-decisions.md`**，不能用它们自己的 U0/V0/IconScout 摘要代替。本 Skill 负责设计语境翻译、按缺口取方法、UI 三路分流（`U0/V0`）、26+6 风格参数字典绑定、IconScout 双通道资产调取、真实摄影库（`IM`）、双路径生图（`V7`）、三条动效实现链路（`TR5`）及交付前 `QA0`（用户可用性 × 审美与品位 × 设计标准）综合验收与回炉修改。
+1. **什么情况要征求用户意见（用原生提问工具 `AskQuestion` 弹出，用大白话，不甩内部编号）**：
+   - **0→1 视觉风格有多条合理路线无法独断时**：例如做消费级 App、AI 产品或社区，给用户提供 2–3 个明确的视觉风格方向（如清透毛玻璃、暖纸人文、清爽大图卡片等），首项标 `(Recommended)`，让用户选他想表达的感觉；
+   - **做海报 / KV 走 AI 生图时**：先搜 2–3 张不同感觉的风格参考图并排给用户看，让用户挑 1 张最想要的感觉拿去垫图；
+   - **海报交付静态版后且场景支持动图时**：问用户要不要顺手做一版微动态升级版（说明能做出的光影/微悬浮效果）；
+   - **发现产品经理给的交互/字段安排不合理，需要较大删改或分步时**：把设计师优化后的交互方案放在第一项，征求用户确认；
+   - **批量修改已有成熟产品的代码前**：先给代表页改前改后对比与影响范围，让用户确认。
+2. **什么情况设计师自己直接拍板（不拿琐碎问题烦用户）**：
+   - 品类已有非常明确的视觉惯例（如掼蛋牌桌直接用 `GAME-09`、B 端后台直接配公开组件库）；
+   - 大方向定下后的具体字号、圆角数值、间距、语义色阶、从 IconScout 挑哪个图标、从真图库挑哪张配图。
+3. **汇报语言干净自然**：对用户说话时，像真实设计师一样用直白的视觉和交互语言交流，不把 `D1–D9`、`V0`、`U0`、`CT9`、`QA0` 等内部方法代号直接甩给用户。

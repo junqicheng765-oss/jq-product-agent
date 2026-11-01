@@ -15,7 +15,7 @@
       "card-foreground": "#000000",
       "popover": "#FFFFFF",
       "popover-foreground": "#000000",
-      "primary": "#007AFF",
+      "primary": "#006FE9",
       "primary-foreground": "#FFFFFF",
       "secondary": "#F2F2F7",
       "secondary-foreground": "#000000",
@@ -36,7 +36,7 @@
       "card-foreground": "#000000",
       "popover": "#FFFFFF",
       "popover-foreground": "#000000",
-      "primary": "#007AFF",
+      "primary": "#006FE9",
       "primary-foreground": "#FFFFFF",
       "secondary": "#F2F2F7",
       "secondary-foreground": "#000000",
@@ -84,7 +84,8 @@
       "spacing": "内边距 16–20px，间距 12/16px",
       "family": [
         "apple-native",
-        "glassmorphism"
+        "glassmorphism",
+        "travel"
       ],
       "derived": [
         "secondary",

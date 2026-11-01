@@ -1,7 +1,7 @@
 # UI 方法库
 
 UI 方法只解决已知职责内的信息表达与操作表现，不能替代未解决的流程或交互决定。
-正式 UI 方案按 [methods-tool-routing.md](methods-tool-routing.md) `TR3` 在 Figma 主稿中完成（Figma 未连接或要快速看效果时，直接用 HTML/代码按同一风格参数完成），并与 D7 界面视觉方法组成同一 UI 分支；不要求 UI 完成后再固定进入一个独立视觉阶段。
+正式 UI 方案按 [methods-tool-routing.md](methods-tool-routing.md) `TR3` 和 [methods-visual.md](methods-visual.md) `VT` 分需求：要画面的在 Figma 里先出方向再拼装；只换文案、灰框、B 端、写明不验观感的，用 HTML/代码，并先用画面级配方。并与 D7 界面视觉方法组成同一 UI 分支；不要求 UI 完成后再固定进入一个独立视觉阶段。
 
 ## U0 UI 落地前置分流（存量延展 / 纯 B 端公开库快搭 / C 端 0→1 视觉决策）
 
@@ -89,7 +89,7 @@ UI 方法只解决已知职责内的信息表达与操作表现，不能替代�
    - **先分区，再摆元素**：多区域页面（工作台、看板、仪表盘、地图页、播放器、游戏 HUD、横屏页面）先用 CSS Grid / Flex 划出互不侵入的功能区，每个顶层功能区写上 `data-zone="<区名>"`。区内元素跟随所属区域布局，禁止整页散装 `position: absolute` 盲写坐标。可变长内容（列表、手牌、标签组、消息）在自己的区内滚动、折叠或缩放，不能越界压住别的区。主操作组锚定在所在区的对齐轴上，不被可变内容挤偏。
    - **信息坐进容器，不飘在底上**：每一组要读的信息（标题、人数、状态、操作）放进所选风格自己的容器：卡片、名牌、木沿、标签。禁止把这些字直接写在页面背景上。「直接制作」也不跳过这一步。容器还没定，不许上色。
    - **横排条垂直居中**：顶栏、导航条、工具条、胶囊信息条都用 `display: flex; align-items: center;`，图标按钮和文字共用同一条水平中线（`centerY` 偏差 $\le 1\text{px}$）。单个图标按钮旁边不堆上大下小两行标题（第一行会高于按钮中心，看起来像按钮掉下去了）；次要信息用 `·` 分隔放同一行，或放进独立副栏。
-   - **图标按钮光学居中**：不用 `<`、`>`、`+`、`×`、`⚙` 这类文本字符充当按钮图标（字体 baseline 会让它偏左或偏下）。按钮用 `display: inline-flex; align-items: center; justify-content: center; line-height: 0;`，里面放 IconScout 或成熟图标库下载的成品 SVG 文件（`<img>` 或 `<use href="assets/….svg">`），不自己手写 `<path>`。
+   - **图标按钮光学居中**：不用 `<`、`>`、`+`、`×`、`⚙` 这类文本字符充当按钮图标（字体 baseline 会让它偏左或偏下）。按钮用 `display: inline-flex; align-items: center; justify-content: center; line-height: 0;`，里面放 IconScout 或成熟图标库下载的成品 SVG 文件（`<img>`、`<use href="assets/….svg">`，或配方库的 `<span class="r-ico i-名字">`：用 `component_recipe.py icon-css` 把文件转成 data URI 遮罩，能跟文字同色，`file://` 打开也不丢），不自己手写 `<path>`。
 6. **重复**：
    - 同类对象用同一套结构、样式和相对间距：列表项、卡片、席位、联系人、商品、表格行，各自内部的头像、名称、数值、标签位置完全一致。禁止同类里一个带框、一个不带框、一个换了颜色。
 

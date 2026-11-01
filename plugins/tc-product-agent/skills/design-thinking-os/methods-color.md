@@ -147,7 +147,8 @@ shadcn 项目若要连字体一起换，用 `npx shadcn@latest apply --preset <i
 **最低输入**：已写入的 token。
 
 ```
-python3 scripts/color_intelligence.py contrast --preset <id>
+python3 scripts/color_intelligence.py contrast --preset <配色系统或风格编号，如 INT-05>   # 选色前预检
+python3 scripts/color_intelligence.py contrast --css <页面引入的主题 CSS>          # 验收：页面实际用的颜色
 # 大字普惠 / 适老化加 --aaa（阈值 7:1）
 ```
 

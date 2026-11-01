@@ -23,7 +23,7 @@
       "muted-foreground": "#FFD700",
       "accent": "#0F5132",
       "accent-foreground": "#FFF8E7",
-      "destructive": "#F87171",
+      "destructive": "#E70B0B",
       "destructive-foreground": "#FFFFFF",
       "border": "#D4AF37",
       "input": "#D4AF37",
@@ -44,7 +44,7 @@
       "muted-foreground": "#FFD700",
       "accent": "#0F5132",
       "accent-foreground": "#FFF8E7",
-      "destructive": "#F87171",
+      "destructive": "#E70B0B",
       "destructive-foreground": "#FFFFFF",
       "border": "#D4AF37",
       "input": "#D4AF37",
@@ -72,8 +72,11 @@
           "#2ECC71",
           "#4A6572",
           "#D92626",
-          "#3E2723"
-        ]
+          "#3E2723",
+          "#0C2340",
+          "#E67E00"
+        ],
+        "extraSource": "methods-visual.md 参数字典同一行里写到、原预设漏收的颜色"
       },
       "radiusScale": {
         "card": 8,

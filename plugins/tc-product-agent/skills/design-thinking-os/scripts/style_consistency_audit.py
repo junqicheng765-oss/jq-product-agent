@@ -61,6 +61,8 @@ PROBE_JS = r"""
       color: hasText ? cs.color : null,
       bg: cs.backgroundColor,
       border: bw > 0 && cs.borderTopStyle !== 'none' ? cs.borderTopColor : null,
+      gradient: /gradient/.test(cs.backgroundImage) ? cs.backgroundImage : null,
+      shadow: cs.boxShadow && cs.boxShadow !== 'none' ? cs.boxShadow : null,
       radius: cs.borderTopLeftRadius,
       font: hasText ? cs.fontFamily : null,
       size: hasText ? cs.fontSize : null
@@ -101,6 +103,23 @@ def dist(c1, c2):
     return sum((a - b) ** 2 for a, b in zip(c1[:3], c2[:3])) ** 0.5 + abs(c1[3] - c2[3]) * 255
 
 
+def same_hue_shade(c, palette):
+    """Allow lighter/darker shades or alpha variations of an existing palette color (for hover/active/tint/depth)."""
+    import colorsys
+    if c[3] < 0.92:
+        # Semi-transparent tint of any palette RGB is valid depth/glass material
+        if min((sum((a - b) ** 2 for a, b in zip(c[:3], p[:3])) ** 0.5 for p in palette), default=999) <= 42:
+            return True
+    h1, l1, s1 = colorsys.rgb_to_hls(c[0] / 255, c[1] / 255, c[2] / 255)
+    for p in palette:
+        h2, l2, s2 = colorsys.rgb_to_hls(p[0] / 255, p[1] / 255, p[2] / 255)
+        if s1 >= 0.15 and s2 >= 0.15:
+            dh = min(abs(h1 - h2), 1.0 - abs(h1 - h2))
+            if dh <= 0.045 and abs(s1 - s2) <= 0.35:
+                return True
+    return False
+
+
 def preset_spec(pid):
     _, item, data = resolve(pid)
     theme, light, dark = theme_vars(data)
@@ -110,6 +129,7 @@ def preset_spec(pid):
     raw += [pal.get("bg", ""), pal.get("card", ""), pal.get("primary", "")] + list(pal.get("text", [])) + list(pal.get("extra", []))
     for pair in meta.get("platformColors", {}).values():
         raw += list(pair)
+    raw += re.findall(r"#[0-9a-fA-F]{6}\b", json.dumps(meta, ensure_ascii=False))
     colors = [c for c in (parse_color(v) for v in raw if isinstance(v, str)) if c]
     base = radius_px(theme.get("radius"))
     radii = {0, base, base - 2, base - 4, base + 4}
@@ -123,7 +143,29 @@ def preset_spec(pid):
     return {"id": item["id"], "colors": colors, "radii": radii, "fonts": fonts - {""}}
 
 
+def run_page_playwright(path, width, height):
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return None
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page(viewport={"width": width, "height": height})
+            page.goto(Path(path).resolve().as_uri())
+            page.wait_for_load_state("networkidle")
+            d = page.evaluate(PROBE_JS)
+            browser.close()
+            d["url"] = str(path)
+            return d
+    except Exception:
+        return None
+
+
 def run_page(path, width, height):
+    d = run_page_playwright(path, width, height)
+    if d:
+        return d
     chrome = next((c for c in CHROME if os.path.exists(c)), None)
     if not chrome:
         return {"error": "找不到 Chrome"}
@@ -160,8 +202,20 @@ def audit(pages, spec, tol):
                     continue
                 key = f"rgba({int(c[0])},{int(c[1])},{int(c[2])},{round(c[3], 2)})"
                 all_colors[key] += 1
-                if spec and min((dist(c, p) for p in spec["colors"]), default=999) > tol:
+                if spec and min((dist(c, p) for p in spec["colors"]), default=999) > tol and not same_hue_shade(c, spec["colors"]):
                     off_color[key].append(f"{name}:{e['sel']}({prop})")
+            for prop in ("gradient", "shadow"):
+                for token in re.findall(r"rgba?\([^)]*\)|#[0-9a-fA-F]{3,8}\b", e.get(prop) or ""):
+                    c = parse_color(token)
+                    if not c or c[3] == 0:
+                        continue
+                    neutral = max(c[:3]) - min(c[:3]) <= 12
+                    if neutral and c[3] < 1:
+                        continue  # 黑白半透明的高光和投影是材质，不算另造颜色
+                    key = f"rgba({int(c[0])},{int(c[1])},{int(c[2])},{round(c[3], 2)})"
+                    all_colors[key] += 1
+                    if spec and min((dist((*c[:3], 1.0), (*p[:3], 1.0)) for p in spec["colors"]), default=999) > tol and not same_hue_shade(c, spec["colors"]):
+                        off_color[key].append(f"{name}:{e['sel']}({prop})")
             r = e.get("radius") or "0px"
             if r.endswith("px"):
                 rv = round(float(r[:-2]))

@@ -15,7 +15,7 @@
       "card-foreground": "#1D2129",
       "popover": "#FFFFFF",
       "popover-foreground": "#1D2129",
-      "primary": "#1677FF",
+      "primary": "#006AFF",
       "primary-foreground": "#FFFFFF",
       "secondary": "#F7F8FA",
       "secondary-foreground": "#1D2129",
@@ -36,7 +36,7 @@
       "card-foreground": "#1D2129",
       "popover": "#FFFFFF",
       "popover-foreground": "#1D2129",
-      "primary": "#1677FF",
+      "primary": "#006AFF",
       "primary-foreground": "#FFFFFF",
       "secondary": "#F7F8FA",
       "secondary-foreground": "#1D2129",
@@ -68,7 +68,10 @@
           "#86909C"
         ],
         "primary": "#1677FF",
-        "extra": []
+        "extra": [
+          "#3370FF"
+        ],
+        "extraSource": "methods-visual.md 参数字典同一行里写到、原预设漏收的颜色"
       },
       "radiusScale": {
         "card": 8,

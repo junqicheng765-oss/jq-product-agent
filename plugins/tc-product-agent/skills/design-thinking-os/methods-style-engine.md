@@ -54,12 +54,12 @@
   - `apply`：写入项目的全局 CSS，可重复执行。
 - `scripts/style_consistency_audit.py`：跨页一致性验收（见 `DS5`）。
 
-**风格族**把同一种观感的本地预设和线上资源归在一起，用户点名的风格名、Agent 推荐的方向都先映射到风格族。现有 12 个：
+**风格族**把同一种观感的本地预设和线上资源归在一起，用户点名的风格名、Agent 推荐的方向都先映射到风格族。现有 13 个：
 - 苹果原生
 - 安卓原生 / Material
 - 企业中后台
 - 极简 SaaS
-- AI 产品
+- AI 产品（只用于 AI 对话、生成工具本身；AI 只是交互方式时按行业选）
 - 编辑式 / 强排版
 - 柔和 Soft UI
 - 玻璃拟态
@@ -67,6 +67,24 @@
 - 内容 / 电商信息流
 - 大字普惠
 - 游戏与互动娱乐
+- 旅行与目的地
+
+每个风格族有两类组件来源：
+- `recipes`：通用组件配方的标签，见 [component-recipes/](component-recipes/registry.json)。纯 HTML、React、Figma 都能用，组件只引用风格变量，换风格自动跟着变。**所有技术栈先用它当结构、交互和状态的骨架**；页面长相跟 [methods-visual.md](methods-visual.md) `VT` 的目标稿走，拷进来后按目标稿改字体、照片处理、容器和点睛元素。只用配方默认样式拼出来的页面就是模板脸。
+- `layout`：React + Tailwind 区块库（shadcn Blocks、Magic UI 等）。只在 React 项目里补配方库没有的零件。它们以后台、官网、表单为主，不提供手机消费产品的页面构图；构图按 `RR` 看同类真实页面，结构用下面的画面级配方。
+
+**画面级配方是必做的，不是「需要时再看」。** 消费级主屏、游戏主界面、内容流，动手前先 `copy` 其中一个，它决定第一眼是什么画面。`field`、`card`、`button`、`chip-group` 只是零件，不许用它们拼出「一行大标题 + 三张小图 + 三张输入卡 + 一颗按钮」。
+
+| 这一屏是什么 | 先 copy 哪个 |
+| :--- | :--- |
+| 旅行首页 | 先过 `I3` 的首页职责。`destination-hero` 只是首页里的一块主视觉，不是整页。同屏还要有进入自己的行程的入口，以及一个能认出的行程例子。整页只有一个地方、一个名字、「开始这一个」，那是详情页，配方也不许这么拼 |
+| 行程长什么样 | `itinerary-preview-card`、`itinerary-timeline` |
+| 地图上选地方 | `map-with-sheet` |
+| 内容 / 照片流 | `hero-media`、`feed-masonry`、`photo-card` |
+| 牌桌、桌游 | `felt-table`。自己的手牌是完整牌面的 `playing-card`（角标加牌心花色，不能只剩一排角标），再配 `hand-fan`、`seat-nameplate` |
+| AI 工具本身的输入页 | `prompt-composer`、`ai-result-card` |
+
+拷进来之后仍按 `VT` 的目标稿改字体、照片处理和材质。配方默认样式拼出来的页面是模板脸。
 
 **线上补充**：本地预设定下来之后，仍然去线上库查本地没有的部分：缺的组件和页面区块、Tweakcn 新主题、对应的动效组件。线上拿到的东西按 `DS6` 审过再用，好用的沉淀回 `style-presets/`。
 
@@ -134,7 +152,7 @@
    - 先从同一风格族的其他本地预设补；
    - 不够再去线上设计系统的官方规范查；
    - 都没有时，从已有参数推出来，并标“推导”。
-3. 品牌色只在用户给出了正式品牌色值时，才替换预设主色。没有正式品牌色，禁止运行 `from-brand`，禁止为了对比度或“像某产品”另造一个主色。替换后检查对比度：正文 ≥ 4.5:1，大字和图标 ≥ 3:1。不够就在同一色相里加深，不换一套色。
+3. 品牌色只在用户给出了正式品牌色值时，才替换预设主色。没有正式品牌色，禁止运行 `from-brand`，禁止为了对比度或“像某产品”另造一个主色。替换后检查对比度：正文 ≥ 4.5:1，大字和图标 ≥ 3:1。不够就在同一色相里加深这颗按钮或这块字的底，不换一套色。浅色字对比不够时，改底的深浅，字仍用预设的浅色前景。不要把浅色字改成黑色贴在高饱和底上。
 4. 把规格写进任务包，作为本轮唯一的风格数据源（与 `V0` Step 5.2 是同一份）。写进 CSS 变量只是开始。页面结构必须跟风格族走，每个组件用上规格里的材质。只换背景色，规格不算落地。
 
 **产出**：风格规格卡：八类规格的具体数值，每项注明来源（本地预设 / 线上规范 / 推导）。  
@@ -151,7 +169,7 @@
 | 技术栈 | 怎么应用风格 | 注意 |
 | :--- | :--- | :--- |
 | shadcn / Tailwind（React） | `style_preset.py apply <ID> --css <全局 CSS>`，或 `npx shadcn@latest add ./style-presets/<文件>.json`；线上 shadcn 预设用 `npx shadcn@latest apply --preset <id> --only theme,font` | shadcn 组件自动跟随；自写组件里写死的值要改成 `var(--…)` |
-| 纯 HTML / CSS | `style_preset.py export <ID> --format css -o theme.css`，页面引入 | 所有写死的值改成 `var(--…)` |
+| 纯 HTML / CSS | 先 `component_recipe.py copy` 画面级配方，再 `style_preset.py export <ID> --format css -o theme.css` 引入 | 导出 CSS 变量只换皮，不构成页面。写死的值改成 `var(--…)`。没有画面级配方的主屏不算做完 |
 | Ant Design | `style_preset.py export <ID> --format antd`，放进 `ConfigProvider theme={{ token }}`；暗色加 `theme.darkAlgorithm` | 组件级差异写进 `theme.components` |
 | MUI | 按规格卡写 `createTheme({ palette, shape, typography })` | 圆角、字阶对照规格卡 |
 | Arco Design / TDesign / Fluent UI | 用各自官方的主题 token 机制（Arco 主题配置、TDesign CSS token、Fluent `createLightTheme` / `createDarkTheme`），数值从规格卡取 | 本地没有它们的预设，按规格卡逐项对照填写 |
@@ -164,11 +182,13 @@
   - 自写的顶部栏 → 苹果大标题导航栏；
   - 自写的弹窗 → Material 圆角 28 的 Dialog。
 - 只换 token 就够，还是要改结构。比如从底部 Tab 改成侧边栏，就属于结构改造。
-- 需要从页面区块库补哪些组件：按风格族绑定的区块库检索，审源码规则同 `MI`。
+- 组件从哪里来：先 `python3 scripts/component_recipe.py list --tag <风格族的 recipes 标签>`，用 `copy` 取出纯 HTML/CSS 配方。主屏先 copy 上表的画面级配方，再 copy 零件。这一步不能跳。配方库没有的，React 项目再按风格族绑定的区块库检索（审源码规则同 `MI`），其余技术栈自己按配方格式写。区块库不提供手机消费页面的构图，不能用它代替画面级配方。
+- 选风格时可以先看效果：`python3 scripts/component_recipe.py preview --preset <风格编号> --tag <标签> -o <文件.html>`，截图对比两三个候选预设，比读参数表直观。
+- 新写的配方放进 `component-recipes/recipes/<id>.html`（元数据注释 + `<style>` + `<!-- demo -->` 结构 + 可选 `<script>`），只读风格变量和 `base.css` 的 `--r-*` 变量，然后运行 `index`。`index` 会检查标签、依赖、图标文件，以及示例里用到的每个类是否有样式来源。
 - 改造涉及的文件。
 
 **产出**：组件映射表与改造文件清单。  
-**完成证据**：`DS0` 清点出的每个写死值都有去向；每个现有组件都有映射结论。  
+**完成证据**：`DS0` 清点出的每个写死值都有去向；每个现有组件都有映射结论。消费级主屏的映射表第一行是画面级配方，不是 `field`。  
 **不得替代**：`U4` 的组件功能判断。换风格不改变“用什么控件解决什么任务”。
 
 ## DS4 批量应用到整个产品

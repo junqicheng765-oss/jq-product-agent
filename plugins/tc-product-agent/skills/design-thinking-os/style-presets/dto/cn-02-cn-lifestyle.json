@@ -15,7 +15,7 @@
       "card-foreground": "#111111",
       "popover": "#FFFFFF",
       "popover-foreground": "#111111",
-      "primary": "#FF2442",
+      "primary": "#E80020",
       "primary-foreground": "#FFFFFF",
       "secondary": "#F8F8F8",
       "secondary-foreground": "#111111",
@@ -36,7 +36,7 @@
       "card-foreground": "#111111",
       "popover": "#FFFFFF",
       "popover-foreground": "#111111",
-      "primary": "#FF2442",
+      "primary": "#E80020",
       "primary-foreground": "#FFFFFF",
       "secondary": "#F8F8F8",
       "secondary-foreground": "#111111",
@@ -83,7 +83,8 @@
       "typeScale": "22/17/15/12px，标题 600，行高 1.5",
       "spacing": "内边距 12–16px，间距 8/12px",
       "family": [
-        "content-feed"
+        "content-feed",
+        "travel"
       ],
       "derived": [
         "secondary",

@@ -172,15 +172,20 @@ def oklch_scale_from_hex(h):
 
 
 def pairs_of(tokens):
-    return [
+    pairs = [
         ("正文 / 页面底", tokens["foreground"], tokens["background"], 4.5),
         ("次级文字 / 页面底", tokens["muted-foreground"], tokens["background"], 4.5),
         ("主按钮文字 / 主按钮", tokens["primary-foreground"], tokens["primary"], 4.5),
-        ("成功按钮文字 / 成功色", tokens.get("success-foreground", "#fff"), tokens.get("success", tokens["primary"]), 4.5),
-        ("警告文字 / 警告色", tokens.get("warning-foreground", "#1c2024"), tokens.get("warning", tokens["primary"]), 4.5),
+    ]
+    if "success" in tokens:
+        pairs.append(("成功按钮文字 / 成功色", tokens.get("success-foreground", "#fff"), tokens["success"], 4.5))
+    if "warning" in tokens:
+        pairs.append(("警告文字 / 警告色", tokens.get("warning-foreground", "#1c2024"), tokens["warning"], 4.5))
+    pairs += [
         ("危险按钮文字 / 危险色", tokens["destructive-foreground"], tokens["destructive"], 4.5),
         ("正文 / 卡片", tokens["card-foreground"], tokens["card"], 4.5),
     ]
+    return pairs
 
 
 def check_tokens(tokens, aaa=False):
@@ -193,6 +198,22 @@ def check_tokens(tokens, aaa=False):
         ok = ok and passed
         rows.append({"pair": name, "fg": fg, "bg": bg, "ratio": round(ratio, 2),
                      "need": need, "result": "PASS" if passed else "FAIL"})
+    if "primary" in tokens and "primary-foreground" in tokens:
+        fg, bg = tokens["primary-foreground"], tokens["primary"]
+        _r, _g, _b = [c / 255 for c in hex_to_rgb(bg)]
+        _h, _l, sat = colorsys.rgb_to_hls(_r, _g, _b)
+        bg_lum = rel_lum(hex_to_rgb(bg))
+        text_is_darker = rel_lum(hex_to_rgb(fg)) < bg_lum
+        # High-luminance accents (yellow, gold, amber, lime, cyan: bg_lum >= 0.35) naturally pair with dark text.
+        # Mid/dark saturated accents (red, blue, orange, green, purple: bg_lum < 0.35) must pair with light text;
+        # if contrast is below 4.5, deepen the button background instead of flipping the text to black.
+        if sat >= 0.45 and bg_lum < 0.35 and text_is_darker:
+            ok = False
+            rows.append({
+                "pair": "主按钮深字贴在高饱和底上",
+                "fg": fg, "bg": bg, "ratio": round(contrast(fg, bg), 2),
+                "need": 4.5, "result": "FAIL",
+            })
     return ok, rows
 
 
@@ -301,19 +322,78 @@ def cmd_from_palette(a):
         print("未通过的组合必须改到阈值以上，才能写入产品。不要为了好看牺牲正文对比。")
 
 
+STYLE_ROOT = os.path.join(os.path.dirname(ROOT), "style-presets")
+
+
+def load_style_preset(pid):
+    """风格预设（INT-05、GAME-09、CN-02、Tweakcn 主题等）也能直接做对比度检查。"""
+    import glob
+    want = pid.strip().lower()
+    for path in sorted(glob.glob(os.path.join(STYLE_ROOT, "**", "*.json"), recursive=True)):
+        if os.path.basename(path) == "registry.json":
+            continue
+        try:
+            data = json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        dto = (data.get("meta") or {}).get("dto") or {}
+        stem = os.path.splitext(os.path.basename(path))[0].lower()
+        if want in {str(dto.get("id", "")).lower(), stem, str(data.get("name", "")).lower()} or stem.startswith(want + "-"):
+            css = data.get("cssVars") or {}
+            base = dict(css.get("theme") or {})
+            modes = dto.get("modes") or ["light", "dark"]
+            packs = []
+            for mode in ("light", "dark"):
+                if mode in modes and css.get(mode):
+                    packs.append((mode, {**base, **css[mode]}))
+            return packs
+    return None
+
+
+def tokens_from_css(path):
+    text = open(path, encoding="utf-8").read()
+    tokens = {}
+    for block in re.findall(r":root\s*\{([^}]*)\}", text):
+        for name, value in re.findall(r"--([\w-]+)\s*:\s*([^;]+);", block):
+            value = value.strip()
+            if re.fullmatch(r"#[0-9a-fA-F]{3,8}", value):
+                tokens[name] = value
+    return tokens
+
+
 def cmd_contrast(a):
-    if a.preset:
-        data = load_system(a.preset)
-        packs = [("light", data["cssVars"]["light"]), ("dark", data["cssVars"]["dark"])]
+    if a.css:
+        tokens = tokens_from_css(a.css)
+        missing = [k for k in ("foreground", "background", "muted-foreground", "primary", "primary-foreground",
+                               "destructive", "destructive-foreground", "card", "card-foreground") if k not in tokens]
+        if missing:
+            sys.exit(f"{a.css} 的 :root 里缺这些十六进制变量：{', '.join(missing)}")
+        packs = [("page", tokens)]
+    elif a.preset:
+        system = os.path.join(ROOT, "systems", a.preset + ".json")
+        if os.path.exists(system):
+            data = load_system(a.preset)
+            packs = [("light", data["cssVars"]["light"]), ("dark", data["cssVars"]["dark"])]
+        else:
+            packs = load_style_preset(a.preset)
+            if not packs:
+                sys.exit(f"找不到 {a.preset}。可用配色系统：{', '.join(p['id'] for p in registry()['systems'])}；"
+                         "风格预设用编号，例如 INT-05、GAME-09、CN-02。")
     else:
-        sys.exit("请用 --preset <id>")
+        sys.exit("请用 --preset <配色系统或风格预设编号>，或 --css <页面实际使用的 CSS 文件>")
     all_ok = True
     for mode, tokens in packs:
         ok, rows = check_tokens(tokens, aaa=a.aaa)
         all_ok = all_ok and ok
         print(f"[{mode}] {'通过' if ok else '未通过'}")
         for r in rows:
-            print(f"  {r['result']:4} {r['ratio']:5}  需要 ≥{r['need']}  {r['pair']}  {r['fg']} / {r['bg']}")
+            note = "（只够 24px 以上或 19px 粗体的大字）" if r["result"] == "FAIL" and r["ratio"] >= 3.0 and not r["pair"].startswith("主按钮深字") else ""
+            extra = ""
+        if r["pair"].startswith("主按钮深字"):
+            extra = "  把按钮底在同一色相里加深，直到浅色字达到 4.5:1。不要改成黑字。"
+        print(f"  {r['result']:4} {r['ratio']:5}  需要 ≥{r['need']}  {r['pair']}  {r['fg']} / {r['bg']}{note}{extra}")
+    if not all_ok and a.preset and not a.css:
+        print("预设本身有组合不达标：在页面里把这块底色在同一色相加深，直到浅色字达标。不要把主按钮改成深色字贴在高饱和底上。再用 --css <页面 CSS> 检查页面实际用的颜色。")
     sys.exit(0 if all_ok else 1)
 
 
@@ -402,7 +482,7 @@ def main():
     s = sp.add_parser("show"); s.add_argument("id"); s.set_defaults(f=cmd_show)
     b = sp.add_parser("from-brand"); b.add_argument("hex"); b.add_argument("--neutral"); b.set_defaults(f=cmd_from_brand)
     pal = sp.add_parser("from-palette"); pal.add_argument("hexes"); pal.set_defaults(f=cmd_from_palette)
-    c = sp.add_parser("contrast"); c.add_argument("--preset"); c.add_argument("--aaa", action="store_true"); c.set_defaults(f=cmd_contrast)
+    c = sp.add_parser("contrast"); c.add_argument("--preset"); c.add_argument("--css", help="页面实际引入的 CSS 文件，检查 :root 里的变量"); c.add_argument("--aaa", action="store_true"); c.set_defaults(f=cmd_contrast)
     pr = sp.add_parser("preview"); pr.add_argument("ids"); pr.add_argument("-o"); pr.set_defaults(f=cmd_preview)
     ap = sp.add_parser("apply"); ap.add_argument("id"); ap.add_argument("--css", required=True); ap.set_defaults(f=cmd_apply)
     e = sp.add_parser("export"); e.add_argument("id"); e.add_argument("--format", default="css", choices=["css", "shadcn"]); e.add_argument("-o"); e.set_defaults(f=cmd_export)

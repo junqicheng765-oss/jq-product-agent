@@ -24,7 +24,12 @@
       ],
       "motion": [
         "motion-primitives"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "material",
@@ -42,7 +47,12 @@
       ],
       "motion": [
         "motion"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "enterprise",
@@ -62,7 +72,12 @@
         "ant-design-pro",
         "shadcn-blocks"
       ],
-      "motion": []
+      "motion": [],
+      "recipes": [
+        "base",
+        "form"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "minimal-saas",
@@ -91,12 +106,17 @@
       ],
       "motion": [
         "motion-primitives"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "form"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "ai-product",
       "name": "AI 产品",
-      "scenes": "AI 对话、生成工具、智能助手",
+      "scenes": "AI 对话、生成工具本身。AI 只是交互方式、产品主题是别的行业（如 AI 行程规划）时，按行业选，不进这一族",
       "systems": [],
       "dto": [
         "INT-03",
@@ -117,7 +137,13 @@
         "motion-primitives",
         "react-bits",
         "aceternity"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer",
+        "ai"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "editorial",
@@ -144,7 +170,12 @@
       "motion": [
         "react-bits",
         "motion"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "content"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "soft-ui",
@@ -170,7 +201,13 @@
       ],
       "motion": [
         "motion-primitives"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer",
+        "content"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "glassmorphism",
@@ -190,7 +227,12 @@
       "motion": [
         "motion-primitives",
         "aceternity"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "futuristic",
@@ -217,7 +259,11 @@
       "motion": [
         "react-bits",
         "aceternity"
-      ]
+      ],
+      "recipes": [
+        "base"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "content-feed",
@@ -238,7 +284,13 @@
       ],
       "motion": [
         "motion-primitives"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer",
+        "content"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "accessible",
@@ -250,7 +302,13 @@
       ],
       "tweakcn": [],
       "layout": [],
-      "motion": []
+      "motion": [],
+      "recipes": [
+        "base",
+        "form",
+        "mobile-consumer"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
     },
     {
       "id": "game",
@@ -276,7 +334,40 @@
       "layout": [],
       "motion": [
         "react-bits"
-      ]
+      ],
+      "recipes": [
+        "base",
+        "game-table"
+      ],
+      "layoutNote": "layout 里的区块库都是 React + Tailwind，只在 React 项目里补组件；所有技术栈先用 recipes 指向的通用组件配方（component-recipes/）"
+    },
+    {
+      "id": "travel",
+      "name": "旅行与目的地",
+      "scenes": "旅行规划、目的地内容、文旅、酒店民宿、出行。第一眼靠目的地画面和行程预览，不靠表单",
+      "systems": [],
+      "dto": [
+        "CN-02",
+        "INT-06",
+        "INT-01",
+        "CN-06"
+      ],
+      "tweakcn": [
+        "sunset-horizon",
+        "ocean-breeze",
+        "kodama-grove"
+      ],
+      "layout": [],
+      "motion": [
+        "motion-primitives"
+      ],
+      "recipes": [
+        "base",
+        "mobile-consumer",
+        "content",
+        "travel"
+      ],
+      "layoutNote": "开源区块库里没有旅行类手机页面；用 component-recipes/ 的 travel 与 content 配方，构图先按 RR 看同类真实页面"
     }
   ],
   "presets": {

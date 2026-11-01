@@ -84,7 +84,8 @@
       "spacing": "内边距 16–24px，间距 12/16px",
       "family": [
         "material",
-        "soft-ui"
+        "soft-ui",
+        "travel"
       ],
       "derived": [
         "secondary",

@@ -24,7 +24,7 @@
       "muted-foreground": "#9AA4B2",
       "accent": "#121316",
       "accent-foreground": "#FFFFFF",
-      "destructive": "#F87171",
+      "destructive": "#E70B0B",
       "destructive-foreground": "#FFFFFF",
       "border": "rgba(255,255,255,0.15)",
       "input": "rgba(255,255,255,0.15)",
@@ -45,7 +45,7 @@
       "muted-foreground": "#9AA4B2",
       "accent": "#121316",
       "accent-foreground": "#FFFFFF",
-      "destructive": "#F87171",
+      "destructive": "#E70B0B",
       "destructive-foreground": "#FFFFFF",
       "border": "rgba(255,255,255,0.15)",
       "input": "rgba(255,255,255,0.15)",
@@ -71,8 +71,10 @@
         "primary": "#FFE600",
         "extra": [
           "#00D2FF",
-          "#FF6B00"
-        ]
+          "#FF6B00",
+          "#ECEFF4"
+        ],
+        "extraSource": "methods-visual.md 参数字典同一行里写到、原预设漏收的颜色"
       },
       "radiusScale": {
         "card": 2,
