@@ -1,21 +1,21 @@
 ---
 name: jq-stage-d-demo
-description: 在 JQ Product Agent 的 D 阶段制作一条可操作的代表性端到端 Demo，并先确定非固定模板的视觉方向和代表页面。用于让业务判断者确认真实使用方式与可见结果。
+description: 在 JQ Product Agent 的 D 阶段打通一条可操作的代表性端到端链路。本 Skill 不自己画有样式界面；进入任何页面、图片或视觉稿前，必须先执行同包 design-thinking-os 并写完 design-decisions.md。用于让业务判断者确认真实使用方式与可见结果。
 ---
 
 # D 代表性可操作链路
 
-以 C 的结构和有效产品事实为输入，使用 `$jq-demo-quality` 完成实际制作与验证。产出格式按主包 `references/23-AF阶段产物模板.md` 的 D 节裁剪。`$ui-ux-pro-max` 与 `$impeccable` 已随包安装，但是否运行仍取决于本轮视觉任务、可用运行时与授权；没有实际调用不得假称使用。
+以 C 的结构和有效产品事实为输入。本 Skill 是产品阶段合同，不是设计执行器。使用 `$jq-demo-quality` 核对可操作链路与文案。产出格式按主包 `references/23-AF阶段产物模板.md` 的 D 节裁剪。`$ui-ux-pro-max` 与 `$impeccable` 只在 `design-decisions.md` 写完后按需检索或精修；没有实际调用不得假称使用。
 
 
 每次成果回复的第一行按主包 [流程导航与按需确认](../tc-product-agent/references/27-流程导航与按需确认.md) 展示主线第几步/共六步、当前具体步骤与真实状态；已有阶段内清单时附子步骤位置。不得只在阶段切换、过程消息或文件中展示。切换与收口由 Agent 核对必要产物和证据，交代下一动作及负责人；只为尚未解决的关键决定请人判断，已有有效依据不重审。需要使用者回答时，按同一规范的 Question 交互合同实际弹出原生问题；有建议时提供“按建议继续”等选项，不能只在结尾要求文字回复。
 ## 输入与制作
 
 - 输入：一条高价值 Use Case、角色、前置数据、页面骨架、状态和业务规则、端与品牌/风格约束、工具与授权范围。
-- D **允许**先做可操作的低/中保真流程原型验证代表链路，并标注非最终视觉。已有本产品 Figma 主稿时，**正式视觉与有样式交付**须先在 Figma 完成代表范围页面/状态及核验，再按 [设计交付规范](../tc-product-agent/references/15-设计交付与Figma回传规范.md) 用准确 Frame 定位（需要代码还原时再读 Dev Mode/MCP 上下文与素材）还原 Demo；缺页/状态先补主稿，不在代码里另作设计后称按稿还原。实际 Figma 执行与还原调用同包 [jq-figma-workflow](../jq-figma-workflow/SKILL.md)，只加载本次需要的步骤。人设计师主责视觉；Agent 代写须明确授权与可核验回传。
+- D **允许**先做可操作的低/中保真流程原型验证代表链路。低/中保真只允许灰框加文字，并标注非最终视觉。一旦做成带颜色、字体、图标、图片或给用户看的产品界面，必须先完整读取并执行同包 [design-thinking-os](../design-thinking-os/SKILL.md)，在任务目录写完四块 `design-decisions.md`，看到「现在才允许做页面」之后才许创建界面。本文件里的产品要求不能代替那份 Skill。已有本产品 Figma 主稿时，**正式视觉与有样式交付**须先在 Figma 完成代表范围页面/状态及核验，再按 [设计交付规范](../tc-product-agent/references/15-设计交付与Figma回传规范.md) 用准确 Frame 定位（需要代码还原时再读 Dev Mode/MCP 上下文与素材）还原 Demo；缺页/状态先补主稿，不在代码里另作设计后称按稿还原。实际 Figma 执行与还原调用同包 [jq-figma-workflow](../jq-figma-workflow/SKILL.md)，只加载本次需要的步骤，且必须带上已写完的决定文件。人设计师主责视觉；Agent 代写须明确授权与可核验回传。
 - 先复用 [设计能力配置](../tc-product-agent/references/26-设计能力初始化与复用.md)，首次设计引导缺项。制作前核对明确的路线选择或委托，并在对话展示设计准备结果；“问过但未答”不满足条件，规则确认不代替路线选择。人设计师接短清单开工不阻塞于 Agent 工具链；Agent 自动写入/还原仍须具备对应能力。已有现状链接先复用，区分只读参考与编辑目标；存量迭代须取得覆盖本次变化的有效界面参考，缺失时先补具体页面/状态，继续独立业务分析，不凭描述另画一套现状。
-- 先按 [产品类型设计基线](../tc-product-agent/references/25-产品类型设计基线.md) 复用或形成主骨架与叠加约束，并调用同包 [design-thinking-os](../design-thinking-os/SKILL.md) 执行 UI 落地三路分流（`U0 / V0`：有现成页面走存量延展；0→1 纯 B 端直接绑定 `Ant Design` / `Arco` / `TDesign` / `shadcn/ui` 等公开组件库快搭；0→1 C 端或游戏 UI 从 **26+6 风格参数字典** 剪枝后请用户确认方向与 6 维参数）。人物头像、图标、3D 图标、插画与 Lottie 微动效优先通过 IconScout 双通道（官方 MCP `https://mcp.iconscout.com/mcp` 优先 + 内置 `design-thinking-os/scripts/iconscout.py` 兜底）拉取真实素材，严禁手画劣质 SVG。基线摘要与可观察要求写入现有 Demo 说明，辅助 Skill 在此范围内提供建议。
-- 先制作并审阅一张代表页面，再贯通该场景的入口、动作、反馈、结果、必要异常及返回；不要先画全量页面后逐处返工。交付前结合 [design-thinking-os QA0](../design-thinking-os/methods-close.md) 检查「用户可用性 × 审美与品位 × 设计标准」，未达标项当场退回对应节点回炉精修。此处视觉方向若仅为流程验证的临时方向，不替代 E 阶段的最终视觉确认。
+- 先按 [产品类型设计基线](../tc-product-agent/references/25-产品类型设计基线.md) 复用或形成主骨架与叠加约束，把产品事实交给 `$design-thinking-os`：由它选工作模式、扫描 D1–D9、写 `design-decisions.md`、再按缺口取 U/V/IM/QA0。禁止在本 Skill 里用 U0/V0/IconScout 摘要自行出图。基线摘要与可观察要求写入现有 Demo 说明。
+- 决定文件写完后，先制作并审阅一张代表页面，再贯通该场景的入口、动作、反馈、结果、必要异常及返回；不要先画全量页面后逐处返工。交付前由 `design-thinking-os` 执行 [QA0](../design-thinking-os/methods-close.md)「用户可用性 × 审美与品位 × 设计标准」，未达标项当场退回对应节点回炉精修。此处视觉方向若仅为流程验证的临时方向，不替代 E 阶段的最终视觉确认。
 - 首次展示代表页和交付链路时，按 [设计交付规范 §2.1](../tc-product-agent/references/15-设计交付与Figma回传规范.md#21-风格选择与进度说明所有设计路线共用) 在对话中说明视觉状态、风格选择的触发条件与下一产物；不能只在文档深处标记。D 的流程确认不自动成为最终视觉确认或有样式交付就绪。
 - 视觉方向需要外部检索时，先用 `$ui-ux-pro-max` 查询与实际业务、端和信息密度相符的候选，不使用 `--persist` 建立第二套产品事实或固定风格模板。检索结果可能混入营销页结构，任务型界面只采纳匹配用户任务的视觉/组件建议。页面已有实物后，再用 `$impeccable` 的 Operate 视角做 `critique` 或局部 `polish`；不把两套样式建议并列交给用户逐项选择。
 - 两者不决定业务规则，也不增加审批门。调用 Impeccable 时沿用主包唯一事实源，不执行其 `init`、自动更新、hooks 或未经授权的子 Agent 动作。
