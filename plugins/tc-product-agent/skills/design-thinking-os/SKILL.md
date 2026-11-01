@@ -51,9 +51,10 @@ description: >-
 16. [methods-competitive.md](methods-competitive.md)
 17. [methods-tool-routing.md](methods-tool-routing.md)
 18. [methods-close.md](methods-close.md)
-19. [templates.md](templates.md)
+19. [methods-resource-routing.md](methods-resource-routing.md)
+20. [templates.md](templates.md)
 
-交付的「已读细则」必须按这个顺序列出全部 19 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
+交付的「已读细则」必须按这个顺序列出全部 20 个文件名。少一个就是没读完：先补读，再继续做。禁止用本文件里的摘要代替细则。
 
 ## 审查不通过必须改完再交
 
@@ -103,11 +104,11 @@ description: >-
 24. 动效表达的是反馈、状态变化或空间关系，不是装饰；真实环境下流畅，可打断。
 
 **H. 验证与下一步**（[methods-close.md](methods-close.md) 对应工作模式收口）
-25. 写清哪些已被证据支持、哪些仍是假设，以及用什么最小测试去验证；不把「做完了」写成「已验证」。
+25. 写清哪些已被证据支持、哪些仍是假设，以及用什么最小测试去验证；不把「做完了」写成「已验证」。axe-core 的严重问题已清零，或写明未跑及原因。用户确认可复用的方案已按 `AM` 询问是否入库（未确认不入库）。
 
 ## 运行顺序
 
-上面 19 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
+上面 20 个文件在动手前已经全部读完。下面是读完之后的执行顺序，不是再挑哪些文件要读。
 
 1. **读取总框架**：Read [framework.md](framework.md)，明确与上游产品流程的边界、输入和回传。
 2. **任务分诊与语境翻译**：Read [methods-intake.md](methods-intake.md)；需要设计判断时再 Read [methods-context.md](methods-context.md)，形成上游任务卡、设计语境卡、设计任务定义、任务诊断卡和设计决定链。
@@ -173,6 +174,7 @@ D1 问题与价值
 - [methods-motion.md](methods-motion.md)：UI 反馈、状态转换、空间关系；`MI` 从 React Bits / Aceternity UI / Motion Primitives / Uiverse / 21st.dev 检索动效源码并集成；视频/动态图形和格式特定动画按工具路由执行。
 - [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
 - [methods-close.md](methods-close.md)：按工作模式验收，内置 `QA0`（用户可用性 × 审美与品位 × 设计标准）三大维度审查与 [scripts/ui_geometry_audit.py](scripts/ui_geometry_audit.py) 自动 DOM 几何/对齐/碰撞/头像质检门。
+- [methods-resource-routing.md](methods-resource-routing.md)：资源路由。不新增设计方法；按 adapter 调用真实案例、字体、组件、验收工具。先搜内部 `asset-memory`，再本地预设，再自动接口，再已授权 MCP，最后才是参考链接。含参考智能（RR）、排版（TY）、验证引擎（VE）、资产记忆（AM）。
 - [templates.md](templates.md)：诊断、工作包和产出模板。
 - [walkthrough.md](walkthrough.md)：典型路由回验。
 
@@ -199,6 +201,9 @@ D1 问题与价值
 - **图标、3D 图标、插画、Lottie 动效一律先去 IconScout 拿现成专业素材**（它同时有线性/面性图标、3D、插画和 Lottie 动画），同一屏用同一套系。不要自己手写 SVG 路径、用 CSS/Canvas 拼图形或让模型临时画简陋图标、简陋动画。返回、设置、关闭这类功能按钮里的图标也算，必须放下载好的成品 SVG 文件，禁止为了「按钮里要有 SVG」而手写一个齿轮或箭头。IconScout 确实没有合适的才退一步：图标用成熟开源图标库的同风格整套，3D/插画按统一风格 AI 生成，动效用现成素材改色或在专业素材基础上加动画；只有品牌专属图形才自制，且必须达到同套图标的网格、线宽和精致度。
 - **对象按它自己的样子表现，缩小也要认得出**：界面里出现用户在现实或该领域里认得的对象时，先找出用户靠什么认出它，按它本来的视觉惯例表现。不能用它的名字代替它本身。显示尺寸放不下完整形态时，用这个领域已有的缩略方式保留识别特征，而不是退成写字。方法见 [methods-ui.md](methods-ui.md) `U7`。
 - **风格的材质要做到每一个组件上**：按钮、标签、面板、图标、输入框都要达到所选风格的工艺，不能只做背景和主视觉。检查时找全屏最弱的那个元素。方法见 [methods-visual.md](methods-visual.md) `V0` Step 3 末尾「贯穿 6 维的硬要求」。
+- **先用内部已验收资产，再调用外部库**：动手前 `python3 scripts/asset_memory.py search <场景>`。外部资源必须走 [methods-resource-routing.md](methods-resource-routing.md) 的 adapter（怎么搜、返回什么、怎么用、许可证、失败怎么办）。没有公开接口的（Page Flows、部分灵感站）只给链接，不抓取、不假装能自动安装。Mobbin 有付费套餐时再发起 MCP 授权；没有就当参考库。
+- **字体按风格族和语言自动选型**：`python3 scripts/typography_intelligence.py pick --family <风格族> --langs zh,en`。中日韩正文必须带 CJK 字体，不能只用 Inter。
+- **验收要跑可执行检查**：几何、对比度、跨页风格之外，再跑 `python3 scripts/a11y_audit.py <页面>`（axe-core）。有 Chromatic token 才做视觉回归，没有就并排截图，不写「已做视觉回归」。
 - **配色必须是产品级语义色，不是几个好看的色块**：风格定了之后，按 [methods-color.md](methods-color.md) 从 `color-presets/` 取一套含背景、文字、按钮、边框、状态色和亮暗模式的系统（默认 5 套 + Radix 12 阶）。用户给了品牌色用 `from-brand`；用户从 Coolors / Color Hunt / Huemint 粘贴的色板用 `from-palette` 转成语义色。禁止抓取这些灵感站，禁止调用 Huemint API。写入后跑 `color_intelligence.py contrast`。
 - **风格定了就整套用，先本地后线上**：选定风格后，按 [methods-style-engine.md](methods-style-engine.md) 从 `style-presets/` 取出整套规格（颜色、字体、圆角、间距、导航、卡片、交互、动效）以及绑定的设计系统、页面区块库和动效库；本地缺的再去线上库补。全产品只在一处定义 token，组件和页面都引用它，不逐页手调。改完跑风格一致性脚本。
 - **写成代码的动效先去组件库找源码**：先写清这条动效要解决什么、怎么触发、起止状态和时长，再按 [methods-motion.md](methods-motion.md) `MI` 去 React Bits、Aceternity UI、Motion Primitives、Uiverse、21st.dev 检索。合适的审过源码后直接拿来，改成规格数值和设计 token，并记录来源与许可证；没有合适的再用项目已有引擎自写。不用付费组件，不运行未审的安装命令，不编造来源。
@@ -211,7 +216,7 @@ D1 问题与价值
 
 ```markdown
 # 任务诊断
-- 已读细则（必须是上面 19 个文件的全名，少一个即未读完）：
+- 已读细则（必须是上面 20 个文件的全名，少一个即未读完）：
 - 工作模式：
 - 本轮目标：
 - 主终点与产出合同：

@@ -415,6 +415,19 @@ V2 记录是否写齐：
 沉淀（CI6）：新系统文件与 registry 变更
 ```
 
+## 资源路由与资产记忆
+
+```markdown
+内部资产检索（AM）：search 词 / 命中 ID / 适用条件是否仍成立
+场景拆解（RR）：场景清单（任务步骤，不是产品名）
+每场景案例：来源 adapter（memory / mobbin / pageflows / 公开产品） / 链接或截图 / 可复用条件 / 明确不抄的部分
+Mobbin：已授权 MCP / 无套餐仅链接 / 未使用
+排版（TY）：style family / langs / density / heading / body / CJK / CSS2 链接
+ARIA APG：用到的模式 ID
+验收（VE）：geometry / contrast / consistency / a11y_audit / 主路径 / chromatic（有 token 才跑）
+入库（AM）：用户是否确认 / deposit 命令或「本轮不入库」
+```
+
 ## 独立海报 / 运营图 / 主视觉 KV 制作合同（优先 IconScout 素材快拼 vs 双垫 AI 生图）
 
 适用：最终交付物是独立运营图、活动海报或宣发主视觉 KV（`TR4` / `V7 路径 B`），严禁无结构草图盲目生图；能用现成透明底素材快速拼装的优先走方式 1，无需动用整图 AI 生图。

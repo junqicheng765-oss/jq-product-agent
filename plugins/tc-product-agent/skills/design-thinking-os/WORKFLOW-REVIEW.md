@@ -348,6 +348,13 @@
   CI4 只写入颜色变量，不改字体圆角
   CI5 color_intelligence.py contrast 必须 PASS
   CI6 验收通过的新系统沉淀进 color-presets/
+
+资源层（methods-resource-routing.md，不新开设计方法）：
+  顺序：内部资产 → 本地预设 → 自动 adapter → 已授权 MCP → 参考链接
+  RR 按场景检索真实产品（Mobbin 有套餐用 MCP，否则只开搜索页；Page Flows 无 API）
+  TY 按风格族和语言选字体（中日韩必须有 CJK）
+  VE 几何 + 对比度 + 跨页 + axe-core；Chromatic 仅有 token 时
+  AM 验收通过且用户确认后入库，下次优先复用
 ```
 
 ### 2. 图标 / 3D 道具 / 插画 / Lottie「MCP + API 双通道」调取与高颜值头像/海报生成链路
