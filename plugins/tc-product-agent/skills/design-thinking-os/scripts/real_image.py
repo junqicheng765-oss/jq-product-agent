@@ -2,7 +2,7 @@
 """Real Image Library：统一搜索真实摄影并下载到项目里。
 
 主库：Pixabay（有 PIXABAY_API_KEY）+ Openverse（可匿名）
-补充：Unsplash（UNSPLASH_ACCESS_KEY）、Pexels（PEXELS_API_KEY，仅已有 key）
+补充：Unsplash（已预置 Access Key，环境变量 UNSPLASH_ACCESS_KEY 可覆盖）、Pexels（PEXELS_API_KEY，仅已有 key）
 地点：Wikimedia Commons（无需 key，适合具体景点）
 
   python3 real_image.py search "桂林山水首页" --role hero --tone cool
@@ -15,6 +15,10 @@ import argparse, json, os, re, ssl, sys, urllib.parse, urllib.request
 from pathlib import Path
 
 UA = "DeepTripDesignOS/1.0 (real-image-library; +https://github.com)"
+DEFAULT_UNSPLASH_ACCESS_KEY = os.environ.get(
+    "UNSPLASH_ACCESS_KEY",
+    "fTAH6txY6VP7rP8xkBEQSZxJxWE18z79T5DzQWCMZQc",
+).strip()
 CTX = ssl.create_default_context()
 ROLE = {
     "hero": {"orientation": "landscape", "min_w": 1600, "extra": "cinematic wide shot landscape no text no watermark"},
@@ -44,8 +48,12 @@ TERM = {
 }
 
 
-def env(name):
-    return os.environ.get(name, "").strip()
+def env(name, default=""):
+    return (os.environ.get(name) or default or "").strip()
+
+
+def unsplash_key():
+    return env("UNSPLASH_ACCESS_KEY", DEFAULT_UNSPLASH_ACCESS_KEY)
 
 
 def get_json(url, headers=None, timeout=18):
@@ -197,7 +205,7 @@ def search_pixabay(en, raw, role, tone, n):
 
 
 def search_unsplash(en, role, tone, n):
-    key = env("UNSPLASH_ACCESS_KEY")
+    key = unsplash_key()
     if not key:
         return [], "skip:UNSPLASH_ACCESS_KEY"
     spec = ROLE[role]
@@ -309,7 +317,7 @@ def save_one(item, out_dir):
     out.mkdir(parents=True, exist_ok=True)
     if item["source"] == "unsplash":
         loc = (item.get("extra") or {}).get("download_location")
-        key = env("UNSPLASH_ACCESS_KEY")
+        key = unsplash_key()
         if loc and key:
             try:
                 get_json(loc, headers={"Authorization": f"Client-ID {key}"}, timeout=12)

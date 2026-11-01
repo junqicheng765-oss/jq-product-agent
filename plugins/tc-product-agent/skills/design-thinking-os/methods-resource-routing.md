@@ -144,5 +144,5 @@ python3 scripts/asset_memory.py deposit --type pattern --title "权限被拒可�
 ## IM 真实摄影（接到 V5 / V7，不是新的视觉方法）
 
 **触发问题**：稿上这一处需要真实世界的照片吗？  
-**步骤**：按 [methods-image.md](methods-image.md) 运行 `scripts/real_image.py`。主库 Pixabay + Openverse；有 key 再开 Unsplash / Pexels；具体地点优先 Wikimedia。  
+**步骤**：按 [methods-image.md](methods-image.md) 运行 `scripts/real_image.py`。主库 Pixabay + Openverse + 已预置 key 的 Unsplash；Pexels 有 key 才开；具体地点优先 Wikimedia。  
 **完成证据**：用上的图有作者、许可证、本地文件；该用真图却直接生图的，本项不过。

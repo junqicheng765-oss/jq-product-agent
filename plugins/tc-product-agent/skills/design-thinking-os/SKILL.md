@@ -176,7 +176,7 @@ D1 问题与价值
 - [methods-prototype.md](methods-prototype.md)：把概念、内容或交互方案准备成可测试版本。
 - [methods-close.md](methods-close.md)：按工作模式验收，内置 `QA0`（用户可用性 × 审美与品位 × 设计标准）三大维度审查与 [scripts/ui_geometry_audit.py](scripts/ui_geometry_audit.py) 自动 DOM 几何/对齐/碰撞/头像质检门。
 - [methods-resource-routing.md](methods-resource-routing.md)：资源路由。不新增设计方法；按 adapter 调用真实案例、字体、组件、验收工具。先搜内部 `asset-memory`，再本地预设，再自动接口，再已授权 MCP，最后才是参考链接。含参考智能（RR）、排版（TY）、验证引擎（VE）、资产记忆（AM）。真实摄影接到 `IM`。
-- [methods-image.md](methods-image.md)：真实摄影素材库。统一 `Image Search Adapter`（Pixabay + Openverse 为主，Unsplash / Pexels / Wikimedia 补充）。真实场景、人物生活、建筑、自然、地点先搜真图；找不到或必须虚构才 AI 生图。
+- [methods-image.md](methods-image.md)：真实摄影素材库。统一 `Image Search Adapter`（Pixabay + Openverse 为主，Unsplash 已预置 Access Key / Pexels / Wikimedia 补充）。真实场景、人物生活、建筑、自然、地点先搜真图；找不到或必须虚构才 AI 生图。
 - [templates.md](templates.md)：诊断、工作包和产出模板。
 - [walkthrough.md](walkthrough.md)：典型路由回验。
 
@@ -201,7 +201,7 @@ D1 问题与价值
   - 只有用户方才有的素材（品牌 Logo、真实产品图、真实人物照片、真实数据与文案、授权字体、已有设计稿文件）缺失时，才算“缺了就无法开工”，向用户要；其余部分照常推进。
   - 通用素材缺失时不停、不问。**图标、3D、徽章、插画、虚构角色头像**先从 IconScout 找，库里没有或风格不匹配再按统一风格 AI 生成。**真实世界的场景、人物生活、建筑、自然风景、具体地点**先按 [methods-image.md](methods-image.md) 检索真实摄影；找不到合适图、或画面必须虚构，才 AI 生图。两种情况都不得用占位图、Emoji 或手画简笔替代。
 - **图标、3D 图标、插画、Lottie 动效一律先去 IconScout 拿现成专业素材**（它同时有线性/面性图标、3D、插画和 Lottie 动画），同一屏用同一套系。不要自己手写 SVG 路径、用 CSS/Canvas 拼图形或让模型临时画简陋图标、简陋动画。返回、设置、关闭这类功能按钮里的图标也算，必须放下载好的成品 SVG 文件，禁止为了「按钮里要有 SVG」而手写一个齿轮或箭头。IconScout 确实没有合适的才退一步：图标用成熟开源图标库的同风格整套，3D/插画按统一风格 AI 生成，动效用现成素材改色或在专业素材基础上加动画；只有品牌专属图形才自制，且必须达到同套图标的网格、线宽和精致度。
-- **真实摄影走 Real Image Library，不先 AI 生图**：Hero、卡片配图、氛围背景、地标只要表现真实世界，就运行 `python3 scripts/real_image.py search "<主题>" --role hero|card|background|place --tone <冷暖>`。主库 Pixabay + Openverse；有 key 再开 Unsplash / Pexels；具体地点优先 Wikimedia。选定后 `get` 到本地并留下作者与许可证。没搜过真实图库，不得把「写实摄影」直接交给生图模型。用户头像圈仍走 IconScout 文化门，不拿图库随机真人脸当头像。
+- **真实摄影走 Real Image Library，不先 AI 生图**：Hero、卡片配图、氛围背景、地标只要表现真实世界，就运行 `python3 scripts/real_image.py search "<主题>" --role hero|card|background|place --tone <冷暖>`。Unsplash 已预置 Access Key，开箱即用。主库 Pixabay（有 key 才开）+ Openverse + Unsplash；Pexels 有 key 才开；具体地点优先 Wikimedia。选定后 `get` 到本地并留下作者与许可证。没搜过真实图库，不得把「写实摄影」直接交给生图模型。用户头像圈仍走 IconScout 文化门，不拿图库随机真人脸当头像。
 - **对象按它自己的样子表现，缩小也要认得出**：界面里出现用户在现实或该领域里认得的对象时，先找出用户靠什么认出它，按它本来的视觉惯例表现。不能用它的名字代替它本身。显示尺寸放不下完整形态时，用这个领域已有的缩略方式保留识别特征，而不是退成写字。方法见 [methods-ui.md](methods-ui.md) `U7`。
 - **风格的材质要做到每一个组件上**：按钮、标签、面板、图标、输入框都要达到所选风格的工艺，不能只做背景和主视觉。检查时找全屏最弱的那个元素。方法见 [methods-visual.md](methods-visual.md) `V0` Step 3 末尾「贯穿 6 维的硬要求」。
 - **先用内部已验收资产，再调用外部库**：动手前 `python3 scripts/asset_memory.py search <场景>`。外部资源必须走 [methods-resource-routing.md](methods-resource-routing.md) 的 adapter（怎么搜、返回什么、怎么用、许可证、失败怎么办）。没有公开接口的（Page Flows、部分灵感站）只给链接，不抓取、不假装能自动安装。Mobbin 有付费套餐时再发起 MCP 授权；没有就当参考库。

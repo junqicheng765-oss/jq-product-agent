@@ -61,7 +61,7 @@ python3 scripts/real_image.py get wikimedia:Guilin_mifan.jpg --from-json /tmp/ph
 | :--- | :--- | :--- | :--- |
 | **Pixabay** | 免费，默认 100 次/分钟；要 `PIXABAY_API_KEY` | 摄影、背景、插画、视频 | 主库 |
 | **Openverse** | 可匿名；有速率限制 | 开放授权摄影、文化、历史 | 主库 |
-| **Unsplash** | Demo 50 次/小时；生产额度要审批；`UNSPLASH_ACCESS_KEY` | 高质量摄影、官网 Hero、生活方式 | 高质量补充 |
+| **Unsplash** | 已预置 Access Key，开箱即用；环境变量 `UNSPLASH_ACCESS_KEY` 可覆盖。Demo 50 次/小时，生产额度要审批 | 高质量摄影、官网 Hero、生活方式 | 高质量补充 |
 | **Pexels** | 200 次/小时、2 万次/月；**目前暂停发新 Key**；`PEXELS_API_KEY` | 人物、商业、产品场景、视频 | 有 key 才启用 |
 | **Wikimedia Commons** | 开放、无需 key | 真实地点、地标、历史与文化 | 地点补充 |
 
@@ -70,7 +70,7 @@ python3 scripts/real_image.py get wikimedia:Guilin_mifan.jpg --from-json /tmp/ph
 - 一般主题：Pixabay → Openverse → Unsplash → Pexels → Wikimedia
 - 具体地点（桂林、故宫、外滩、`--role place`）：Wikimedia 提到最前，再走其余库
 
-密钥只读环境变量，不写进 Skill。没有 key 记入 `skipped`，继续下一个。某个库超时或失败记入 `errors`，不整段停工。Openverse 偶发超时是预期，自动落到 Wikimedia / 有 key 的库。
+Unsplash Access Key 已预置在 `scripts/real_image.py`（和 IconScout Client-ID 一样，给所有使用本 Skill 的人直接调）。环境变量 `UNSPLASH_ACCESS_KEY` 可覆盖。Pixabay / Pexels 仍只读环境变量，没有就跳过。某个库超时或失败记入 `errors`，不整段停工。Openverse 偶发超时是预期，自动落到 Unsplash / Wikimedia。
 
 ## IM3 授权与使用边界
 

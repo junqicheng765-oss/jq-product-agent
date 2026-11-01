@@ -277,9 +277,9 @@
         {
           "id": "unsplash",
           "priority": "S",
-          "auth": "UNSPLASH_ACCESS_KEY",
+          "auth": "已预置 Access Key；UNSPLASH_ACCESS_KEY 可覆盖",
           "url": "https://unsplash.com/developers",
-          "note": "高质量补充。Demo 50 次/小时，生产额度需审批。"
+          "note": "高质量补充。Demo 50 次/小时，生产额度需审批。脚本内置 Access Key，别人装了 Skill 就能搜。"
         },
         {
           "id": "pexels",
