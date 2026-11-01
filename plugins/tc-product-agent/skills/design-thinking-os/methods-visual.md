@@ -130,6 +130,11 @@
    - **主色、底色、卡片质感、圆角、字体、图标这些细项一律不问**，由 Agent 按选定方向自动配齐；用户主动提出要改某一项时再改。
 2. **Step 5.2｜查表加载参数包并写入任务包（唯一视觉数据源）**：
    - 从下方「可执行参数字典」读取所选风格编号对应的精确数值配方（底色/卡片 Hex、主辅色与中性字色阶梯、圆角 px、边框/阴影/毛玻璃 `blur`、字号/字重/行高/间距、专用 Prompt 片段），并用用户的 6 维微调值覆盖对应字段。
+   - 同一份数值已打包成可直接应用的预设文件 `style-presets/dto/<编号>-*.json`。运行 `python3 scripts/style_preset.py show <编号>` 读取，并一起取出它所属风格族在 `style-presets/registry.json` 里绑定的资源：
+     - 最接近的 Tweakcn 主题；
+     - 对应的系统预设（Apple / Material 3 / Ant Design）；
+     - 页面区块库与动效库。
+     选完风格不只用参数表，这些线上库的内容也一起用；本地缺的再按 [methods-style-engine.md](methods-style-engine.md) `DS6` 去线上补。
    - 立即写入当前任务的 `V0 视觉方向与 6 维决策卡`（或 `DESIGN-<模块>-任务包.md`），锁死为本轮唯一视觉数据源。
 3. **Step 5.3｜自动拼进 Figma / 组件库 / 生图执行指令**：
    - **操作 Figma（`use_figma` / Figma Agent / Make）**：使用下方模板将锁定的 Token 数值绑定为 Figma Variables / Styles，并把组装好的指令发送给 Figma 执行层：
@@ -145,6 +150,7 @@
      - 风格 Prompt 注入：{style_prompt_snippet}
      ```
    - **调用公开组件库（纯 B 端 `U0` 路线 2）**：直接连接对应组件库（如 `user-shadcn-ui` MCP 或 Ant Design / Arco / TDesign 规范 token），将 `colorPrimary`、`borderRadius`、`fontSize` 与 `compact/default` 密度一键写入主题配置。
+   - **写成 HTML / 代码（含 C 端）**：不在页面里逐个写色值。用 `python3 scripts/style_preset.py apply <编号> --css <全局 CSS>`，或导出对应格式（`css` / `tailwind4` / `antd` / `shadcn`），把整套 token 写进一处，页面和组件只引用 `var(--…)`。多页面交付前跑 `scripts/style_consistency_audit.py`。详见 [methods-style-engine.md](methods-style-engine.md) `DS3`–`DS5`。
    - **调用 UI 内原位生图（`V7 路径 A`）或独立海报生图（`V7 路径 B`）**：自动把该风格的 `{style_prompt_snippet}`、主色 `{primary_hex}` 与底色冷暖追加进生图模型的 `prompt` 参数。
 
 #### 国际化风格可执行参数字典（`INT-01`～`INT-08`）

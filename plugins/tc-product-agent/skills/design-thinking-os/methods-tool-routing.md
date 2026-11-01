@@ -98,6 +98,12 @@ Figma 不是这类产物的默认工具。若只是为了在团队已有文件�
 2. **0→1 纯 B 端 / 企业中后台（公开组件库快搭模式）**：直接连接成熟公开组件库（`Ant Design` / `Arco Design` / `TDesign` / `shadcn/ui` / `MUI` / `Fluent UI`），由 Agent 按技术栈与场景直接定选用库、主色与密度（Default / Compact）后快速搭建，不问用户。
 3. **0→1 C 端 / 强品牌差异化产品（风格库 + 6 维视觉决策模式）**：按风格库结合行业严肃度剪枝；语境明确时由 Agent 直接选定风格并自动配齐「主色、底色、容器材质、圆角、字体密度、图标与配图」，方向高度开放时才用大白话问 1 个大方向问题，细项不问，单页确认后再模块化铺开。
 
+三条路线选定风格或组件库之后，都按 [methods-style-engine.md](methods-style-engine.md) 落地：
+- 从 `style-presets/` 取整套 token 和规则。
+- Figma 里绑定为 Variables / Styles；代码里写进一处全局 token，用 `scripts/style_preset.py` 导出或应用。
+- 多页面交付前跑 `scripts/style_consistency_audit.py`。
+- 用户要求给已有产品换风格时，先探索、后确认、再批量应用。
+
 D7 不是“离开 Figma 去做视觉成品”的固定下一阶段。只有最终交付包含非界面视觉成品或用户明确拆分的独立视觉资产委托时，才建立 TR4 分支。
 
 ### Figma 合同与 UI 内原位生图
