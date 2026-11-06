@@ -1,0 +1,187 @@
+<!-- 结构参考：文案、图片、数据按 design-decisions.md 替换；preview-assets/ 下的图片不能进正式页面 -->
+
+<!-- ---- app-bar · 顶部导航栏 ---- -->
+<!-- 用在：二级页用标准；一级页用大标题，左对齐；叠在大图上时用透明款，按钮加半透明底保证可读 -->
+<!-- 别用在：不要一栏放 3 个以上动作；首页不要放返回 -->
+<div style="display:grid;gap:16px;max-width:390px">
+  <header class="r-appbar" data-scrolled>
+    <button class="r-appbar__btn" aria-label="返回"><span class="r-ico i-chevron-left" aria-hidden="true"></span></button>
+    <h1 class="r-appbar__title">北京 5 日</h1>
+    <div class="r-appbar__actions"><button class="r-appbar__btn" aria-label="分享"><span class="r-ico i-share-2" aria-hidden="true"></span></button></div>
+  </header>
+  <header class="r-appbar r-appbar--large">
+    <h1 class="r-appbar__title">我的行程</h1>
+    <div class="r-appbar__actions"><button class="r-appbar__btn" aria-label="收藏夹"><span class="r-ico i-bookmark" aria-hidden="true"></span></button></div>
+  </header>
+</div>
+
+<!-- ---- tab-bar · 底部标签栏 ---- -->
+<!-- 用在：App 一级导航，3–5 项；每项图标 + 2–4 字标签；底部留安全区 -->
+<!-- 别用在：不要放动作（如“发布”）冒充导航，除非产品核心就是发布；二级页隐藏 -->
+<nav class="r-tabbar" aria-label="主导航" style="max-width:390px">
+  <a href="#" aria-current="page"><span class="r-ico i-house" aria-hidden="true"></span>首页</a>
+  <a href="#"><span class="r-ico i-route" aria-hidden="true"></span>行程</a>
+  <a href="#"><span class="r-ico i-message-circle" aria-hidden="true"></span>助手<span class="r-tabbar__dot"></span></a>
+  <a href="#"><span class="r-ico i-user" aria-hidden="true"></span>我的</a>
+</nav>
+
+<!-- ---- button · 按钮 ---- -->
+<!-- 用在：一屏只放一个 primary；次要动作用 secondary 或 outline；纯图标按钮必须有 aria-label -->
+<!-- 别用在：不要用按钮做导航标签或筛选，那是 tabs / chip-group -->
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+  <button class="r-btn r-btn--primary">保存行程</button>
+  <button class="r-btn r-btn--secondary">稍后再看</button>
+  <button class="r-btn r-btn--outline">分享</button>
+  <button class="r-btn r-btn--ghost">取消</button>
+  <button class="r-btn r-btn--destructive">删除</button>
+  <button class="r-btn r-btn--link">查看全部</button>
+  <button class="r-btn r-btn--primary r-btn--lg">开始规划 <span class="r-ico r-ico-sm i-arrow-right" aria-hidden="true"></span></button>
+  <button class="r-btn r-btn--outline r-btn--icon r-btn--round" aria-label="收藏"><span class="r-ico i-heart" aria-hidden="true"></span></button>
+  <button class="r-btn r-btn--primary" data-loading="true"><span class="r-ico r-ico-sm i-loader-circle" aria-hidden="true"></span>生成中</button>
+  <button class="r-btn r-btn--primary" disabled>不可用</button>
+</div>
+
+<!-- ---- card · 卡片容器 ---- -->
+<!-- 用在：把一组相关信息框成一个单位；可点卡片整卡是一个链接或按钮 -->
+<!-- 别用在：不要卡片套卡片；内容图片为主时用 photo-card；整屏都是卡片时先想能否去掉一层框 -->
+<div style="display:grid;gap:16px;max-width:360px">
+  <section class="r-card">
+    <div class="r-card__head"><h3 class="r-card__title">签证与入境</h3><p class="r-card__desc">美国护照可免签停留 240 小时，需从指定口岸出入境。</p></div>
+    <div class="r-card__foot"><span class="r-badge r-badge--soft">已核对 2026-10</span><a class="r-btn r-btn--link" href="#">查看口岸</a></div>
+  </section>
+  <a class="r-card r-card--raised" href="#">
+    <div class="r-card__head"><h3 class="r-card__title">支付准备</h3><p class="r-card__desc">绑定外卡到支付宝，3 分钟完成</p></div>
+  </a>
+</div>
+
+<!-- ---- section-header · 区块标题 ---- -->
+<!-- 用在：首页、发现页里分隔每组内容；标题说用户能得到什么，不说栏目名 -->
+<!-- 别用在：不要每个区块都配图标和副标题；“查看全部”只在内容确实更多时出现 -->
+<div style="max-width:390px">
+  <div class="r-section-head"><div class="r-section-head__text"><h2 class="r-section-head__title">第一次来中国，从这里开始</h2><p class="r-section-head__sub">按交通便利和英文友好度挑选</p></div><a class="r-section-head__more" href="#">全部<span class="r-ico r-ico-sm i-chevron-right" aria-hidden="true"></span></a></div>
+</div>
+
+<!-- ---- badge · 徽标 / 标签 ---- -->
+<!-- 用在：状态、类别、数量；文字 2–6 个字 -->
+<!-- 别用在：可点击的筛选项用 chip-group；不要一张卡上堆 3 个以上 -->
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+  <span class="r-badge r-badge--solid">本周热门</span>
+  <span class="r-badge r-badge--soft">适合带老人</span>
+  <span class="r-badge r-badge--outline">需预约</span>
+  <span class="r-badge r-badge--muted">已结束</span>
+  <span class="r-badge r-badge--danger r-badge--dot">今日闭馆</span>
+  <span class="r-badge r-badge--count">3</span>
+</div>
+
+<!-- ---- sheet · 底部弹层 ---- -->
+<!-- 用在：手机上的选择、筛选、详情预览；顶部有拖拽条，底部留安全区 -->
+<!-- 别用在：需要强确认的危险操作用 dialog -->
+<button class="r-btn r-btn--outline" data-open="r-sh1">选择旅行节奏</button>
+<dialog class="r-sheet" id="r-sh1" aria-labelledby="r-sh1t">
+  <div class="r-sheet__grip"></div>
+  <div class="r-sheet__head"><h2 class="r-sheet__title" id="r-sh1t">旅行节奏</h2><button class="r-btn r-btn--ghost r-btn--icon r-btn--sm r-btn--round" aria-label="关闭" data-close><span class="r-ico r-ico-sm i-x" aria-hidden="true"></span></button></div>
+  <div class="r-sheet__body"><p style="margin:0;color:var(--muted-foreground);font:400 14px/1.6 var(--r-font)">选好之后，每天的景点数量会跟着调整。</p></div>
+  <div class="r-sheet__foot"><button class="r-btn r-btn--primary r-btn--lg r-btn--block" data-close>确定</button></div>
+</dialog>
+
+<!-- ---- sticky-cta · 底部固定主动作 ---- -->
+<!-- 用在：详情页、配置页的唯一主动作；左边放决策需要的一个关键数（价格、天数），右边放按钮 -->
+<!-- 别用在：不要和 tab-bar 同时出现；不要放两个同等分量的按钮 -->
+<div class="r-cta" style="max-width:390px">
+  <div class="r-cta__info"><span class="r-cta__main">5 天 · 12 个地点</span><span class="r-cta__sub">保存后可以随时修改</span></div>
+  <button class="r-btn r-btn--primary r-btn--lg">保存行程</button>
+</div>
+
+<!-- ---- chip-group · 筛选胶囊组 ---- -->
+<!-- 用在：兴趣、筛选条件、标签多选；手机上单行横滑，左右留 16px 出血 -->
+<!-- 别用在：互斥且只有 2–4 项时用 segmented -->
+<div style="max-width:390px">
+  <div class="r-chips" role="group" aria-label="兴趣">
+    <button class="r-chip r-chip--filter" aria-label="更多筛选"><span class="r-ico r-ico-sm i-sliders-horizontal" aria-hidden="true"></span></button>
+    <button class="r-chip" aria-pressed="true"><span class="r-ico r-ico-sm r-ico--on i-check" aria-hidden="true"></span>历史古迹</button>
+    <button class="r-chip" aria-pressed="false"><span class="r-ico r-ico-sm r-ico--on i-check" aria-hidden="true"></span>地道小吃</button>
+    <button class="r-chip" aria-pressed="true"><span class="r-ico r-ico-sm r-ico--on i-check" aria-hidden="true"></span>自然风光</button>
+    <button class="r-chip" aria-pressed="false"><span class="r-ico r-ico-sm r-ico--on i-check" aria-hidden="true"></span>夜生活</button>
+    <button class="r-chip" aria-pressed="false"><span class="r-ico r-ico-sm r-ico--on i-check" aria-hidden="true"></span>亲子</button>
+  </div>
+</div>
+
+<!-- ---- progress · 进度条 / 步骤进度 ---- -->
+<!-- 用在：多步流程告诉用户还剩几步；长任务显示完成比例 -->
+<!-- 别用在：不知道总量时用 ai-thinking 或 skeleton -->
+<div style="display:grid;gap:20px;max-width:360px">
+  <div><div class="r-progress-label"><span>第 2 步，共 4 步</span><span>同行人</span></div><div class="r-steps" aria-label="第 2 步，共 4 步"><span data-done></span><span data-done></span><span></span><span></span></div></div>
+  <div><div class="r-progress-label"><span>下载离线地图</span><span>64%</span></div><div class="r-progress" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100"><div class="r-progress__bar" style="width:64%"></div></div></div>
+</div>
+
+<!-- ---- photo-card · 图片卡（图在上、字在下） ---- -->
+<!-- 用在：内容和目的地以图片为主角时；图片占卡片面积 70% 以上；字放图片下方，不压在图上 -->
+<!-- 别用在：不要用渐变遮罩压字在图上来省空间；不要用纯色块或图标替代真实照片 -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;max-width:390px;padding:0 16px">
+  <a class="r-photo" href="#"><img class="r-photo__img" src="preview-assets/photo-1047.jpg" alt="城市天际线"><span class="r-photo__title">外滩夜景最佳机位，避开人潮的 3 个角度</span><span class="r-photo__meta">上海 · 2.1 万人收藏</span><button class="r-photo__save" aria-label="收藏" aria-pressed="false"><span class="r-ico r-ico-sm i-heart" aria-hidden="true"></span></button></a>
+  <a class="r-photo" href="#"><img class="r-photo__img" src="preview-assets/photo-1043.jpg" alt="湖面与山"><span class="r-photo__title">西湖慢走一日线</span><span class="r-photo__meta">杭州 · 步行 9 公里</span><button class="r-photo__save" aria-label="收藏" aria-pressed="true"><span class="r-ico r-ico-sm i-heart" aria-hidden="true"></span></button></a>
+</div>
+
+<!-- ---- game-tokens · 牌桌材质变量 ---- -->
+<!-- 用在：所有 game-table 配方都读这组变量；换桌布颜色或木色只改这里。和风格预设的 --primary 等变量并存 -->
+<!-- 别用在：不要在单个组件里写死颜色 -->
+<div class="g-swatches" aria-label="牌桌材质色">
+  <span style="background:var(--g-felt)"></span><span style="background:var(--g-felt-deep)"></span><span style="background:var(--g-wood)"></span><span style="background:var(--g-gold)"></span><span style="background:var(--g-card)"></span><span style="background:var(--g-red)"></span>
+</div>
+
+<!-- ---- countdown-ring · 出牌倒计时 ---- -->
+<!-- 用在：贴在当前出牌人铭牌旁或出牌区上方；秒数用等宽数字 -->
+<!-- 别用在：不要只靠颜色提示时间快到，秒数必须可见 -->
+<div style="display:flex;gap:20px;padding:20px;background:var(--g-felt);border-radius:12px">
+  <span class="g-timer" role="timer" aria-label="剩余 12 秒" style="--_p:80%"><span>12</span></span>
+  <span class="g-timer" role="timer" aria-label="剩余 4 秒" data-urgent style="--_p:27%"><span>4</span></span>
+</div>
+
+<!-- ---- destination-hero · 目的地主视觉（首页里的一块，不是整页） ---- -->
+<!-- 用在：旅行首页里的一块主视觉：一张目的地照片，下面一句价值主张和一个入口。入口是去开始自己的行程，不是「就这一个地方」。整页还要另有行程例子或继续入口 -->
+<!-- 别用在：不要把这一块当成整页；不要做成某一个目的地的详情（一张图、一个行程名、一颗「开始这一个」）；不要在这块里铺开出发地、日期、人数多个输入框；不要用渐变色块或插画代替目的地照片 -->
+<section class="r-dest-hero" style="max-width:390px">
+  <div class="r-dest-hero__media">
+    <img class="r-dest-hero__img" src="preview-assets/photo-1040.jpg" alt="古城建筑">
+    <span class="r-dest-hero__place"><span class="r-ico r-ico-sm i-map-pin" aria-hidden="true"></span>平遥古城 · 山西</span>
+  </div>
+  <div class="r-dest-hero__text"><h1 class="r-dest-hero__title">按你的习惯，排一趟中国之行</h1><p class="r-dest-hero__sub">告诉我们你从哪来、喜欢什么，行程会避开你不习惯的部分。</p></div>
+  <button class="r-entry"><span class="r-entry__text"><span class="r-entry__main">想去哪里？</span><span class="r-entry__hint">城市、天数、同行人，一句话说清</span></span><span class="r-entry__go"><span class="r-ico i-sparkles" aria-hidden="true"></span></span></button>
+</section>
+
+<!-- ---- trip-summary-bar · 行程条件摘要条 ---- -->
+<!-- 用在：结果页顶部把已填条件压成一行（地点 · 日期 · 人数），点一下改；替代把整张表单留在页面上 -->
+<!-- 别用在：不要在结果页重复展示完整表单 -->
+<div style="max-width:390px">
+  <button class="r-summary"><span class="r-summary__text"><span class="r-summary__main">北京 · 西安</span><span class="r-summary__sub">4 月 10–15 日 · 2 位成人 · 慢节奏</span></span><span class="r-summary__edit" aria-hidden="true"><span class="r-ico r-ico-sm i-sliders-horizontal"></span></span><span class="r-sr-only">修改条件</span></button>
+</div>
+
+<!-- ---- ai-result-card · AI 结果卡（带适合理由） ---- -->
+<!-- 用在：AI 生成的推荐：先给结论，再给 2–3 条和用户条件对应的理由，每条理由能追到用户说过的话；底部给采纳和“不合适” -->
+<!-- 别用在：不要只给结论不给理由；理由不要写“根据你的偏好”这种空话 -->
+<article class="r-ai-card" style="max-width:358px">
+  <span class="r-ai-card__label"><span class="r-ico r-ico-sm i-sparkles" aria-hidden="true"></span>为你调整过的第 3 天</span>
+  <h3 class="r-ai-card__title">颐和园上午 + 下午回酒店休息</h3>
+  <img class="r-ai-card__img" src="preview-assets/photo-1043.jpg" alt="湖边园林">
+  <ul class="r-ai-card__why" aria-label="为什么适合你">
+    <li><span class="r-ico r-ico-sm i-check" aria-hidden="true"></span><span>你说 <q>父母膝盖不好</q>，改走东宫门平路线，全程无台阶</span></li>
+    <li><span class="r-ico r-ico-sm i-check" aria-hidden="true"></span><span>你说 <q>中午要午休</q>，13:00 前结束，打车 20 分钟回酒店</span></li>
+  </ul>
+  <div class="r-ai-card__actions"><button class="r-btn r-btn--primary">用这个安排</button><button class="r-btn r-btn--outline">不合适</button></div>
+</article>
+
+<!-- ---- empty-state · 空状态 ---- -->
+<!-- 用在：说清为什么空、下一步做什么，给一个主动作；图形用真实插画或产品图，没有就只用图标 -->
+<!-- 别用在：不要用表情符号或随手画的 SVG 插画 -->
+<div class="r-empty" style="max-width:390px">
+  <span class="r-empty__icon"><span class="r-ico r-ico-lg i-route" aria-hidden="true"></span></span>
+  <h3 class="r-empty__title">还没有保存的行程</h3>
+  <p class="r-empty__desc">告诉我们想去哪、玩几天，一分钟生成第一版。</p>
+  <button class="r-btn r-btn--primary">开始规划</button>
+</div>
+
+<!-- ---- toast · 轻提示 ---- -->
+<!-- 用在：操作完成的反馈（已保存、已复制）；可带一个撤销按钮；role=status -->
+<!-- 别用在：错误需要用户处理时放在出错的位置旁边，不用 toast -->
+<button class="r-btn r-btn--outline" data-toast="已加入收藏">加入收藏</button>
+<div class="r-toast-region" role="status" aria-live="polite"></div>

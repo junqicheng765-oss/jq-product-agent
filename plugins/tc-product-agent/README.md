@@ -46,6 +46,7 @@ tc-product-agent/
 ├── skills/jq-stage-f-handoff/SKILL.md
 ├── skills/jq-demo-quality/SKILL.md
 ├── skills/jq-figma-workflow/SKILL.md
+├── skills/design-thinking-os/
 ├── skills/jq-product-expert/
 ├── scripts/validate-expert-kernel.mjs
 ├── scripts/tests/expert-kernel.test.mjs
@@ -55,7 +56,7 @@ tc-product-agent/
 └── optional/codex-subagent/
 ```
 
-The Plugin contains twelve discoverable Skills: the main `$tc-product-agent`, one execution contract for each A-F stage, `$jq-demo-quality`, `$jq-figma-workflow`, candidate `$jq-product-expert`, and bundled `$ui-ux-pro-max` and `$impeccable`. All twelve are included in this distribution. The two external Skills are invoked only when D/E visual work needs them, not on every product step. The main Skill owns product decisions, facts and handoffs. A-F can share review windows for small requirements; twelve Skills do not imply twelve meetings. The optional subagent is a separate execution role that invokes these Skills; it is not required and is not installed automatically.
+The Plugin contains the main `$tc-product-agent`, one execution contract for each A-F stage, `$jq-demo-quality`, `$jq-figma-workflow`, `$design-thinking-os`, candidate `$jq-product-expert`, and bundled `$ui-ux-pro-max` and `$impeccable`. Any page, image, or visual artifact must first execute `$design-thinking-os` and write `design-decisions.md`; the main Skill and C/D/E contracts do not draw styled UI themselves. `$ui-ux-pro-max` and `$impeccable` run only after that file exists. The main Skill owns product decisions, facts and handoffs. A-F can share review windows for small requirements. The optional subagent is a separate execution role that invokes these Skills; it is not required and is not installed automatically.
 
 The A-F artifact skeletons are in `skills/tc-product-agent/references/23-AF阶段产物模板.md`. They are content templates, not six mandatory files or a fixed visual style. The fuller PRD, Use Case, design and engineering contracts remain in references `02`, `14`, `15`, and `16`.
 

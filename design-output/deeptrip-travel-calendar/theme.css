@@ -1,0 +1,24 @@
+:root {
+  --font-sans: "PingFang SC", sans-serif;
+  --radius: 0.75rem;
+  --background: #F8F8F8;
+  --foreground: #111111;
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --popover: #FFFFFF;
+  --popover-foreground: #111111;
+  --primary: #E80020;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F8F8F8;
+  --secondary-foreground: #111111;
+  --muted: #F8F8F8;
+  --muted-foreground: #666666;
+  --accent: #F8F8F8;
+  --accent-foreground: #111111;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #EEEEEE;
+  --input: #EEEEEE;
+  --ring: #FF2442;
+}
+
