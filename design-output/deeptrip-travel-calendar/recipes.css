@@ -1,0 +1,328 @@
+/* component-recipes base
+   Every recipe reads only the shadcn-style variables that style_preset.py writes into :root
+   (--background, --foreground, --card, --primary, --border, --radius, --font-sans ...).
+   The derived variables below are the only extra layer; override them per product, not per page. */
+
+:root {
+  --r-radius: var(--radius, 0.5rem);
+  --r-radius-sm: calc(var(--r-radius) - 2px);
+  --r-radius-lg: calc(var(--r-radius) + 4px);
+  --r-radius-xl: calc(var(--r-radius) + 8px);
+  --r-font: var(--font-sans, -apple-system, "PingFang SC", "Noto Sans SC", system-ui, sans-serif);
+  --r-font-display: var(--font-serif, var(--r-font));
+  --r-font-mono: var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace);
+  --r-touch: 44px;
+  --r-gap-1: 4px;
+  --r-gap-2: 8px;
+  --r-gap-3: 12px;
+  --r-gap-4: 16px;
+  --r-gap-5: 20px;
+  --r-gap-6: 24px;
+  --r-shadow-sm: 0 1px 2px color-mix(in srgb, var(--foreground, #000) 8%, transparent);
+  --r-shadow-md: 0 4px 16px color-mix(in srgb, var(--foreground, #000) 10%, transparent);
+  --r-shadow-lg: 0 12px 32px color-mix(in srgb, var(--foreground, #000) 16%, transparent);
+  --r-overlay: color-mix(in srgb, var(--foreground, #000) 45%, transparent);
+  /* Many presets set --muted equal to --background; surface fills use these so they never vanish. */
+  --r-fill: color-mix(in srgb, var(--foreground, #000) 6%, var(--background, #fff));
+  --r-fill-strong: color-mix(in srgb, var(--foreground, #000) 11%, var(--background, #fff));
+  --r-ease: cubic-bezier(0.2, 0, 0, 1);
+  --r-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.r-root,
+.r-root *,
+.r-root *::before,
+.r-root *::after { box-sizing: border-box; }
+
+.r-root {
+  font-family: var(--r-font);
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:where(.r-root) img { display: block; max-width: 100%; }
+:where(.r-root) button { font: inherit; color: inherit; }
+
+.r-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.r-focus:focus-visible,
+:where(.r-root) :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring, var(--primary));
+  outline-offset: 2px;
+}
+
+/* Icons are real SVG files (Lucide set in icons/, or IconScout / brand files) painted with currentColor:
+   <span class="r-ico i-search" aria-hidden="true"></span>
+   .i-<name> rules carry the file as a data URI (component_recipe.py copy / icon-css), because CSS masks
+   loaded by URL are blocked on file:// pages. Never replace icons with text glyphs or hand-written <path>. */
+.r-ico {
+  display: inline-block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: var(--ico) center / contain no-repeat;
+  mask: var(--ico) center / contain no-repeat;
+}
+.r-ico-sm { width: 16px; height: 16px; }
+.r-ico-lg { width: 24px; height: 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .r-root *, .r-root *::before, .r-root *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ---- recipe: app-bar (按 iOS HIG Navigation Bar 与 Material 3 Top App Bar 规范整理) ---- */
+.r-appbar {
+  position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: var(--r-gap-2);
+  height: 52px; padding: 0 8px; background: var(--background); color: var(--foreground);
+  transition: box-shadow .2s var(--r-ease);
+}
+.r-appbar[data-scrolled] { box-shadow: 0 1px 0 var(--border); }
+.r-appbar__title { margin: 0; text-align: center; font: 600 17px/1.2 var(--r-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.r-appbar__actions { display: flex; gap: 2px; min-width: 44px; justify-content: flex-end; }
+.r-appbar__btn { width: 44px; height: 44px; padding: 0; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+.r-appbar--large { grid-template-columns: 1fr auto; height: auto; padding: 8px 16px 8px 20px; }
+.r-appbar--large .r-appbar__title { text-align: left; font: 700 28px/1.15 var(--r-font-display); letter-spacing: -0.02em; }
+.r-appbar--overlay { position: absolute; left: 0; right: 0; background: transparent; color: #fff; }
+.r-appbar--overlay .r-appbar__btn { background: rgba(0, 0, 0, .32); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); width: 36px; height: 36px; margin: 4px; }
+
+/* ---- recipe: tab-bar (按 iOS HIG Tab Bar 与 Material 3 Navigation Bar 规范整理) ---- */
+.r-tabbar {
+  position: sticky; bottom: 0; z-index: 10; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  padding: 6px 4px calc(6px + var(--r-safe-bottom)); background: color-mix(in srgb, var(--background) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--border);
+}
+.r-tabbar a { position: relative; display: grid; justify-items: center; gap: 3px; min-height: 44px; padding-top: 4px; text-decoration: none; color: var(--muted-foreground); font: 500 11px/1 var(--r-font); }
+.r-tabbar a[aria-current="page"] { color: var(--primary); font-weight: 600; }
+.r-tabbar .r-ico { width: 24px; height: 24px; }
+.r-tabbar__dot { position: absolute; top: 2px; left: calc(50% + 8px); width: 8px; height: 8px; border-radius: 50%; background: var(--destructive); box-shadow: 0 0 0 2px var(--background); }
+
+/* ---- recipe: button (改写自 shadcn/ui Button（MIT）https://ui.shadcn.com/docs/components/button) ---- */
+.r-btn {
+  --_h: 40px; --_px: 16px; --_fs: 14px;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--r-gap-2);
+  height: var(--_h); min-width: var(--_h); padding: 0 var(--_px);
+  border-radius: var(--r-radius); border: 1px solid transparent;
+  font: 600 var(--_fs)/1 var(--r-font); letter-spacing: 0; white-space: nowrap;
+  cursor: pointer; user-select: none; text-decoration: none;
+  transition: background-color .15s var(--r-ease), color .15s var(--r-ease), border-color .15s var(--r-ease), transform .1s var(--r-ease);
+}
+.r-btn:active:not(:disabled) { transform: scale(0.98); }
+.r-btn:disabled, .r-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.r-btn--sm { --_h: 32px; --_px: 12px; --_fs: 13px; }
+.r-btn--lg { --_h: 48px; --_px: 24px; --_fs: 16px; border-radius: var(--r-radius-lg); }
+.r-btn--block { display: flex; width: 100%; }
+.r-btn--primary { background: var(--primary); color: var(--primary-foreground); }
+.r-btn--primary:hover:not(:disabled) { background: color-mix(in srgb, var(--primary) 90%, var(--foreground)); }
+.r-btn--secondary { background: var(--secondary); color: var(--secondary-foreground); }
+.r-btn--secondary:hover:not(:disabled) { background: color-mix(in srgb, var(--secondary) 92%, var(--foreground)); }
+.r-btn--outline { background: var(--background); color: var(--foreground); border-color: var(--border); }
+.r-btn--outline:hover:not(:disabled) { background: var(--accent); color: var(--accent-foreground); }
+.r-btn--ghost { background: transparent; color: var(--foreground); }
+.r-btn--ghost:hover:not(:disabled) { background: var(--accent); color: var(--accent-foreground); }
+.r-btn--destructive { background: var(--destructive); color: var(--destructive-foreground, #fff); }
+.r-btn--link { background: none; color: var(--primary); height: auto; min-width: 0; padding: 0; text-underline-offset: 4px; }
+.r-btn--link:hover { text-decoration: underline; }
+.r-btn--icon { padding: 0; width: var(--_h); }
+.r-btn--round { border-radius: 999px; }
+.r-btn[data-loading="true"] { pointer-events: none; }
+.r-btn[data-loading="true"] .r-ico { animation: r-btn-spin .8s linear infinite; }
+@keyframes r-btn-spin { to { transform: rotate(360deg); } }
+
+/* ---- recipe: card (改写自 shadcn/ui Card（MIT）https://ui.shadcn.com/docs/components/card) ---- */
+.r-card { display: grid; gap: var(--r-gap-3); padding: var(--r-gap-5); border: 1px solid var(--border); border-radius: var(--r-radius-lg); background: var(--card); color: var(--card-foreground); }
+.r-card--flat { border-color: transparent; background: var(--r-fill); }
+.r-card--raised { border-color: transparent; box-shadow: var(--r-shadow-md); }
+.r-card__head { display: grid; gap: 4px; }
+.r-card__title { margin: 0; font: 600 17px/1.3 var(--r-font); letter-spacing: -0.01em; }
+.r-card__desc { margin: 0; font: 400 14px/1.5 var(--r-font); color: var(--muted-foreground); }
+.r-card__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--r-gap-3); padding-top: var(--r-gap-3); border-top: 1px solid var(--border); }
+a.r-card, button.r-card { text-align: left; text-decoration: none; cursor: pointer; transition: transform .15s var(--r-ease), box-shadow .15s var(--r-ease); font: inherit; }
+a.r-card:hover, button.r-card:hover { box-shadow: var(--r-shadow-md); }
+a.r-card:active, button.r-card:active { transform: scale(.99); }
+
+/* ---- recipe: section-header (按 App Store、Airbnb 首页区块标题做法整理) ---- */
+.r-section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--r-gap-3); padding: 0 var(--r-gap-4); margin: 28px 0 12px; }
+.r-section-head__text { display: grid; gap: 2px; min-width: 0; }
+.r-section-head__title { margin: 0; font: 700 20px/1.25 var(--r-font-display); letter-spacing: -0.015em; }
+.r-section-head__sub { margin: 0; font: 400 13px/1.4 var(--r-font); color: var(--muted-foreground); }
+.r-section-head__more { flex: none; display: inline-flex; align-items: center; gap: 2px; min-height: 32px; font: 500 14px/1 var(--r-font); color: var(--muted-foreground); text-decoration: none; }
+
+/* ---- recipe: badge (改写自 shadcn/ui Badge（MIT）https://ui.shadcn.com/docs/components/badge) ---- */
+.r-badge {
+  display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: 999px; border: 1px solid transparent;
+  font: 600 12px/1 var(--r-font); white-space: nowrap; vertical-align: middle;
+}
+.r-badge--solid { background: var(--primary); color: var(--primary-foreground); }
+.r-badge--soft { background: color-mix(in srgb, var(--primary) 12%, var(--background)); color: color-mix(in srgb, var(--primary) 80%, var(--foreground)); }
+.r-badge--outline { border-color: var(--border); color: var(--foreground); background: transparent; }
+.r-badge--muted { background: var(--r-fill); color: var(--muted-foreground); }
+.r-badge--danger { background: color-mix(in srgb, var(--destructive) 12%, var(--background)); color: var(--destructive); }
+.r-badge--dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.r-badge--count { min-width: 18px; height: 18px; padding: 0 5px; justify-content: center; background: var(--destructive); color: var(--destructive-foreground, #fff); font-size: 11px; }
+
+/* ---- recipe: sheet (改写自 shadcn/ui Sheet / Drawer（MIT，Drawer 基于 vaul 的交互），用原生 <dialog>) ---- */
+.r-sheet {
+  position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; max-height: 85vh; margin: 0; padding: 0; border: 0;
+  border-radius: var(--r-radius-xl) var(--r-radius-xl) 0 0; background: var(--popover); color: var(--popover-foreground); box-shadow: var(--r-shadow-lg);
+}
+.r-sheet::backdrop { background: var(--r-overlay); }
+.r-sheet[open] { animation: r-sheet-in .28s var(--r-ease); }
+@keyframes r-sheet-in { from { transform: translateY(100%); } }
+.r-sheet__grip { width: 36px; height: 5px; border-radius: 3px; margin: 8px auto 0; background: color-mix(in srgb, var(--foreground) 18%, transparent); }
+.r-sheet__head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 8px 20px; }
+.r-sheet__title { margin: 0; font: 600 17px/1.3 var(--r-font); }
+.r-sheet__body { padding: 0 20px 16px; overflow: auto; max-height: calc(85vh - 140px); }
+.r-sheet__foot { padding: 12px 20px calc(12px + var(--r-safe-bottom)); border-top: 1px solid var(--border); }
+
+/* ---- recipe: sticky-cta (按电商 / 旅行详情页通行做法整理（Airbnb、Booking、携程详情页底栏）) ---- */
+.r-cta {
+  position: sticky; bottom: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: var(--r-gap-4);
+  padding: 12px 16px calc(12px + var(--r-safe-bottom)); background: var(--background); border-top: 1px solid var(--border);
+}
+.r-cta__info { display: grid; gap: 2px; min-width: 0; }
+.r-cta__main { font: 700 18px/1.2 var(--r-font); font-variant-numeric: tabular-nums; }
+.r-cta__sub { font: 400 12px/1.3 var(--r-font); color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.r-cta .r-btn { flex: none; }
+
+/* ---- recipe: chip-group (改写自 Origin UI checkbox chips / toggle group（MIT）) ---- */
+.r-chips { display: flex; gap: var(--r-gap-2); overflow-x: auto; scrollbar-width: none; padding: 2px var(--r-gap-4); scroll-padding: var(--r-gap-4); }
+.r-chips::-webkit-scrollbar { display: none; }
+.r-chips--wrap { flex-wrap: wrap; overflow: visible; padding: 0; }
+.r-chip {
+  flex: none; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--background); color: var(--foreground);
+  font: 500 14px/1 var(--r-font); transition: background-color .15s var(--r-ease), border-color .15s var(--r-ease), color .15s var(--r-ease);
+}
+.r-chip .r-ico--on { display: none; }
+.r-chip[aria-pressed="true"] { background: var(--foreground); border-color: var(--foreground); color: var(--background); }
+.r-chip[aria-pressed="true"] .r-ico--on { display: inline-block; }
+.r-chip--filter { padding: 0 12px; }
+
+/* ---- recipe: progress (改写自 shadcn/ui Progress（MIT）与 Origin UI stepper（MIT）) ---- */
+.r-progress { height: 6px; border-radius: 999px; background: var(--r-fill); overflow: hidden; }
+.r-progress__bar { height: 100%; border-radius: inherit; background: var(--primary); transition: width .3s var(--r-ease); }
+.r-steps { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
+.r-steps span { height: 4px; border-radius: 2px; background: var(--r-fill); }
+.r-steps span[data-done] { background: var(--primary); }
+.r-progress-label { display: flex; justify-content: space-between; font: 500 13px/1 var(--r-font); color: var(--muted-foreground); margin-bottom: 8px; }
+
+/* ---- recipe: photo-card (按小红书、Airbnb、Pinterest 的图文卡做法整理) ---- */
+.r-photo { position: relative; display: grid; gap: 2px; align-content: start; text-decoration: none; color: var(--foreground); }
+.r-photo__img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--r-radius-lg); background: var(--r-fill); transition: transform .2s var(--r-ease); }
+.r-photo:active .r-photo__img { transform: scale(.98); }
+.r-photo--square .r-photo__img { aspect-ratio: 1; }
+.r-photo--landscape .r-photo__img { aspect-ratio: 4 / 3; }
+.r-photo--wide .r-photo__img { aspect-ratio: 16 / 9; }
+.r-photo__title { margin-top: 8px; font: 600 15px/1.35 var(--r-font); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.r-photo__meta { font: 400 13px/1.35 var(--r-font); color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.r-photo__save { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .9); color: #111; cursor: pointer; }
+.r-photo__save[aria-pressed="true"] { color: var(--primary); }
+
+/* ---- recipe: game-tokens (取自 GAME-09 风格（实体牌桌）字典色：绒面绿 #0F5132→#072B1A、胡桃木 #3E2723、金 #D4AF37) ---- */
+:root {
+  --g-felt: #0F5132;
+  --g-felt-deep: #072B1A;
+  --g-wood: #3E2723;
+  --g-wood-light: #6D4C41;
+  --g-gold: #D4AF37;
+  --g-card: #FFFDF7;
+  --g-card-edge: #E8E2D0;
+  --g-red: #C62828;
+  --g-black: #1A1A1A;
+  --g-ink-on-felt: #F5F1E6;
+  --g-ink-on-felt-muted: color-mix(in srgb, #F5F1E6 70%, transparent);
+  --g-card-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 4px 10px rgba(0, 0, 0, .28);
+}
+.g-swatches { display: flex; gap: 8px; }
+.g-swatches span { width: 44px; height: 44px; border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
+
+/* ---- recipe: countdown-ring (按牌类游戏通行倒计时做法整理：闹钟式圆环 + 秒数，最后 5 秒变红) ---- */
+.g-timer { --_p: 60%; position: relative; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--g-gold) var(--_p), rgba(0, 0, 0, .35) 0); }
+.g-timer::before { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #4A3A2A, #1F1610); }
+.g-timer span { position: relative; font: 800 17px/1 "Roboto Condensed", DIN, var(--r-font); color: var(--g-ink-on-felt); font-variant-numeric: tabular-nums; }
+.g-timer[data-urgent] { background: conic-gradient(var(--g-red) var(--_p), rgba(0, 0, 0, .35) 0); animation: g-timer-pulse 1s ease-in-out infinite; }
+.g-timer[data-urgent] span { color: #FFCDD2; }
+@keyframes g-timer-pulse { 50% { transform: scale(1.08); } }
+
+/* ---- recipe: destination-hero (按 Airbnb、Booking、Klook、Trip.com 首页首屏做法整理：主视觉是目的地照片，入口是一个按钮外观的搜索条，不是展开的表单) ---- */
+.r-dest-hero { display: grid; gap: var(--r-gap-4); padding: 8px var(--r-gap-4) 0; }
+.r-dest-hero__media { position: relative; border-radius: var(--r-radius-xl); overflow: hidden; }
+.r-dest-hero__img { width: 100%; aspect-ratio: 4 / 5; max-height: 58vh; object-fit: cover; display: block; }
+.r-dest-hero__place { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .92); color: #111; font: 600 13px/1.2 var(--r-font); }
+.r-dest-hero__text { display: grid; gap: 6px; padding: 0 4px; }
+.r-dest-hero__title { margin: 0; font: 700 28px/1.15 var(--r-font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.r-dest-hero__sub { margin: 0; font: 400 15px/1.5 var(--r-font); color: var(--muted-foreground); }
+.r-entry {
+  display: flex; align-items: center; gap: var(--r-gap-3); width: 100%; min-height: 56px; padding: 0 8px 0 18px; cursor: pointer; text-align: left;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--foreground); box-shadow: var(--r-shadow-md);
+}
+.r-entry__text { flex: 1; display: grid; gap: 2px; min-width: 0; }
+.r-entry__main { font: 600 15px/1.2 var(--r-font); }
+.r-entry__hint { font: 400 13px/1.2 var(--r-font); color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.r-entry__go { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--primary); color: var(--primary-foreground); }
+
+/* ---- recipe: trip-summary-bar (按 Airbnb 搜索结果页顶部摘要条、Booking 条件条做法整理) ---- */
+.r-summary { display: flex; align-items: center; gap: var(--r-gap-2); margin: 0 var(--r-gap-4); padding: 6px 6px 6px 16px; min-height: 52px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); box-shadow: var(--r-shadow-sm); cursor: pointer; text-align: left; width: calc(100% - 2 * var(--r-gap-4)); color: var(--foreground); }
+.r-summary__text { flex: 1; display: grid; gap: 2px; min-width: 0; }
+.r-summary__main { font: 600 14px/1.2 var(--r-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.r-summary__sub { font: 400 12px/1.2 var(--r-font); color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.r-summary__edit { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--border); }
+
+/* ---- recipe: ai-result-card (按 Perplexity 答案卡、Google AI Overview 引用卡做法整理，加入“为什么适合你”与反馈) ---- */
+.r-ai-card { display: grid; gap: var(--r-gap-3); padding: var(--r-gap-4); border: 1px solid var(--border); border-radius: var(--r-radius-xl); background: var(--card); color: var(--card-foreground); }
+.r-ai-card__label { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1 var(--r-font); color: var(--primary); }
+.r-ai-card__title { margin: 0; font: 600 18px/1.3 var(--r-font); }
+.r-ai-card__img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--r-radius-lg); }
+.r-ai-card__why { list-style: none; margin: 0; padding: 12px 14px; display: grid; gap: 8px; border-radius: var(--r-radius-lg); background: color-mix(in srgb, var(--primary) 6%, var(--card)); }
+.r-ai-card__why li { display: grid; grid-template-columns: 16px 1fr; gap: 8px; font: 400 14px/1.45 var(--r-font); }
+.r-ai-card__why li .r-ico { margin-top: 2px; color: var(--primary); }
+.r-ai-card__why q { quotes: "“" "”"; color: var(--muted-foreground); }
+.r-ai-card__actions { display: flex; gap: var(--r-gap-2); }
+.r-ai-card__actions .r-btn:first-child { flex: 1; }
+
+/* ---- recipe: empty-state (改写自 shadcn/ui Empty（MIT）) ---- */
+.r-empty { display: grid; justify-items: center; gap: var(--r-gap-3); padding: 40px 24px; text-align: center; }
+.r-empty__icon { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--r-fill); color: var(--muted-foreground); }
+.r-empty__title { margin: 4px 0 0; font: 600 17px/1.3 var(--r-font); }
+.r-empty__desc { margin: 0; max-width: 28ch; font: 400 14px/1.6 var(--r-font); color: var(--muted-foreground); }
+
+/* ---- recipe: toast (改写自 shadcn/ui Sonner 样式（MIT）) ---- */
+.r-toast-region { position: fixed; left: 50%; bottom: calc(24px + var(--r-safe-bottom)); transform: translateX(-50%); display: grid; gap: 8px; z-index: 50; width: min(360px, calc(100vw - 32px)); pointer-events: none; }
+.r-toast {
+  display: flex; align-items: center; gap: var(--r-gap-3); padding: 12px 14px; pointer-events: auto;
+  border-radius: var(--r-radius-lg); background: var(--foreground); color: var(--background); box-shadow: var(--r-shadow-lg);
+  font: 500 14px/1.4 var(--r-font); animation: r-toast-in .25s var(--r-ease);
+}
+.r-toast__text { flex: 1; }
+.r-toast__action { border: 0; background: none; color: inherit; font: 600 14px/1 var(--r-font); opacity: .85; cursor: pointer; padding: 6px 4px; }
+.r-toast[data-leaving] { animation: r-toast-out .2s var(--r-ease) forwards; }
+@keyframes r-toast-in { from { opacity: 0; transform: translateY(12px); } }
+@keyframes r-toast-out { to { opacity: 0; transform: translateY(12px); } }
+
+/* ---- icons (Lucide, ISC) as data URIs; add your own with: component_recipe.py icon-css --dir <svg 目录> ---- */
+.i-arrow-right { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1hcnJvdy1yaWdodCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Ik01IDEyaDE0IiAvPiA8cGF0aCBkPSJtMTIgNSA3IDctNyA3IiAvPiA8L3N2Zz4="); }
+.i-bookmark { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1ib29rbWFyayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Im0xOSAyMS03LTQtNyA0VjVhMiAyIDAgMCAxIDItMmgxMGEyIDIgMCAwIDEgMiAydjE2eiIgLz4gPC9zdmc+"); }
+.i-check { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGVjayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Ik0yMCA2IDkgMTdsLTUtNSIgLz4gPC9zdmc+"); }
+.i-chevron-left { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGV2cm9uLWxlZnQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgPiA8cGF0aCBkPSJtMTUgMTgtNi02IDYtNiIgLz4gPC9zdmc+"); }
+.i-chevron-right { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGV2cm9uLXJpZ2h0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiID4gPHBhdGggZD0ibTkgMTggNi02LTYtNiIgLz4gPC9zdmc+"); }
+.i-heart { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1oZWFydCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Ik0xOSAxNGMxLjQ5LTEuNDYgMy0zLjIxIDMtNS41QTUuNSA1LjUgMCAwIDAgMTYuNSAzYy0xLjc2IDAtMyAuNS00LjUgMi0xLjUtMS41LTIuNzQtMi00LjUtMkE1LjUgNS41IDAgMCAwIDIgOC41YzAgMi4zIDEuNSA0LjA1IDMgNS41bDcgN1oiIC8+IDwvc3ZnPg=="); }
+.i-house { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1ob3VzZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Ik0xNSAyMXYtOGExIDEgMCAwIDAtMS0xaC00YTEgMSAwIDAgMC0xIDF2OCIgLz4gPHBhdGggZD0iTTMgMTBhMiAyIDAgMCAxIC43MDktMS41MjhsNy01Ljk5OWEyIDIgMCAwIDEgMi41ODIgMGw3IDUuOTk5QTIgMiAwIDAgMSAyMSAxMHY5YTIgMiAwIDAgMS0yIDJINWEyIDIgMCAwIDEtMi0yeiIgLz4gPC9zdmc+"); }
+.i-loader-circle { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1sb2FkZXItY2lyY2xlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiID4gPHBhdGggZD0iTTIxIDEyYTkgOSAwIDEgMS02LjIxOS04LjU2IiAvPiA8L3N2Zz4="); }
+.i-map-pin { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1tYXAtcGluIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiID4gPHBhdGggZD0iTTIwIDEwYzAgNC45OTMtNS41MzkgMTAuMTkzLTcuMzk5IDExLjc5OWExIDEgMCAwIDEtMS4yMDIgMEM5LjUzOSAyMC4xOTMgNCAxNC45OTMgNCAxMGE4IDggMCAwIDEgMTYgMCIgLz4gPGNpcmNsZSBjeD0iMTIiIGN5PSIxMCIgcj0iMyIgLz4gPC9zdmc+"); }
+.i-message-circle { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1tZXNzYWdlLWNpcmNsZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Ik03LjkgMjBBOSA5IDAgMSAwIDQgMTYuMUwyIDIyWiIgLz4gPC9zdmc+"); }
+.i-route { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1yb3V0ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxjaXJjbGUgY3g9IjYiIGN5PSIxOSIgcj0iMyIgLz4gPHBhdGggZD0iTTkgMTloOC41YTMuNSAzLjUgMCAwIDAgMC03aC0xMWEzLjUgMy41IDAgMCAxIDAtN0gxNSIgLz4gPGNpcmNsZSBjeD0iMTgiIGN5PSI1IiByPSIzIiAvPiA8L3N2Zz4="); }
+.i-share-2 { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zaGFyZS0yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiID4gPGNpcmNsZSBjeD0iMTgiIGN5PSI1IiByPSIzIiAvPiA8Y2lyY2xlIGN4PSI2IiBjeT0iMTIiIHI9IjMiIC8+IDxjaXJjbGUgY3g9IjE4IiBjeT0iMTkiIHI9IjMiIC8+IDxsaW5lIHgxPSI4LjU5IiB4Mj0iMTUuNDIiIHkxPSIxMy41MSIgeTI9IjE3LjQ5IiAvPiA8bGluZSB4MT0iMTUuNDEiIHgyPSI4LjU5IiB5MT0iNi41MSIgeTI9IjEwLjQ5IiAvPiA8L3N2Zz4="); }
+.i-sliders-horizontal { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zbGlkZXJzLWhvcml6b250YWwiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgPiA8bGluZSB4MT0iMjEiIHgyPSIxNCIgeTE9IjQiIHkyPSI0IiAvPiA8bGluZSB4MT0iMTAiIHgyPSIzIiB5MT0iNCIgeTI9IjQiIC8+IDxsaW5lIHgxPSIyMSIgeDI9IjEyIiB5MT0iMTIiIHkyPSIxMiIgLz4gPGxpbmUgeDE9IjgiIHgyPSIzIiB5MT0iMTIiIHkyPSIxMiIgLz4gPGxpbmUgeDE9IjIxIiB4Mj0iMTYiIHkxPSIyMCIgeTI9IjIwIiAvPiA8bGluZSB4MT0iMTIiIHgyPSIzIiB5MT0iMjAiIHkyPSIyMCIgLz4gPGxpbmUgeDE9IjE0IiB4Mj0iMTQiIHkxPSIyIiB5Mj0iNiIgLz4gPGxpbmUgeDE9IjgiIHgyPSI4IiB5MT0iMTAiIHkyPSIxNCIgLz4gPGxpbmUgeDE9IjE2IiB4Mj0iMTYiIHkxPSIxOCIgeTI9IjIyIiAvPiA8L3N2Zz4="); }
+.i-sparkles { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zcGFya2xlcyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiA+IDxwYXRoIGQ9Ik05LjkzNyAxNS41QTIgMiAwIDAgMCA4LjUgMTQuMDYzbC02LjEzNS0xLjU4MmEuNS41IDAgMCAxIDAtLjk2Mkw4LjUgOS45MzZBMiAyIDAgMCAwIDkuOTM3IDguNWwxLjU4Mi02LjEzNWEuNS41IDAgMCAxIC45NjMgMEwxNC4wNjMgOC41QTIgMiAwIDAgMCAxNS41IDkuOTM3bDYuMTM1IDEuNTgxYS41LjUgMCAwIDEgMCAuOTY0TDE1LjUgMTQuMDYzYTIgMiAwIDAgMC0xLjQzNyAxLjQzN2wtMS41ODIgNi4xMzVhLjUuNSAwIDAgMS0uOTYzIDB6IiAvPiA8cGF0aCBkPSJNMjAgM3Y0IiAvPiA8cGF0aCBkPSJNMjIgNWgtNCIgLz4gPHBhdGggZD0iTTQgMTd2MiIgLz4gPHBhdGggZD0iTTUgMThIMyIgLz4gPC9zdmc+"); }
+.i-user { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS11c2VyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiID4gPHBhdGggZD0iTTE5IDIxdi0yYTQgNCAwIDAgMC00LTRIOWE0IDQgMCAwIDAtNCA0djIiIC8+IDxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgLz4gPC9zdmc+"); }
+.i-x { --ico: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS14IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiID4gPHBhdGggZD0iTTE4IDYgNiAxOCIgLz4gPHBhdGggZD0ibTYgNiAxMiAxMiIgLz4gPC9zdmc+"); }
